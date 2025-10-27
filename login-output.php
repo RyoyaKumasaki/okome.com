@@ -1,38 +1,24 @@
+<?php session_start(); ?>
+<?php require 'db-connect.php'; ?>
+<?php require 'header.php'; ?>
+<?php require 'menu.php'; ?>
 <?php
-session_start();
-require 'db-connect.php';
-require 'header.php';
-require 'menu.php';
-
-$pdo = new PDO($connect, USER, PASS);
-
-$login = $_POST['login'] ?? '';
-$password = $_POST['password'] ?? '';
-
-if (empty($login) || empty($password)) {
-    echo '<p>ログインIDとパスワードを入力してください。</p>';
-    echo '<p><a href="login-input.php">戻る</a></p>';
-    require 'footer.php';
-    exit;
+unset($_SESSION['customer']);
+$pdo=new PDO($connect, USER, PASS);
+$sql=$pdo->prepare('SELECT * FROM customer WHERE login=?');
+$sql->execute([$_POST['login']]);
+foreach ($sql as $row) {
+    if (password_verify($_POST['password'], $row['password'])) {
+        $_SESSION['customer']=[
+            'id'=>$row['id'],'name'=>$row['name'],
+            'address'=>$row['address'],'login'=>$row['login'],
+            'password'=>$_POST['password']];
+    }
 }
-$sql = $pdo->prepare('SELECT * FROM customer WHERE login = ?');
-$sql->execute([$login]);
-$customer = $sql->fetch(PDO::FETCH_ASSOC);
-
-if ($customer && password_verify($password, $customer['password'])) {
-    $_SESSION['customer'] = [
-        'id' => $customer['id'],
-        'name' => $customer['name'],
-        'login' => $customer['login']
-    ];
-
-    echo '<p>' . htmlspecialchars($customer['name'], ENT_QUOTES) . ' さん、ようこそ！</p>';
-    echo '<p><a href="index.php">トップページへ</a></p>';
-
+if (isset($_SESSION['customer'])) {
+    echo 'いらっしゃいませ、',$_SESSION['customer']['name'],'さん。';
 } else {
-    echo '<p>ログインIDまたはパスワードが違います。</p>';
-    echo '<p><a href="login-input.php">戻る</a></p>';
+    echo 'ログイン名またはパスワードが違います。';
 }
-
-require 'footer.php';
 ?>
+<?php require 'footer.php'; ?>
