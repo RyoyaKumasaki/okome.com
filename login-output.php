@@ -4,7 +4,6 @@
 <?php require 'menu.php'; ?>
 <?php
 unset($_SESSION['customer']);
-$pdo=new PDO($connect, USER, PASS);
 $sql=$pdo->prepare('SELECT * FROM customer WHERE login=?');
 $sql->execute([$_POST['login']]);
 foreach ($sql as $row) {

@@ -3,7 +3,6 @@
 <?php require 'header.php'; ?>
 <?php require 'menu.php'; ?>
 <?php
-$pdo = new PDO($connect, USER, PASS);
 if (isset($_SESSION['customer'])) {
     $id = $_SESSION['customer']['id'];
     $sql = $pdo->prepare('SELECT * FROM customer WHERE id!=? AND login=?');
