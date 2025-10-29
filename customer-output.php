@@ -5,7 +5,7 @@
 <?php
 if (isset($_SESSION['customer'])) {
     $id = $_SESSION['customer']['id'];
-    $sql = $pdo->prepare('SELECT * FROM test WHERE user_id!=? AND login=?');
+    $sql = $pdo->prepare('SELECT * FROM test WHERE id!=? AND login=?');
     $sql->execute([$id, $_POST['login']]);
 } else {
     $sql = $pdo->prepare('SELECT * FROM test WHERE login=?');
@@ -14,7 +14,7 @@ if (isset($_SESSION['customer'])) {
 if (empty($sql->fetchAll())) {
     if (isset($_SESSION['customer'])) {
         $sql = $pdo->prepare('UPDATE test SET user_name=?, address=?, 
-                             login=?, password=? WHERE user_id=?');
+                             login=?, password=? WHERE id=?');
         $sql->execute([
             $_POST['name'], $_POST['address'],
             $_POST['login'], password_hash($_POST['password'], PASSWORD_DEFAULT), $id]);
