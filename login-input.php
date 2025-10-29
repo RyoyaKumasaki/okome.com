@@ -17,6 +17,6 @@
 </form>
 <p>
 <a href="forgot-password.php">パスワードを忘れた方はこちら</a><br>
-<a href="signup.php">アカウント作成はこちら</a>
+<a href="customer-input.php">アカウント作成はこちら</a>
 </p>
 <?php require 'footer.php'; ?>
