@@ -4,7 +4,7 @@
 <?php require 'menu.php'; ?>
 <?php
 unset($_SESSION['customer']);
-$sql=$pdo->prepare('SELECT * FROM customer WHERE login=?');
+$sql=$pdo->prepare('SELECT * FROM customer_user WHERE user_name=?');
 $sql->execute([$_POST['login']]);
 foreach ($sql as $row) {
     if (password_verify($_POST['password'], $row['password'])) {

@@ -5,16 +5,16 @@
 <?php
 if (isset($_SESSION['customer'])) {
     $id = $_SESSION['customer']['id'];
-    $sql = $pdo->prepare('SELECT * FROM customer WHERE id!=? AND login=?');
+    $sql = $pdo->prepare('SELECT * FROM customer_user WHERE user_id!=? AND user_name=?');
     $sql->execute([$id, $_POST['login']]);
 } else {
-    $sql = $pdo->prepare('SELECT * FROM customer WHERE login=?');
+    $sql = $pdo->prepare('SELECT * FROM customer_user WHERE user_name=?');
     $sql->execute([$_POST['login']]);
 }
 if (empty($sql->fetchAll())) {
     if (isset($_SESSION['customer'])) {
-        $sql = $pdo->prepare('UPDATE customer SET name=?, address=?, 
-                             login=?, password=? WHERE id=?');
+        $sql = $pdo->prepare('UPDATE customer_user SET name=?, address=?, 
+                             user_name=?, password=? WHERE user_id=?');
         $sql->execute([
             $_POST['name'], $_POST['address'],
             $_POST['login'], password_hash($_POST['password'], PASSWORD_DEFAULT), $id]);
@@ -24,7 +24,7 @@ if (empty($sql->fetchAll())) {
             'password'=>$_POST['password']];
         echo 'お客様情報を更新しました。';
     } else {
-        $sql = $pdo->prepare('INSERT INTO customer VALUES(null,?,?,?,?)');
+        $sql = $pdo->prepare('INSERT INTO customer_user VALUES(null,?,?,?,?)');
         $sql->execute([
             $_POST['name'], $_POST['address'],
             $_POST['login'], password_hash($_POST['password'], PASSWORD_DEFAULT)]);
