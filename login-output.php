@@ -4,12 +4,9 @@ require 'db-connect.php';
 require 'header.php';
 require 'menu.php';
 
-$pdo = new PDO($connect, USER, PASS);
+unset($_SESSION['customer']);
 
-$login = $_POST['login'] ?? '';
-$password = $_POST['password'] ?? '';
-
-$sql = $pdo->prepare('SELECT * FROM test WHERE login = ?');
+$sql = $pdo->prepare('SELECT * FROM customer WHERE login = ?');
 $sql->execute([$login]);
 $customer = $sql->fetch(PDO::FETCH_ASSOC);
 
