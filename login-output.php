@@ -1,23 +1,29 @@
-<?php session_start(); ?>
-<?php require 'db-connect.php'; ?>
-<?php require 'header.php'; ?>
-<?php require 'menu.php'; ?>
 <?php
-unset($_SESSION['customer']);
-$sql=$pdo->prepare('SELECT * FROM test WHERE login=?');
-$sql->execute([$_POST['login']]);
-foreach ($sql as $row) {
-    if (password_verify($_POST['password'], $row['password'])) {
-        $_SESSION['customer']=[
-            'id'=>$row['id'],'name'=>$row['name'],
-            'address'=>$row['address'],'login'=>$row['login'],
-            'password'=>$_POST['password']];
-    }
-}
-if (isset($_SESSION['customer'])) {
-    echo 'いらっしゃいませ、',$_SESSION['customer']['name'],'さん。';
+session_start();
+require 'db-connect.php';
+require 'header.php';
+require 'menu.php';
+
+$pdo = new PDO($connect, USER, PASS);
+
+$login = $_POST['login'] ?? '';
+$password = $_POST['password'] ?? '';
+
+$sql = $pdo->prepare('SELECT * FROM customer WHERE login = ?');
+$sql->execute([$login]);
+$customer = $sql->fetch(PDO::FETCH_ASSOC);
+
+if ($customer && password_verify($password, $customer['password'])) {
+    $_SESSION['customer'] = [
+        'id' => $customer['id'],
+        'name' => $customer['name'],
+        'address' => $customer['address'],
+        'login' => $customer['login']
+    ];
+    echo 'ログイン成功!ようこそ ' . htmlspecialchars($customer['name'], ENT_QUOTES, 'UTF-8');
 } else {
     echo 'ログイン名またはパスワードが違います。';
 }
+
+require 'footer.php';
 ?>
-<?php require 'footer.php'; ?>
