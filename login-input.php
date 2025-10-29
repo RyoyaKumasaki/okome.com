@@ -18,4 +18,3 @@ $pdo = new PDO($connect, USER, PASS);
 <a href="customer-input.php">アカウント作成はこちら</a>
 </p>
 <?php require 'footer.php'; ?>
-<?php require 'footer.php'; ?>
