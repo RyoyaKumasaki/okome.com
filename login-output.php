@@ -9,7 +9,7 @@ $pdo = new PDO($connect, USER, PASS);
 $login = $_POST['login'] ?? '';
 $password = $_POST['password'] ?? '';
 
-$sql = $pdo->prepare('SELECT * FROM customer WHERE login = ?');
+$sql = $pdo->prepare('SELECT * FROM test WHERE login = ?');
 $sql->execute([$login]);
 $customer = $sql->fetch(PDO::FETCH_ASSOC);
 
