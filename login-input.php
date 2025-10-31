@@ -12,7 +12,6 @@ $pdo = new PDO($connect, USER, PASS);
   <p>パスワード：<input type="password" name="password"></p>
   <p><input type="submit" value="ログイン"></p>
 </form>
-<?php require 'footer.php'; ?>
 <p>
 <a href="forgot-password.php">パスワードを忘れた方はこちら</a><br>
 <a href="customer-input.php">アカウント作成はこちら</a>
