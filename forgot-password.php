@@ -9,7 +9,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 ?>
-<!-- ファイル追加 -->
 
 <!DOCTYPE html>
 <html lang="ja">
