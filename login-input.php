@@ -1,24 +1,19 @@
 <?php
 session_start();
+require 'db-connect.php';
 require 'header.php';
 require 'menu.php';
+
+$pdo = new PDO($connect, USER, PASS);
 ?>
-<h2>ログイン</h2>
-
+<h1>ログイン</h1>
 <form action="login-output.php" method="post">
-    <table>
-        <tr>
-            <td>ログインID：</td>
-            <td><input type="text" name="login" required></td>
-        </tr>
-        <tr>
-            <td>パスワード：</td>
-            <td><input type="password" name="password" required></td>
-        </tr>
-    </table>
-    <p>
-        <input type="submit" value="ログイン">
-    </p>
+  <p>ログイン名：<input type="text" name="login"></p>
+  <p>パスワード：<input type="password" name="password"></p>
+  <p><input type="submit" value="ログイン"></p>
 </form>
-
+<p>
+<a href="forgot-password.php">パスワードを忘れた方はこちら</a><br>
+<a href="customer-input.php">アカウント作成はこちら</a>
+</p>
 <?php require 'footer.php'; ?>
