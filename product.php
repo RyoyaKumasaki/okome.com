@@ -20,8 +20,12 @@ echo '<p> 価格：' . $price . '円</p>';
 echo '<p> 在庫数：' . $quantity . '個</p>';
 echo '<p>購入個数</p>';
 echo '<form action="cart-insert.php" method="post">';
-echo '<input type="number" name="buy_quantity" min="1" max="' . $quantity . '" value="1">';
-echo '<input type="hidden" name="product_id" value="' . $product_id . '">';
+echo '<form action="cart-insert.php" method="post">';
+echo '<select name="buy_quantity">';
+for ($i = 1; $i <= $quantity; $i++) {
+    echo '<option value="' . $i . '">' . $i . '個</option>';
+}
+echo '</select>';echo '<input type="hidden" name="product_id" value="' . $product_id . '">';
 echo '<input type="submit" value="カートに入れる">';
 echo '<img src="images/' . $producer_picture . '" width="100px"><br>';
 echo '<p> 商品説明：' . $product_explanation . '</p>';
