@@ -35,7 +35,7 @@ foreach($pdo as $row){
     $comment = $row['comment'];
     echo '<p>投稿者名：' . $user_id . '</p>';
     echo '<p>評価：' . str_repeat('★', $rating) . str_repeat('☆', 5 - $rating) . '</p>';
-    echo '<p>レビュー内容：' . $review_text . '</p>';
+    echo '<p>レビュー内容：' . $comment . '</p>';
     echo '<hr>';
 }
 ?>
