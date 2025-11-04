@@ -3,6 +3,7 @@
 <?php require_once 'db-connect.php'?>
 <a href="top.html">トップ画面へ戻る</a>
 <?php
+//トップ画面で選択した商品のIDを取得し、商品情報をDBに照合
 $product_id = $_POST['product_id'];
 $pdo = $sql->prepare('select * from product where product_id = ?');
 $pdo->execute([$product_id]);
@@ -14,6 +15,7 @@ foreach($pdo as $row){
     $product_picture = $row['product_picture'];
     $producer_picture = $row['producer_picture'];
 }
+//商品情報を表示
 echo '<h2>' . $product_name . '</h2>';
 echo '<img src="images/' . $product_picture . '" width="300px"><br>';
 echo '<p> 価格：' . $price . '円</p>';
@@ -33,6 +35,7 @@ echo '</form>';
 $pdo = $sql->prepare('select * from review where product_id = ?');
 $pdo->execute([$product_id]);
 echo '<h3>レビュー一覧</h3>';
+//商品IDに合致するレビューを取得し、一覧表示
 foreach($pdo as $row){
     $user_id = $row['user_id'];
     $rating = $row['rating'];
