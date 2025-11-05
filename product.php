@@ -7,7 +7,7 @@
 $product_id = $_POST['product_id'];
 $sql = $pdo->prepare('select * from product where product_id = ?');
 $sql->execute([$product_id]);
-foreach($pdo as $row){
+foreach($sql as $row){
     $product_name = $row['product_name'];
     $quantity = $row['quantity'];
     $price = $row['price'];
@@ -35,7 +35,7 @@ $sql = $pdo->prepare('select * from review where product_id = ?');
 $sql->execute([$product_id]);
 echo '<h3>レビュー一覧</h3>';
 //商品IDに合致するレビューを取得し、一覧表示
-foreach($pdo as $row){
+foreach($sql as $row){
     $user_id = $row['user_id'];
     $rating = $row['rating'];
     $comment = $row['comment'];
