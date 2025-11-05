@@ -22,7 +22,6 @@ echo '<p> 価格：' . $price . '円</p>';
 echo '<p> 在庫数：' . $quantity . '個</p>';
 echo '<p>購入個数</p>';
 echo '<form action="cart-insert.php" method="post">';
-echo '<form action="cart-insert.php" method="post">';
 echo '<select name="buy_quantity">';
 for ($i = 1; $i <= $quantity; $i++) {
     echo '<option value="' . $i . '">' . $i . '個</option>';
