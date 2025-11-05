@@ -7,7 +7,7 @@
     <nav class="navbar custom-green-navbar"> <!-- ナビゲーションのメインクラス -->
         <div class="navbar-brand"> <!-- 常に左端に表示。ロゴやリンク、アイコンなど -->
             <p class="navbar-item">　　　　　　</p>
-            <img class="navbar-item" src="img/米.jpg" alt="ロゴ" width="100px">
+            <img class="navbar-item" src="img/お米ドットコムアイコン.png" alt="ロゴ" width="100px">
         </div>
         <div class="navbar-end is-flex is-justify-content-end"> <!-- 右寄せしたいメニュー項目 -->
             <a class="navbar-item is-size-3" href="top.php">お米.com</a>
