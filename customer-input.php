@@ -21,7 +21,7 @@ echo '<tr><td>ご住所</td><td>';
 echo '<input type="text" name="address" value="',$address,'">';
 echo '</td></tr>';
 echo '<tr><td>ログイン名</td><td>';
-echo '<input type="text" name="login" value="',$login,'">';
+echo '<input type="text" name="login" value="',$login_name,'">';
 echo '</td></tr>';
 echo '<tr><td>パスワード</td><td>';
 echo '<input type="text" name="password" value="',$password,'">';
