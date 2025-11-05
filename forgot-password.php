@@ -1,13 +1,22 @@
 <?php 
+session_start();
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST['email'] ?? '';
+    $sql = $pdo->prepare('SELECT * FROM customer_user WHERE mail=?');
+    $sql->execute([$email]);
+    unset($_SESSION['user_id']);
+    foreach($sql as $row){
+        $_SESSION['user_id'] = [
+        'id' => $row['user_id'], 'mail' => $email
+        ];
+    }
 
     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $token = bin2hex(random_bytes(16));
-        $reset_link = "https://deci.jp/2025/kaihatu/reset-password.php?token=" . $token;
+        $reset_link = "https://aso2401383.peewee.jp/2025/php2/git_okome.com/pass-change.php?token=" . $token;
 
 
-        $subject = "【サイト名】パスワード再設定のご案内";
+        $subject = "【お米.com】パスワード再設定のご案内";
         $message = <<<EOT
 {$email} 様
 
@@ -24,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 EOT;
 
        $headers = "From: okome.com\r\n";
-       $headers .= "Return-Path: info@deci.jp\r\n"; 
+       $headers .= "Return-Path: info@peewee.jp\r\n"; 
        $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
         if (mail($email, $subject, $message, $headers)) {
