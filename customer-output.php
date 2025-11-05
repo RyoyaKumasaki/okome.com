@@ -26,7 +26,7 @@ if (empty($sql->fetchAll())) {
         echo 'お客様情報を更新しました。';
     } else {
         $sql = $pdo->prepare('INSERT INTO customer_user 
-        VALUES(null,mail=:mail,password=:password,name=:name,address=:address,
+        VALUES(null,mail=:mail,password=:password,name=:name,address=:address,null,
         login_name=:login_name,telephone_number=:telephone_number)');
         $password_hash = password_hash($_POST['password'], PASSWORD_DEFAULT);
         $sql->bindParam(':mail',$_POST['mail']);
