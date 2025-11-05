@@ -5,8 +5,8 @@
 <?php
 //トップ画面で選択した商品のIDを取得し、商品情報をDBに照合
 $product_id = $_POST['product_id'];
-$pdo = $sql->prepare('select * from product where product_id = ?');
-$pdo->execute([$product_id]);
+$sql = $pdo->prepare('select * from product where product_id = ?');
+$sql->execute([$product_id]);
 foreach($pdo as $row){
     $product_name = $row['product_name'];
     $quantity = $row['quantity'];
@@ -31,8 +31,8 @@ echo '<input type="submit" value="カートに入れる">';
 echo '<img src="images/' . $producer_picture . '" width="100px"><br>';
 echo '<p> 商品説明：' . $product_explanation . '</p>';
 echo '</form>';
-$pdo = $sql->prepare('select * from review where product_id = ?');
-$pdo->execute([$product_id]);
+$sql = $pdo->prepare('select * from review where product_id = ?');
+$sql->execute([$product_id]);
 echo '<h3>レビュー一覧</h3>';
 //商品IDに合致するレビューを取得し、一覧表示
 foreach($pdo as $row){
