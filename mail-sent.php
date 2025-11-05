@@ -31,7 +31,7 @@ button {
     <p class="red-text">パスワードの再設定はまだ完了していません。</p>
 </div>
 
-<form action="login.php" method="get">
+<form action="login-input.php" method="get">
     <button type="submit">ログイン画面に戻る</button>
 </form>
 </body>

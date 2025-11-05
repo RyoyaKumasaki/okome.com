@@ -73,7 +73,7 @@ button {
     <button type="submit" style="background-color:orange">送信する</button>
 </form>
 
-<form action="login.php" method="get">
+<form action="login-input.php" method="get">
     <br><button type="submit" style="color:blue">キャンセル</button>
 </form>
 
