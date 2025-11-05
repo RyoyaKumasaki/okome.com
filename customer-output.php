@@ -29,12 +29,12 @@ if (empty($sql->fetchAll())) {
         VALUES(null,mail=:mail,password=:password,name=:name,address=:address,null,
         login_name=:login_name,telephone_number=:telephone_number)');
         $password_hash = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        $sql->bindParam(':mail',$_POST['mail']);
-        $sql->bindParam(':password',$password_hash);
-        $sql->bindParam(':name',$_POST['name']);
-        $sql->bindParam(':address',$_POST['address']);
-        $sql->bindParam(':login_name',$_POST['login_name']);
-        $sql->bindParam(':telephone_number',$_POST['telephone_number']);
+        $sql->bindParam(':mail',$_POST['mail'],PDO::PARAM_STR);
+        $sql->bindParam(':password',$password_hash,PDO::PARAM_STR);
+        $sql->bindParam(':name',$_POST['name'],PDO::PARAM_STR);
+        $sql->bindParam(':address',$_POST['address'],PDO::PARAM_STR);
+        $sql->bindParam(':login_name',$_POST['login_name'],PDO::PARAM_STR);
+        $sql->bindParam(':telephone_number',$_POST['telephone_number'],PDO::PARAM_STR);
         $sql->execute();
         echo 'お客様情報を登録しました。';
     }
