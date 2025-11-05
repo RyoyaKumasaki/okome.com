@@ -2,7 +2,7 @@
 <?php require 'header.php'; ?>
 <?php require 'menu.php'; ?>
 <?php
-$name = $address = $login_name = $password = $mail = $telephone_number '';
+$name = $address = $login_name = $password = $mail = $telephone_number = '';
 if (isset($_SESSION['customer'])) {
     $user_id = $_SESSION['customer']['user_id'];
     $mail = $_SESSION['customer']['mail'];
