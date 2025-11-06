@@ -4,7 +4,7 @@ require 'db-connect.php';
 require 'header.php';
 require 'menu.php';
 
-$user_id = $_SESSION['user_id']['id'];
+$user_id = $_COOKIE['user_id'];
 $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -14,8 +14,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($password1 !== $password2) {
         $error = "パスワードが一致しません！";
     } else {
+        $password_hash = password_hash($password1, PASSWORD_DEFAULT);
         $sql = $pdo->prepare("UPDATE customer_user SET password=? WHERE user_id=?");
-        $sql->execute([$password1,$user_id]); //$_SESSION['user_id']をつくれ！！
+        $sql->execute([$password_hash,$user_id]); //$_SESSION['user_id']をつくれ！！
 
         header("Location: pass-change-success.php");
         exit();
