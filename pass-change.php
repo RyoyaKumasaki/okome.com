@@ -24,8 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 ?>
 
   <title>パスワード変更</title>
-</head>
-<body>
+
   <h2>パスワード変更</h2>
 
   <?php if ($error): ?>
