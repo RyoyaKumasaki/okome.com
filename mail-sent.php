@@ -1,7 +1,7 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
+<?php
+require 'header.php';
+require 'menu.php';
+?>
 <title>メール送信完了</title>
 <style>
 body {
@@ -34,5 +34,4 @@ button {
 <form action="login-input.php" method="get">
     <button type="submit">ログイン画面に戻る</button>
 </form>
-</body>
-</html>
+<?php require 'footer.php'; ?>
