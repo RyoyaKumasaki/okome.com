@@ -4,7 +4,6 @@ require 'db-connect.php';
 require 'header.php';
 require 'menu.php';
 
-$pdo = new PDO($connect, USER, PASS);
 ?>
 <h1>ログイン</h1>
 <form action="login-output.php" method="post">
