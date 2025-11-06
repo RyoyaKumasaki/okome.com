@@ -6,12 +6,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST['email'] ?? '';
     $sql = $pdo->prepare('SELECT user_id FROM customer_user WHERE mail=?');
     $sql->execute([$email]);
-    unset($_SESSION['user_id']);
-    foreach($sql as $row){
-        $_SESSION['user_id'] = [
-        'id' => $row['user_id'], 'mail' => $email
-        ];
-    }
+    setcookie("user_id", $sql, time() + 60 * 60);
+
+    // $email = $_POST['email'] ?? '';
+    // $sql = $pdo->prepare('SELECT user_id FROM customer_user WHERE mail=?');
+    // $sql->execute([$email]);
+    // unset($_SESSION['user_id']);
+    // foreach($sql as $row){
+    //     $_SESSION['user_id'] = [
+    //     'id' => $row['user_id'], 'mail' => $email
+    //     ];
+    // }
 
     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $token = bin2hex(random_bytes(16));
