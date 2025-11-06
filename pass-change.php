@@ -23,10 +23,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
   <title>パスワード変更</title>
 </head>
 <body>
@@ -56,7 +52,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <form action="login-input.php" method="get">
     <button type="submit">キャンセル</button>
   </form>
-</body>
-</html>
 
 <?php require 'footer.php'; ?>
