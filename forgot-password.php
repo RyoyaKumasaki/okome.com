@@ -59,7 +59,7 @@ require 'menu.php';
 body {
     font-family: sans-serif;
     text-align: center;
-    margin-top: 100px;
+    margin-top: 0px;
 }
 .error {
     color: red;
