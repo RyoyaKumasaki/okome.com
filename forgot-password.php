@@ -6,7 +6,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST['email'] ?? '';
     $sql = $pdo->prepare('SELECT user_id FROM customer_user WHERE mail=?');
     $sql->execute([$email]);
-    setcookie("user_id", $sql, time() + 60 * 60);
+
+    $user_id = $sql->fetchColumn(0); 
+
+    if ($user_id !== false) {
+        setcookie('user_id', (string)$user_id, [
+            'expires' => time() + 3600,
+            'path' => '/',
+            'httponly' => true,
+        ]);
+    }
 
     // $email = $_POST['email'] ?? '';
     // $sql = $pdo->prepare('SELECT user_id FROM customer_user WHERE mail=?');
