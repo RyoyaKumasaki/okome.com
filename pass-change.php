@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $sql = $pdo->prepare("UPDATE customer_user SET password=? WHERE user_id=?");
         $sql->execute([$password1,$user_id]); //$_SESSION['user_id']をつくれ！！
 
-        header("Location: success.php");
+        header("Location: pass-change-success.php");
         exit();
     }
 }
