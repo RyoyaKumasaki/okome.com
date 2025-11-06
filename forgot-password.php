@@ -1,5 +1,7 @@
 <?php 
 session_start();
+require 'db-connect.php';
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST['email'] ?? '';
     $sql = $pdo->prepare('SELECT * FROM customer_user WHERE mail=?');
