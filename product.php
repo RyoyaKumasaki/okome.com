@@ -1,7 +1,7 @@
 <?php require 'header.php'?>
 <?php require 'menu.php'?>
 <?php require_once 'db-connect.php'?>
-<a href="top.html">トップ画面へ戻る</a>
+<a href="top.php">トップ画面へ戻る</a>
 <?php
 //トップ画面で選択した商品のIDを取得し、商品情報をDBに照合
 $product_id = $_POST['product_id'];
