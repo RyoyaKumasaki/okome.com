@@ -4,7 +4,7 @@ require 'db-connect.php';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST['email'] ?? '';
-    $sql = $pdo->prepare('SELECT * FROM customer_user WHERE mail=?');
+    $sql = $pdo->prepare('SELECT user_id FROM customer_user WHERE mail=?');
     $sql->execute([$email]);
     unset($_SESSION['user_id']);
     foreach($sql as $row){
