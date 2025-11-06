@@ -25,17 +25,18 @@ if (empty($sql->fetchAll())) {
             
         echo 'お客様情報を更新しました。';
     } else {
-        $sql = $pdo->prepare('INSERT INTO customer_user 
-        VALUES(null,mail=:mail,password=:password,name=:name,address=:address,null,
-        login_name=:login_name,telephone_number=:telephone_number)');
+        $sql = $pdo->prepare('INSERT INTO customer_user
+            (mail, password, name, address, login_name, telephone_number)
+            VALUES (:mail, :password, :name, :address, :login_name, :telephone_number)');
         $password_hash = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        $sql->bindParam(':mail',$_POST['mail'],PDO::PARAM_STR);
-        $sql->bindParam(':password',$password_hash,PDO::PARAM_STR);
-        $sql->bindParam(':name',$_POST['name'],PDO::PARAM_STR);
-        $sql->bindParam(':address',$_POST['address'],PDO::PARAM_STR);
-        $sql->bindParam(':login_name',$_POST['login_name'],PDO::PARAM_STR);
-        $sql->bindParam(':telephone_number',$_POST['telephone_number'],PDO::PARAM_STR);
+        $sql->bindParam(':mail', $_POST['mail'], PDO::PARAM_STR);
+        $sql->bindParam(':password', $password_hash, PDO::PARAM_STR);
+        $sql->bindParam(':name', $_POST['name'], PDO::PARAM_STR);
+        $sql->bindParam(':address', $_POST['address'], PDO::PARAM_STR);
+        $sql->bindParam(':login_name', $_POST['login_name'], PDO::PARAM_STR);
+        $sql->bindParam(':telephone_number', $_POST['telephone_number'], PDO::PARAM_INT);
         $sql->execute();
+
         echo 'お客様情報を登録しました。';
     }
 } else {
