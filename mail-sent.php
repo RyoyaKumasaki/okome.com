@@ -7,7 +7,7 @@ require 'menu.php';
 body {
     font-family: sans-serif;
     text-align: center;
-    padding-top: 100px;
+    padding-top: 0px;
 }
 .message {
     border: 2px dashed red;
