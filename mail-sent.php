@@ -24,8 +24,7 @@ button {
     padding: 6px 12px;
 }
 </style>
-</head>
-<body>
+
 <div class="message">
     <p>パスワード再設定用のメールを送信しました。</p>
     <p class="red-text">パスワードの再設定はまだ完了していません。</p>
