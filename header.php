@@ -18,6 +18,6 @@
     background-color: #8AE51A;
     }
     </style>
-    <title>お米ドットコムtop</title>
+    <title>お米ドットコム</title>
 </head>
 <body>
