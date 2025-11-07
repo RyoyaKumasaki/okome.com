@@ -41,11 +41,14 @@ if (isset($_SESSION['customer'])) {
 $sql = $pdo->prepare('SELECT * FROM review WHERE user_id = ?');
 $sql->execute([$_SESSION['customer']['user_id']]);
 
-foreach ($sql as $row) {
+$reviews = $sql->fetchAll(PDO::FETCH_ASSOC); // ← 配列に変換！
+
+foreach ($reviews as $row) {
     echo '<p>';
     echo htmlspecialchars($row['comment']) . '<br>';
     echo '</p><hr>';
 }
+
 ?>
 
 <form action="logout-input.php" method="get">  
