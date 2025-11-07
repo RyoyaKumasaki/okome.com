@@ -1,4 +1,5 @@
 <?php
+$page_title = 'メール送信完了';
 require 'header.php';
 require 'menu.php';
 ?>

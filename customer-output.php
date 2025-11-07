@@ -1,5 +1,6 @@
 <?php session_start(); ?>
 <?php require 'db-connect.php'; ?>
+<?php $page_title = '会員情報'; ?>
 <?php require 'header.php'; ?>
 <?php require 'menu.php'; ?>
 <?php
@@ -13,14 +14,14 @@ if (isset($_SESSION['customer'])) {
 }
 if (empty($sql->fetchAll())) {
     if (isset($_SESSION['customer'])) {
-        $sql = $pdo->prepare('UPDATE customer_user SET mail=?, password=?, name=?, 
+        $sql = $pdo->prepare('UPDATE customer_user SET mail=?, name=?, 
                              address=?, login_name=?, telephone_number=? WHERE user_id=?');
         $sql->execute([
-            $_POST['mail'], password_hash($_POST['password'], PASSWORD_DEFAULT),
-            $_POST['name'], $_POST['address'], $_POST['login_name'], $_POST['telephone_number'], $user_id]);
+            $_POST['mail'],$_POST['name'], $_POST['address'],
+            $_POST['login_name'], $_POST['telephone_number'], $user_id]);
         $_SESSION['customer'] = [
             'user_id'=>$user_id, 'mail'=>$_POST['mail'],
-            'password'=>$_POST['password'], 'name'=>$_POST['name'], 'address'=>$_POST['address'],
+            'name'=>$_POST['name'], 'address'=>$_POST['address'],
             'login_name'=>$_POST['login_name'], 'telephone_number'=>$_POST['telephone_number']];
             
         echo 'お客様情報を更新しました。';

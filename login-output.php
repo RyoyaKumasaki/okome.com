@@ -1,6 +1,7 @@
 <?php
 session_start();
 require 'db-connect.php';
+$page_title = 'ログイン';
 require 'header.php';
 require 'menu.php';
 
@@ -18,7 +19,6 @@ if ($customer && password_verify($_POST['password'], $customer['password'])) {
         // 'login' => $customer['login']
         'user_id'=>$customer['user_id'],
         'mail'=>$customer['mail'],
-        'password'=>$customer['password'],
         'name'=>$customer['name'],
         'address'=>$customer['address'],
         'login_name'=>$customer['login_name'],

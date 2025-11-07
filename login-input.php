@@ -1,6 +1,7 @@
 <?php
 session_start();
 require 'db-connect.php';
+$page_title = 'ログイン';
 require 'header.php';
 require 'menu.php';
 

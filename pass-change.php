@@ -1,11 +1,31 @@
 <?php
 session_start();
 require 'db-connect.php';
-require 'header.php';
-require 'menu.php';
+$page_title = 'パスワード変更';
 
-$user_id = $_COOKIE['user_id'];
 $error = "";
+$user_id = null; // 認証されたユーザーIDを格納する変数
+
+// 1. URLからトークンを取得
+$token = $_GET['token'] ?? '';
+
+// トークンがない、または空の場合はエラー
+if (empty($token)) {
+    die("パスワード変更に必要な情報がありません。メールからアクセスしてください。");
+}
+
+// 2. トークンを検証し、user_idを取得
+// 現在時刻より有効期限(expires_at)が大きい（期限切れではない）かチェック
+$sql_check = $pdo->prepare("SELECT user_id FROM password_reset WHERE token=? AND expires_at > NOW()");
+$sql_check->execute([$token]);
+$reset_row = $sql_check->fetch(PDO::FETCH_ASSOC);
+
+if (!$reset_row) {
+    // トークンが無効または期限切れ
+    die("無効なリンク、または有効期限切れです。再度パスワードリセット手続きを行ってください。");
+}
+
+$user_id = $reset_row['user_id']; // 認証されたユーザーID
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $password1 = $_POST["password"];
@@ -14,43 +34,49 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($password1 !== $password2) {
         $error = "パスワードが一致しません！";
     } else {
-        $password_hash = password_hash($password1, PASSWORD_DEFAULT);
-        $sql = $pdo->prepare("UPDATE customer_user SET password=? WHERE user_id=?");
-        $sql->execute([$password_hash,$user_id]); //$_SESSION['user_id']をつくれ！！
+        // 3. 【重要】新しいパスワードをハッシュ化
+        $hashed_password = password_hash($password1, PASSWORD_DEFAULT);
+        
+        // 4. パスワードを更新
+        $sql_update = $pdo->prepare("UPDATE customer_user SET password=? WHERE user_id=?");
+        $sql_update->execute([$hashed_password, $user_id]); 
 
+        // 5. 【重要】使用済みのトークンをDBから削除（無効化）
+        $sql_delete = $pdo->prepare("DELETE FROM password_reset WHERE token=?");
+        $sql_delete->execute([$token]);
+
+        // 成功ページへリダイレクト
         header("Location: pass-change-success.php");
         exit();
     }
 }
 ?>
+<?php
+require 'header.php';
+require 'menu.php';
 
-  <title>パスワード変更</title>
-
+?>
   <h2>パスワード変更</h2>
-
   <?php if ($error): ?>
     <p style="color:red;"><?= htmlspecialchars($error) ?></p>
   <?php endif; ?>
 
-  <form action="" method="post">
+  <form action="pass-change.php?token=<?= htmlspecialchars($token) ?>" method="post">
     <table>
       <tr>
         <td>新しいパスワード</td>
-        <td><input type="text" name="password"></td>
-      </tr>
+        <td><input type="password" name="password" required></td>
+        </tr>
       <tr>
         <td>新しいパスワードの確認</td>
-        <td><input type="text" name="passwordc"></td>
+        <td><input type="password" name="passwordc" required></td>
       </tr>
     </table>
-
     <p>新しいパスワードの確認入力は、新しいパスワードの入力と一致しなければなりません。</p>
-
     <input type="submit" value="パスワードを変更する">
   </form>
-
+  
   <form action="login-input.php" method="get">
     <button type="submit">キャンセル</button>
   </form>
-
 <?php require 'footer.php'; ?>
