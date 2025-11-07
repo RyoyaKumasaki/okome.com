@@ -6,7 +6,7 @@ require 'menu.php';
 ?>
 <h1>ユーザー情報</h1>
 <?php
-$sql = $pdo->prepare("SELECT user_id, password, address FROM customer_user WHERE id = ?");
+$sql = $pdo->prepare("SELECT user_id, password, address FROM customer_user WHERE user_id = ?");
         $sql->execute([$_SESSION['customer']['user_id']]);
 ?>
 
