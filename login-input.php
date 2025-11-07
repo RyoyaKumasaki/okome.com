@@ -8,7 +8,7 @@ $pdo = new PDO($connect, USER, PASS);
 ?>
 <h1>ログイン</h1>
 <form action="login-output.php" method="post">
-  <p>ログイン名：<input type="text" name="login"></p>
+  <p>ログイン名：<input type="text" name="login_name"></p>
   <p>パスワード：<input type="password" name="password"></p>
   <p><input type="submit" value="ログイン"></p>
 </form>
