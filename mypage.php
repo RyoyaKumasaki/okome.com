@@ -37,7 +37,7 @@ $sql->execute([$_SESSION['customer']['user_id']]);
 
 foreach ($sql as $row) {
     echo '<p>';
-    echo . htmlspecialchars($row['comment']) . '<br>';
+    echo htmlspecialchars($row['comment']) . '<br>';
     echo '</p><hr>';
 }
 ?>
