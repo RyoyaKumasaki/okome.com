@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $input_password = $_POST['password'] ?? '';
 
     if (!isset($_SESSION['customer']['user_id'])) {
-        header('Location: customer-input.php');
+        header('Location: login-input.php');
         exit;
     }
 
@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $sql->fetch(PDO::FETCH_ASSOC);
 
     if ($user && $input_password === $user['password']) { 
-        header('Location: user-change.php');
+        header('Location: customer-input.php');
         exit;
     } else {
         $error = 'パスワードが正しくありません。';
