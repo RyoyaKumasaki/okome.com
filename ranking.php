@@ -14,3 +14,16 @@ JOIN (
   LIMIT 3
 ) top_products ON p.product_id = top_products.product_id;
 ";
+$sql = $pdo->prepare($sql);
+$sql->execute();
+foreach ($sql as $row) {
+    echo '<h3>' . htmlspecialchars($row['product_name']) . '</h3>';
+    echo '<img src="images/' . htmlspecialchars($row['product_picture']) . '" width="150px"><br>';
+    echo '<p>価格：' . htmlspecialchars($row['price']) . '円</p>';
+    echo '<form action="product-detail.php" method="post" style="display:inline;">';
+    echo '<input type="hidden" name="product_id" value="' . htmlspecialchars($row['product_id']) . '">';
+    echo '<input type="submit" value="商品詳細を見る">';
+    echo '</form>';
+}
+?>
+<hr>
