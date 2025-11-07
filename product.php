@@ -16,3 +16,5 @@ foreach($sql as $row){
     echo '<input type="submit" value="商品詳細を見る">';
     echo '</form>';
 }
+?>
+<hr>
