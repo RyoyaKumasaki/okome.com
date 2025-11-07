@@ -5,4 +5,5 @@
 </form>
 
 <a href="mypage.php">マイページ</a>
+<?php require 'ranking.php'; ?>
 <?php require 'footer.php'; ?>
