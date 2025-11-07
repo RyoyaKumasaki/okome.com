@@ -6,22 +6,28 @@ require 'menu.php';
 ?>
 <h1>ユーザー情報</h1>
 <?php
-$sql = $pdo->prepare("SELECT login_name, mail, address FROM customer_user WHERE user_id = ?");
-        $sql->execute([$_SESSION['customer']['user_id']]);
+$name = $address = $login_name = $password = $mail = $telephone_number = '';
+if (isset($_SESSION['customer'])) {
+    $user_id = $_SESSION['customer']['user_id'];
+    $mail = $_SESSION['customer']['mail'];
+    $name = $_SESSION['customer']['name'];
+    $address = $_SESSION['customer']['address'];
+    $login_name = $_SESSION['customer']['login_name'];
+}
 ?>
 
 <table border="0" cellpadding="8">
   <tr>
     <th>ユーザーID</th>
-    <td><?= htmlspecialchars($sql['login_name']) ?></td>
+    <td><?= htmlspecialchars($login_name) ?></td>
   </tr>
   <tr>
     <th>メールアドレス</th>
-    <td><?= htmlspecialchars($aql['mail']) ?></td>
+    <td><?= htmlspecialchars($mail) ?></td>
   </tr>
   <tr>
     <th>住所</th>
-    <td><?= htmlspecialchars($sql['address']) ?></td>
+    <td><?= htmlspecialchars($address) ?></td>
   </tr>
 </table>
 <form action="user-change.php" method="get"> <!--パスワード入力画面のリンク-->
