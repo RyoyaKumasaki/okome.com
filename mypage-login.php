@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $user_id = $_SESSION['customer']['user_id'];
 
-    $sql = $pdo->prepare('SELECT password FROM customer WHERE user_id = ?');
+    $sql = $pdo->prepare('SELECT password FROM customer_user WHERE user_id = ?');
     $sql->execute([$user_id]);
     $user = $sql->fetch(PDO::FETCH_ASSOC);
 
