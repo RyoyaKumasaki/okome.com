@@ -30,7 +30,7 @@ if (isset($_SESSION['customer'])) {
     <td><?= htmlspecialchars($address) ?></td>
   </tr>
 </table>
-<form action="user-change.php" method="get"> <!--パスワード入力画面のリンク-->
+<form action="mypage-login.php" method="get"> <!--パスワード入力画面のリンク-->
     <button type="submit">ユーザー情報を変更</button>
 </form>
 
