@@ -6,22 +6,22 @@ require 'menu.php';
 ?>
 <h1>ユーザー情報</h1>
 <?php
-$sql = $pdo->prepare("SELECT user_id, password, address FROM customer_user WHERE id = ?");
+$sql = $pdo->prepare("SELECT login_name, mail, address FROM customer_user WHERE user_id = ?");
         $sql->execute([$_SESSION['customer']['user_id']]);
 ?>
 
 <table border="0" cellpadding="8">
   <tr>
     <th>ユーザーID</th>
-    <td><?= htmlspecialchars($user['login_name']) ?></td>
+    <td><?= htmlspecialchars($sql['login_name']) ?></td>
   </tr>
   <tr>
     <th>メールアドレス</th>
-    <td><?= htmlspecialchars($user['mail']) ?></td>
+    <td><?= htmlspecialchars($aql['mail']) ?></td>
   </tr>
   <tr>
     <th>住所</th>
-    <td><?= htmlspecialchars($user['address']) ?></td>
+    <td><?= htmlspecialchars($sql['address']) ?></td>
   </tr>
 </table>
 <form action="user-change.php" method="get"> <!--パスワード入力画面のリンク-->
