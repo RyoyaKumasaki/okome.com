@@ -1,3 +1,4 @@
+<?php $page_title='商品画面'; ?>
 <?php require 'header.php'?>
 <?php require 'menu.php'?>
 <?php require_once 'db-connect.php'?>

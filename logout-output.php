@@ -4,7 +4,7 @@
 <?php
 if (isset($_SESSION['customer'])) {
     unset($_SESSION['customer']);
-    echo 'すでにログアウトしました。';
+    echo 'ログアウトしました。';
 }else{
     echo 'すでにログアウトしています。';
 }

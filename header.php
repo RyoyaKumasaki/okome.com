@@ -18,6 +18,8 @@
     background-color: #8AE51A;
     }
     </style>
-    <title>お米ドットコム</title>
+    <title>
+        <?php echo isset($page_title) ? $page_title . ' | お米ドットコム' : 'お米ドットコム'; ?>
+    </title>
 </head>
 <body>
