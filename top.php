@@ -4,7 +4,7 @@
 <input type="num" name="product_id">
 </form>
 
-<a href="mypage.php"><img src="img/guest.png" alt=""></a>
+<a href="mypage.php"><img src="img/guest.png" width="150px"></a>
 <?php require 'ranking.php'; ?>
 <?php require 'product.php'; ?>
 <?php require 'footer.php'; ?>
