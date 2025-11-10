@@ -23,7 +23,7 @@ foreach ($sql as $row) {
     echo '<form action="product-detail.php" method="post" style="display:inline;">';
     echo '<input type="hidden" name="product_id" value="' . htmlspecialchars($row['product_id']) . '">';
     echo '<input type="submit" value="商品詳細を見る">';
+    echo '<hr>';
     echo '</form>';
 }
 ?>
-<hr>
