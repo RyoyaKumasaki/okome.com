@@ -4,7 +4,6 @@
 <?php
 require_once 'db-connect.php';
 $sql = "
-
 SELECT 
     p.product_id, 
     p.product_name, 
