@@ -1,6 +1,5 @@
 <?php
-$sql = $pdo->prepare('select * from product');
-$sql->execute();
+$sql = $pdo->query('SELECT * FROM product');
 foreach($sql as $row){
     $product_id = $row['product_id'];
     $product_name = $row['product_name'];
