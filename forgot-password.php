@@ -1,6 +1,7 @@
 <?php 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST['email'] ?? '';
+    ｓｎ
 
     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $token = bin2hex(random_bytes(16));
@@ -10,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $subject = "【サイト名】パスワード再設定のご案内";
         $message = <<<EOT
 {$email} 様
-
+ｓｚ
 パスワード再設定のご依頼を受け付けました。
 下記のリンクをクリックして、パスワード再設定ページへお進みください。
 
