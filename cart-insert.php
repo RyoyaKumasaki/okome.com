@@ -2,12 +2,12 @@
 session_start();
 require_once 'db-connect.php';
 
-// ログイン状態の確認（例：未ログインの場合はログインページへ）
-if (!isset($_SESSION['user_id'])) {
-    echo 'カートに追加するにはログインが必要です。<br>';
-    echo '<a href="login.php">ログインページへ</a>';
-    exit;
-}
+//  ログイン状態の確認（例：未ログインの場合はログインページへ）
+// if (!isset($_SESSION['user_id'])) {
+//     echo 'カートに追加するにはログインが必要です。<br>';
+//     echo '<a href="login.php">ログインページへ</a>';
+//     exit;
+// }
 
 $user_id = $_SESSION['user_id'];
 $product_id = $_POST['product_id'];
