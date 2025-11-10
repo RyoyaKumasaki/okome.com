@@ -1,4 +1,4 @@
-<?php require 'db-connect.php'; ?>
+<?php require_once 'db-connect.php'; ?>
 <?php require 'header.php'; ?>
 <?php require 'menu.php'; ?>
 <h2>商品一覧</h2>
