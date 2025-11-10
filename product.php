@@ -8,7 +8,7 @@ foreach($sql as $row){
     $product_explanation = $row['product_explanation'];
     $product_picture = $row['product_picture'];
     echo '<h3>' . htmlspecialchars($product_name) . '</h3>';
-    echo '<img src="images/' . htmlspecialchars($product_picture) . '" width="150px"><br>';
+    echo '<img src="img/' . htmlspecialchars($product_picture) . '" width="150px"><br>';
     echo '<p>価格：' . htmlspecialchars($price) . '円</p>';
     echo '<form action="product-detail.php" method="post" style="display:inline;">';
     echo '<input type="hidden" name="product_id" value="' . htmlspecialchars($product_id) . '">';
