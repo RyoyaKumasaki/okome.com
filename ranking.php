@@ -4,16 +4,25 @@
 <?php
 require_once 'db-connect.php';
 $sql = "
-SELECT p.product_id, p.product_name, p.quantity, p.price, p.status, p.product_explanation, p.product_picture, p.producer_picture, AVG(r.rating) as avg_rating
+
+SELECT 
+    p.product_id, 
+    p.product_name, 
+    p.quantity, 
+    p.price, 
+    p.status, 
+    p.product_explanation, 
+    p.product_picture, 
+    p.producer_picture,
+    AVG(r.rating) as avg_rating
 FROM `LAA1607615-okome`.`product` p
 JOIN (
-  SELECT product_id
-  FROM `LAA1607615-okome`.`review`
-  GROUP BY product_id
-  ORDER BY AVG(rating) DESC
-  LIMIT 3
-) 
-top_products ON p.product_id = top_products.product_id;
+    SELECT product_id
+    FROM `LAA1607615-okome`.`review`
+    GROUP BY product_id
+    ORDER BY AVG(rating) DESC
+    LIMIT 3
+) top_products ON p.product_id = top_products.product_id
 LEFT JOIN `LAA1607615-okome`.`review` r ON p.product_id = r.product_id
 GROUP BY p.product_id;
 ";
