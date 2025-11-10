@@ -3,7 +3,7 @@
 <?php require 'menu.php'?>
 <?php require_once 'db-connect.php'?>
 <?php
-$product_id = $_POST['product_id'];
+$id = $_POST['product_id'];
 if(!isset($_SESSION['product'])){
     $_SESSION['product']=[];
 }
