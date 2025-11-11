@@ -32,7 +32,7 @@ if (isset($_SESSION['customer'])) {
     echo '<a href="forgot-password.php">パスワードを変更したい方はこちら</a><br>';
     echo '<form action="mypage.php" method="get">
         <button type="submit">マイページへ戻る</button>
-        </form>'
+        </form>';
 } else {
     echo '<form action="customer-output.php" method="post">';
     echo '<table>';
