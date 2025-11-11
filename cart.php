@@ -1,6 +1,12 @@
 <h2>カート一覧</h2>
+<?php
+if (!isset($_SESSION['customer']['user_id'])) {
+    echo 'カートを見るにはログインが必要です。<br>';
+    echo '<a href="login-input.php">ログインページへ</a>';
+    exit;
+}
 
-<table>';
+<table>
 <tr><th>商品画像</th><th>商品名</th>';
 <th>価格</th><th>個数</th><th>小計</th><th></th></tr>';
 <?php
@@ -28,8 +34,10 @@ foreach($sql as $row){
     echo '</form></td>';
     echo '</tr>';
 }
-else{
-    echo 'カートに商品がありません。';
+if (!$has_items) {
+    echo '<tr><td colspan="6">カートに商品が入っていません。</td></tr>';
+} else {
+    echo '<tr><td colspan="4">合計金額</td><td>' . htmlspecialchars($total_price, ENT_QUOTES, 'UTF-8') . '円</td><td></td></tr>';
 }
 ?>
 
