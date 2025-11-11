@@ -20,6 +20,7 @@ if (!isset($sql)) {
     echo 'カートに商品が入っていません。';
     exit;
 }
+else{
 echo '<table>';
 echo '<tr><th>商品画像</th><th>商品名</th><th>価格</th><th>個数</th><th>小計</th><th></th></tr>';
 foreach($sql as $row){
@@ -42,6 +43,7 @@ if (!$has_items) {
     echo '<tr><td colspan="6">カートに商品が入っていません。</td></tr>';
 } else {
     echo '<tr><td colspan="4">合計金額</td><td>' . htmlspecialchars($total_price, ENT_QUOTES, 'UTF-8') . '円</td><td></td></tr>';
+}
 }
 ?>
 
