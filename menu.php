@@ -24,3 +24,4 @@
     <a href="customer-input.php">会員登録</a>
     <hr>
 </header>
+    <div class="container">
