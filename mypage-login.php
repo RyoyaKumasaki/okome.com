@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sql->execute([$user_id]);
     $user = $sql->fetch(PDO::FETCH_ASSOC);
 
-    if ($user && $input_password === $user['password']) { 
+    if ($input_password === $sql) { 
         header('Location: customer-input.php');
         exit;
     } else {
