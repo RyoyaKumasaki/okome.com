@@ -2,7 +2,7 @@
 <?php require 'header.php'; ?>
 <?php require 'menu.php'; ?>
 <form action="product-detail.php" method="post">
-<input type="text" name="product_id" value="商品検索">
+<input type="text" name="product_id" placeholder="商品検索">
 <input type="submit" value="検索">
 </form>
 
