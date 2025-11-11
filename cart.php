@@ -16,7 +16,7 @@ $sql = $pdo->prepare('SELECT cd.cart_detail_id, p.product_name, p.product_pictur
 $sql->execute([$_SESSION['customer']['user_id']]);
 $has_items = false;
 $total_price = 0;
-if (!isset($sql)) {
+if ($sql->rowCount() == 0) {
     echo 'カートに商品が入っていません。';
     exit;
 }
