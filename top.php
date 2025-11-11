@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <?php require 'header.php'; ?>
 <?php require 'menu.php'; ?>
 <form action="product-detail.php" method="post">
