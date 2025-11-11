@@ -7,8 +7,8 @@ if (!isset($_SESSION['customer']['user_id'])) {
 }
 ?>
 <table>
-<tr><th>商品画像</th><th>商品名</th>';
-<th>価格</th><th>個数</th><th>小計</th><th></th></tr>';
+<tr><th>商品画像</th><th>商品名</th>
+<th>価格</th><th>個数</th><th>小計</th><th></th></tr>
 <?php
 $sql = $pdo->prepare('SELECT cd.cart_detail_id, p.product_name, p.product_picture, cd.price, cd.amount 
                       FROM cart_detail cd 
