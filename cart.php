@@ -6,9 +6,7 @@ if (!isset($_SESSION['customer']['user_id'])) {
     exit;
 }
 ?> 
-<table>
-<tr><th>商品画像</th><th>商品名</th>
-<th>価格</th><th>個数</th><th>小計</th><th></th></tr>
+
 <?php
 $sql = $pdo->prepare('SELECT cd.cart_detail_id, p.product_name, p.product_picture, cd.price, cd.amount 
                       FROM cart_detail cd 
@@ -18,6 +16,11 @@ $sql = $pdo->prepare('SELECT cd.cart_detail_id, p.product_name, p.product_pictur
 $sql->execute([$_SESSION['customer']['user_id']]);
 $has_items = false;
 $total_price = 0;
+if (!isset($sql)) {
+    echo 'カートに商品が入っていません。';
+}
+echo '<table>';
+echo '<tr><th>商品画像</th><th>商品名</th><th>価格</th><th>個数</th><th>小計</th><th></th></tr>';
 foreach($sql as $row){
     $has_items = true;
     $subtotal = $row['price'] * $row['amount'];
