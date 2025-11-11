@@ -5,7 +5,7 @@ require_once 'db-connect.php';
 //  ログイン状態の確認（例：未ログインの場合はログインページへ）
 // if (!isset($_SESSION['user_id'])) {
 //     echo 'カートに追加するにはログインが必要です。<br>';
-//     echo '<a href="login.php">ログインページへ</a>';
+//     echo '<a href="login-input.php">ログインページへ</a>';
 //     exit;
 // }
 
