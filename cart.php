@@ -1,25 +1,32 @@
+<h2>カート一覧</h2>
+
+<table>';
+<tr><th>商品画像</th><th>商品名</th>';
+<th>価格</th><th>個数</th><th>小計</th><th></th></tr>';
 <?php
-if(!empty($_SESSION['product'])){
-echo '<table>';
-echo '<tr><th>商品番号</th><th>商品名</th>';
-echo '<th>価格</th><th>個数</th><th>小計</th><th></th></tr>';
-$total = 0;
-foreach($_SESSION['product'] as $id => $product){
-        echo '<tr>';
-        echo '<td>' . $id . '</td>';
-        echo '<td>';
-        echo '<a href="detail.php?id=' . $id . '">' . $product['name'] . '</a>';
-        echo '</td>';
-        echo '<td>' . $product['price'] . '</td>';
-        echo '<td>' . $product['count'] . '</td>';
-        $subtotal = $product['price'] * $product['count'];
-        $total += $subtotal;
-        echo '<td>' . $subtotal . '</td>';
-        echo '<td><a href="cart-delete.php?id=' . $id . '">削除</a></td>';
-        echo '</tr>';
-}
-echo '<tr><td>合計</td><td></td><td></td><td></td><td>' . $total . '</td><td></td></tr>';
-echo '</table>';
+$sql = $pdo->prepare('SELECT cd.cart_detail_id, p.product_name, p.product_picture, cd.price, cd.amount 
+                      FROM cart_detail cd 
+                      JOIN product p ON cd.product_id = p.product_id 
+                      JOIN cart c ON cd.cart_id = c.cart_id 
+                      WHERE c.user_id = ?');
+$sql->execute([$_SESSION['customer']['user_id']]);
+$has_items = false;
+$total_price = 0;
+foreach($sql as $row){
+    $has_items = true;
+    $subtotal = $row['price'] * $row['amount'];
+    $total_price += $subtotal;
+    echo '<tr>';
+    echo '<td><img src="img/' . htmlspecialchars($row['product_picture'], ENT_QUOTES, 'UTF-8') . '" width="100px"></td>';
+    echo '<td>' . htmlspecialchars($row['product_name'], ENT_QUOTES, 'UTF-8') . '</td>';
+    echo '<td>' . htmlspecialchars($row['price'], ENT_QUOTES, 'UTF-8') . '円</td>';
+    echo '<td>' . htmlspecialchars($row['amount'], ENT_QUOTES, 'UTF-8') . '個</td>';
+    echo '<td>' . htmlspecialchars($subtotal, ENT_QUOTES, 'UTF-8') . '円</td>';
+    echo '<td><form action="cart-delete.php" method="post" style="display:inline;">';
+    echo '<input type="hidden" name="cart_detail_id" value="' . htmlspecialchars($row['cart_detail_id'], ENT_QUOTES, 'UTF-8') . '">';
+    echo '<input type="submit" value="削除">';
+    echo '</form></td>';
+    echo '</tr>';
 }
 else{
     echo 'カートに商品がありません。';
