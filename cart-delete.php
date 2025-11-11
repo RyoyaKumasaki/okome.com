@@ -1,6 +1,7 @@
 <?php session_start(); ?>
 <?php require 'header.php'?>
 <?php require 'menu.php'?>
+<?php require_once 'db-connect.php'?>
 <?php
 $sql = $pdo->prepare('DELETE FROM cart_detail WHERE cart_detail_id = ?');
 $sql->execute([$_POST['cart_detail_id']]);
