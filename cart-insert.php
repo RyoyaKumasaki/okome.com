@@ -1,7 +1,10 @@
 <?php
 session_start();
 require_once 'db-connect.php';
-
+?>
+<?php require 'header.php'; ?>
+<?php require 'menu.php'; ?>
+<?php
 if (!isset($_SESSION['customer']['user_id'])) {
     echo 'カートに追加するにはログインが必要です。<br>';
     echo '<a href="login-input.php">ログインページへ</a>';
@@ -59,3 +62,4 @@ echo '<p>価格：' . htmlspecialchars($product_price, ENT_QUOTES, 'UTF-8') . '�
 echo '<a href="cart.php">カートを見る</a><br>';
 echo '<a href="top.php">トップページへ戻る</a>';
 ?>
+<?php require 'footer.php'; ?>
