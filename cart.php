@@ -5,7 +5,7 @@ if (!isset($_SESSION['customer']['user_id'])) {
     echo '<a href="login-input.php">ログインページへ</a>';
     exit;
 }
-
+?>
 <table>
 <tr><th>商品画像</th><th>商品名</th>';
 <th>価格</th><th>個数</th><th>小計</th><th></th></tr>';
