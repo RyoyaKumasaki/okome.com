@@ -1,10 +1,10 @@
 <h2>カート一覧</h2>
 <?php
-// if (!isset($_SESSION['customer']['user_id'])) {
-//     echo 'カートを見るにはログインが必要です。<br>';
-//     echo '<a href="login-input.php">ログインページへ</a>';
-//     exit;
-// }
+if (!isset($_SESSION['customer']['user_id'])) {
+    echo 'カートを見るにはログインが必要です。<br>';
+    echo '<a href="login-input.php">ログインページへ</a>';
+    exit;
+}
 ?> 
 <table>
 <tr><th>商品画像</th><th>商品名</th>
