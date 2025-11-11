@@ -1,4 +1,4 @@
-<h2>
+<h2 class="has-text-left is-size-3">
     ランキング
 </h2>
 <?php
