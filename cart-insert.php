@@ -9,7 +9,7 @@ require_once 'db-connect.php';
 //     exit;
 // }
 
-$user_id = $_SESSION['user_id'];
+$user_id = $_SESSION['customer']['user_id'];
 $product_id = $_POST['product_id'];
 $buy_quantity = $_POST['buy_quantity'];
 
