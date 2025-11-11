@@ -9,7 +9,7 @@ require 'menu.php';
         <label><input type="radio" name="choice" value="kure" required> クレジットカードでお支払い</label><br>
         <label><input type="radio" name="choice" value="pei"> paypayでお支払い</label><br>
         <label><input type="radio" name="choice" value="app"> Apple Payでお支払い</label><br>
-        <label><input type="radio" name="choice" value="gen"> 現金でお支払い</label><br><br>
+        <label><input type="radio" name="choice" value="gen"> コンビニでお支払い</label><br><br>
 
         <button type="submit">決済を確定する</button>
     </form>

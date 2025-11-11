@@ -16,7 +16,7 @@ if ($choice == 'kure') {
 } elseif ($choice == 'app') {
     echo 'Apple Payでお支払い';
 } else {
-    echo '現金でお支払い';
+    echo 'コンビニでお支払い';
 }
 ?>
 <p>ご購入ありがとうございました。<br>
