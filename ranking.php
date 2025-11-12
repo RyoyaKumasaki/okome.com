@@ -40,8 +40,7 @@ function displayStars($rating) {
     }
     // 半星
     if ($halfStar) {
-        $stars .= '☆';
-    }
+        $stars .= "\u{2BA}"    }
     // 空星
     for ($i = 0; $i < $emptyStars; $i++) {
         $stars .= '☆';
