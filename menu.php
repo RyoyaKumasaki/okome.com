@@ -14,7 +14,7 @@
             <p class="navbar-item">　　　</p>
         </div>
     </nav>
-    <a href="product.php">商品</a>
+    <!-- <a href="product.php">商品</a> -->
     <a href="favorite-show.php">お気に入り</a>
     <a href="history.php">購入履歴</a>
     <a href="cart-show.php">カート</a>

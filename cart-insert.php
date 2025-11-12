@@ -59,7 +59,7 @@ echo '<h2>カートに商品を追加しました</h2>';
 echo '<p>商品名：' . htmlspecialchars($product_id, ENT_QUOTES, 'UTF-8') . '</p>';
 echo '<p>数量：' . htmlspecialchars($buy_amount, ENT_QUOTES, 'UTF-8') . '個</p>';
 echo '<p>価格：' . htmlspecialchars($product_price, ENT_QUOTES, 'UTF-8') . '円</p>';
-echo '<a href="cart.php">カートを見る</a><br>';
+echo '<a href="cart-show.php">カートを見る</a><br>';
 echo '<a href="top.php">トップページへ戻る</a>';
 ?>
 <?php require 'footer.php'; ?>
