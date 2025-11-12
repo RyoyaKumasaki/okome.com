@@ -30,6 +30,28 @@ foreach($sql as $row){
     echo '<tr>';
     echo '<td><img src="img/' . htmlspecialchars($row['product_picture'], ENT_QUOTES, 'UTF-8') . '" width="100px"></td>';
     echo '<td>' . htmlspecialchars($row['product_name'], ENT_QUOTES, 'UTF-8') . '</td>';
+    echo '<td>';
+        // 個数を変更するためのフォーム
+        // 個数変更処理を行うファイルを cart-update.php と仮定
+        echo '<form action="cart-update.php" method="post" style="display:inline-flex; align-items:center;">';
+        
+        // 個数変更に必要な情報（cart_detail_id）を隠しフィールドで渡す
+        echo '<input type="hidden" name="cart_detail_id" value="' . htmlspecialchars($row['cart_detail_id'], ENT_QUOTES, 'UTF-8') . '">';
+        
+        // 減らすボタン
+        // amountを -1 に設定し、サーバー側で現在のamountから減算処理を行う
+        echo '<input type="submit" name="change_amount" value="-" ' . ($row['amount'] <= 1 ? 'disabled' : '') . '>'; 
+        
+        // 現在の個数表示（更新時は name="amount" で新しい個数を渡すことも考えられるが、ここではボタンで増減の指示を出す）
+        echo '<span style="margin: 0 10px;">' . htmlspecialchars($row['amount'], ENT_QUOTES, 'UTF-8') . '</span>';
+        
+        // 増やすボタン
+        // amountを +1 に設定し、サーバー側で現在のamountに加算処理を行う
+        echo '<input type="submit" name="change_amount" value="+">'; 
+        
+        echo '</form>';
+        echo '</td>';
+        // ★★★ 個数変更フォームの追加 終了 ★★★
     echo '<td>' . htmlspecialchars($row['price'], ENT_QUOTES, 'UTF-8') . '円</td>';
     echo '<td>' . htmlspecialchars($row['amount'], ENT_QUOTES, 'UTF-8') . '個</td>';
     echo '<td>' . htmlspecialchars($subtotal, ENT_QUOTES, 'UTF-8') . '円</td>';
