@@ -3,4 +3,4 @@
 <?php require 'menu.php'?>
 <?php require_once 'db-connect.php'?>
 <?php require 'cart.php'?>
-<?php require 'footer.php'?>
+<?php require_once 'footer.php'?>
