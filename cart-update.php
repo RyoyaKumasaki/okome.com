@@ -29,5 +29,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cart_detail_id'], $_P
 }
 
 // 4. カート一覧ページへリダイレクト
-header('Location: cart-list.php'); // ここはあなたのカート一覧のファイル名に合わせてください
+header('Location: cart-show.php'); // ここはあなたのカート一覧のファイル名に合わせてください
 exit;
