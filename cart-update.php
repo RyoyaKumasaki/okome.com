@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cart_detail_id'], $_P
     // 1. 現在の個数を取得
     $sql = $pdo->prepare("SELECT amount FROM cart_detail WHERE cart_detail_id = ?");
     $sql->execute([$cart_detail_id]);
-    $current_amount = $stmt->fetchColumn();
+    $current_amount = $sql->fetchColumn();
 
     if ($current_amount !== false) {
         $new_amount = $current_amount;
@@ -23,8 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cart_detail_id'], $_P
         
         // 3. データベースを更新
         if ($new_amount !== $current_amount) { // 実際に個数が変わった、または減らすボタンで1より大きい場合
-            $update_stmt = $pdo->prepare("UPDATE cart_detail SET amount = ? WHERE cart_detail_id = ?");
-            $update_stmt->execute([$new_amount, $cart_detail_id]);
+            $update_sql = $pdo->prepare("UPDATE cart_detail SET amount = ? WHERE cart_detail_id = ?");
+            $update_sql->execute([$new_amount, $cart_detail_id]);
         }
     }
 }
