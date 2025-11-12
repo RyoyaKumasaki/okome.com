@@ -1,4 +1,5 @@
-<?php
+<?php session_start();
+require_once 'db-connect.php';
 // ... (データベース接続、セッション開始などの共通処理)
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cart_detail_id'], $_POST['change_amount'])) {
@@ -6,8 +7,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cart_detail_id'], $_P
     $change_amount = $_POST['change_amount'];
     
     // 1. 現在の個数を取得
-    $stmt = $pdo->prepare("SELECT amount FROM cart_detail WHERE cart_detail_id = ?");
-    $stmt->execute([$cart_detail_id]);
+    $sql = $pdo->prepare("SELECT amount FROM cart_detail WHERE cart_detail_id = ?");
+    $sql->execute([$cart_detail_id]);
     $current_amount = $stmt->fetchColumn();
 
     if ($current_amount !== false) {
@@ -31,3 +32,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cart_detail_id'], $_P
 // 4. カート一覧ページへリダイレクト
 header('Location: cart-show.php'); // ここはあなたのカート一覧のファイル名に合わせてください
 exit;
+?>
