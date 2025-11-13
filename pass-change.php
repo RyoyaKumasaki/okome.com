@@ -4,8 +4,7 @@ require 'db-connect.php';
 $page_title = 'パスワード変更';
 
 $error = "";
-$user_id = null; // 認証されたユーザーIDを格納する変数
-
+$user_id = null; // 認証されたユーザーIDを格納する変数  
 // 1. URLからトークンを取得
 $token = $_GET['token'] ?? '';
 
