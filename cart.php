@@ -66,7 +66,10 @@ if (!$has_items) {
 } else {
     echo '<tr><td colspan="4">合計金額</td><td>' . htmlspecialchars($total_price, ENT_QUOTES, 'UTF-8') . '円</td><td></td></tr>';
     echo '</table>';
-    echo '<form action="payment.php" method="get">';
+    echo '<form action="payment.php" method="post">';
+    echo '<input type="hidden" name="total_price" value="' . htmlspecialchars($total_price, ENT_QUOTES, 'UTF-8') . '">';
+    echo '<input type="hidden" name="user_id" value="' . htmlspecialchars($_SESSION['customer']['user_id'], ENT_QUOTES, 'UTF-8') . '">';
+    echo '<input type="hidden" name="cart_id" value="' . htmlspecialchars($cart_id, ENT_QUOTES, 'UTF-8') . '">';
     echo '<input type="submit" value="購入手続きへ進む">';
     echo '</form>';
 }
