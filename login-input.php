@@ -1,14 +1,14 @@
 <?php
 session_start();
 require 'db-connect.php';
+$page_title = 'ログイン';
 require 'header.php';
 require 'menu.php';
 
-$pdo = new PDO($connect, USER, PASS);
 ?>
 <h1>ログイン</h1>
 <form action="login-output.php" method="post">
-  <p>ログイン名：<input type="text" name="login"></p>
+  <p>ログイン名：<input type="text" name="login_name"></p>
   <p>パスワード：<input type="password" name="password"></p>
   <p><input type="submit" value="ログイン"></p>
 </form>
