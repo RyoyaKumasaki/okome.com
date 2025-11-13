@@ -7,6 +7,7 @@ $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST['email'] ?? '';
+    ｓｎ
 
     // 1. メールアドレスのバリデーション
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -46,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $subject = "【お米.com】パスワード再設定のご案内";
             $message = <<<EOT
 {$email} 様
-
+ｓｚ
 パスワード再設定のご依頼を受け付けました。
 下記のリンクをクリックして、パスワード再設定ページへお進みください。
 
