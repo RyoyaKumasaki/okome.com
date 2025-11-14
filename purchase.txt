@@ -1,4 +1,5 @@
-//purchaseのSQL
+//purchaseのSQL 
+//登録する内容を取得
 $user_id = $_SESSION['customer']['user_id'];
 $total_price = 0;
 $cart_details = [];
@@ -9,3 +10,39 @@ $sql = $pdo->prepare('SELECT cd.cart_detail_id, p.product_name, cd.price, cd.amo
                           JOIN cart c ON cd.cart_id = c.cart_id 
                           WHERE c.user_id = ?');
     $sql->execute([$user_id]);
+
+//orderテーブルに登録
+$sql=$pdo->prepare('INSERT INTO Order ( user_id, date, price'))
+VALUES (
+    :user_id,
+    :date,      
+    :price, 
+    '処理中',     
+    :shipping_info '
+);
+
+//order-detailに登録
+INSERT INTO Order_detail (order_id, product_id, quantity, unit_price)
+VALUES (
+    :generated_order_id, -- ステップ1で生成されたID
+    :product_id,         -- 例: 501
+    :count,           -- 例: 2
+    :order_price          -- 例: 5000 (注文確定時の単価)
+);
+
+//productの在庫更新
+UPDATE Product
+SET quantity = quantity - :ordered_quantity -- 注文された数量
+WHERE product_id = :product_id;
+
+//cartデータ削除
+-- 該当顧客のカート明細を削除
+DELETE FROM Cart_Item
+WHERE cart_id = :customer_cart_id;
+
+-- 該当顧客のカート自体を削除（またはクリア）
+DELETE FROM Cart
+WHERE cart_id = :customer_cart_id;
+
+
+
