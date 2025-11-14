@@ -152,10 +152,10 @@ $order_id = null; // 最終的に確定した注文IDを保持
     if ($customer_cart) {
         $customer_cart_id = $customer_cart['cart_id'];
         
-        $sql_delete_item = 'DELETE FROM Cart_Item WHERE cart_id = ?';
+        $sql_delete_item = 'DELETE FROM cart_detail WHERE cart_id = ?';
         $pdo->prepare($sql_delete_item)->execute([$user_cart_id]);
 
-        $sql_delete_cart = 'DELETE FROM Cart WHERE cart_id = ?';
+        $sql_delete_cart = 'DELETE FROM cart WHERE cart_id = ?';
         $pdo->prepare($sql_delete_cart)->execute([$user_cart_id]);
     }
     
@@ -167,7 +167,7 @@ $order_id = null; // 最終的に確定した注文IDを保持
     // 成功メッセージ
     echo "<h2>注文完了</h2>";
     echo "<p>ご注文ありがとうございます。注文ID: {$order_id} で注文が正常に完了しました。</p>";
-    echo "<p>お支払い方法: {$payment_method_name}</p>";
+    //echo "<p>お支払い方法: {$payment_method_name}</p>";
     echo "<p>合計金額: ¥" . number_format($total_price) . "</p>";
 
 
