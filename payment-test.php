@@ -34,6 +34,9 @@ $user_id = $_SESSION['customer']['user_id'] ?? null;
 // 配送情報は仮の値。実際はフォーム/セッションから取得した確定情報を使用。
 $shipping_info = $_SESSION['shipping_info'] ?? '未設定の配送情報（要修正）'; 
 
+
+//これ以降をコピー
+
 if (!$user_id) {
     echo "<h2>エラー</h2><p>ユーザーが認証されていません。ログインし直してください。</p>";
     require 'footer.php';
