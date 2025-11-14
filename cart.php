@@ -48,6 +48,8 @@ $total_price = 0;
 if ($sql->rowCount() == 0) {
 
     echo 'カートに商品が入っていません。';
+    echo '<br><a href="top.php">トップページへ戻る</a>';
+    require 'footer.php';
 
     exit;
 
