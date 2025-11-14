@@ -42,7 +42,7 @@ if (!$user_id) {
 
 $order_id = null; // 最終的に確定した注文IDを保持
 
-// try {
+try {
     // ----------------------------------------------------
     // 0-2. 登録する内容を取得（カート明細の取得）
     // ----------------------------------------------------
@@ -171,22 +171,22 @@ $order_id = null; // 最終的に確定した注文IDを保持
     echo "<p>合計金額: ¥" . number_format($total_price) . "</p>";
 
 
-// } catch (PDOException $e) {
-//     // データベースエラーが発生した場合
-//     if ($pdo->inTransaction()) {
-//         $pdo->rollBack();
-//     }
-//     echo "<h2>エラー</h2><p>注文処理中にデータベースエラーが発生しました。時間を置いて再度お試しください。</p>";
-//     // ログ記録を推奨: error_log("PDO Error: " . $e->getMessage());
+} catch (PDOException $e) {
+    // データベースエラーが発生した場合
+    if ($pdo->inTransaction()) {
+        $pdo->rollBack();
+    }
+    echo "<h2>エラー</h2><p>注文処理中にデータベースエラーが発生しました。時間を置いて再度お試しください。</p>";
+    // ログ記録を推奨: error_log("PDO Error: " . $e->getMessage());
     
-// } catch (Exception $e) {
-//     // その他のビジネスロジックエラー（在庫不足、カートが空など）が発生した場合
-//     if ($pdo->inTransaction()) {
-//         $pdo->rollBack();
-//     }
-//     echo "<h2>エラー</h2><p>注文処理エラーが発生しました: " . htmlspecialchars($e->getMessage()) . "</p>";
-//     // ログ記録を推奨
-// }
+} catch (Exception $e) {
+    // その他のビジネスロジックエラー（在庫不足、カートが空など）が発生した場合
+    if ($pdo->inTransaction()) {
+        $pdo->rollBack();
+    }
+    echo "<h2>エラー</h2><p>注文処理エラーが発生しました: " . htmlspecialchars($e->getMessage()) . "</p>";
+    // ログ記録を推奨
+}
 
 require 'footer.php';
 ?>
