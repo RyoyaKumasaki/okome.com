@@ -28,9 +28,9 @@ $cart_id = null;
 
 // カート明細の取得
 $sql = $pdo->prepare('SELECT cd.cart_detail_id, p.product_name, p.product_picture, cd.price, cd.amount 
-                     FROM Cart_Item cd 
+                     FROM cart_Item cd 
                      JOIN Product p ON cd.product_id = p.product_id 
-                     JOIN Cart c ON cd.cart_id = c.cart_id 
+                     JOIN cart c ON cd.cart_id = c.cart_id 
                      WHERE c.user_id = ?'); // ★修正
 $sql->execute([$user_id]);
 
