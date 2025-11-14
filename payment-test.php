@@ -150,7 +150,7 @@ $order_id = null; // 最終的に確定した注文IDを保持
     $customer_cart = $stmt_cart_id->fetch(PDO::FETCH_ASSOC);
 
     if ($customer_cart) {
-        $customer_cart_id = $customer_cart['cart_id'];
+        $user_cart_id = $customer_cart['cart_id'];
         
         $sql_delete_item = 'DELETE FROM cart_detail WHERE cart_id = ?';
         $pdo->prepare($sql_delete_item)->execute([$user_cart_id]);
