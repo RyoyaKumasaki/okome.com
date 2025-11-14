@@ -27,20 +27,31 @@ $cart_id = null;
 
 
 // カート明細の取得
-$sql = $pdo->prepare('SELECT cd.cart_detail_id, p.product_name, p.product_picture, cd.price, cd.amount 
-                     FROM cart_detail cd 
-                     JOIN Product p ON cd.product_id = p.product_id 
-                     JOIN cart c ON cd.cart_id = c.cart_id 
-                     WHERE c.user_id = ?'); // ★修正
-$sql->execute([$user_id]);
+<?php
+
+$sql = $pdo->prepare('SELECT cd.cart_detail_id, p.product_name, p.product_picture, cd.price, cd.amount
+
+                      FROM cart_detail cd
+
+                      JOIN product p ON cd.product_id = p.product_id
+
+                      JOIN cart c ON cd.cart_id = c.cart_id
+
+                      WHERE c.user_id = ?');
+
+$sql->execute([$_SESSION['customer']['user_id']]);
 
 $has_items = false;
+
 $total_price = 0;
 
 if ($sql->rowCount() == 0) {
+
     echo 'カートに商品が入っていません。';
-    require 'footer.php';
+
     exit;
+
+}
 } else {
     echo '<table>';
     echo '<tr><th>商品画像</th><th>商品名</th><th>価格</th><th>個数</th><th>小計</th><th></th></tr>';
