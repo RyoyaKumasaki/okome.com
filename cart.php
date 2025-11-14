@@ -1,8 +1,5 @@
 <?php
 session_start();
-require_once 'db-connect.php';
-require 'header.php';
-require 'menu.php';
 ?>
 <h2>カート一覧</h2>
 <?php
