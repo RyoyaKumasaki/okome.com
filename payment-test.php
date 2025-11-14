@@ -68,7 +68,7 @@ $order_id = null; // 最終的に確定した注文IDを保持
     // 合計金額を計算
     $total_price = 0;
     foreach ($cart_details as $item) {
-        $total_price += $item['unit_price'] * $item['quantity'];
+        $total_price += $item['price'] * $item['quantity'];
     }
 
     // ----------------------------------------------------
