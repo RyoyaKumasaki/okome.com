@@ -8,11 +8,11 @@ if (!isset($_SESSION['customer']['user_id'])) {
 }
 
 $user_id = $_SESSION['customer']['user_id'];
-$cart_id = null; // ★修正ポイント1: 変数を初期化
+$cart_id = null; 
 
 // ★修正ポイント2: Cartテーブルからcart_idを取得する
-try {
-    $sql_get_cart = $pdo->prepare('SELECT cart_id FROM Cart WHERE user_id = ?'); // ★修正
+
+    $sql_get_cart = $pdo->prepare('SELECT cart_id FROM Cart WHERE user_id = ?'); 
     $sql_get_cart->execute([$user_id]);
     $cart_row = $sql_get_cart->fetch(PDO::FETCH_ASSOC);
 
@@ -24,12 +24,6 @@ try {
         require 'footer.php';
         exit;
     }
-} catch (PDOException $e) {
-    echo 'データベースエラーが発生しました。';
-    // エラーログの記録: error_log($e->getMessage());
-    require 'footer.php';
-    exit;
-}
 
 
 // カート明細の取得
