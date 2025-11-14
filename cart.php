@@ -1,6 +1,3 @@
-<?php
-session_start();
-?>
 <h2>カート一覧</h2>
 <?php
 if (!isset($_SESSION['customer']['user_id'])) {
