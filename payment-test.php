@@ -10,11 +10,11 @@ require 'header.php';
 
 $payment_choice = $_POST['choice'] ?? null;
 
-if (!$payment_choice) {
-    echo "<h2>エラー</h2><p>支払い方法が選択されていません。</p>";
-    require 'footer.php';
-    exit;
-}
+// if (!$payment_choice) {
+//     echo "<h2>エラー</h2><p>支払い方法が選択されていません。</p>";
+//     require 'footer.php';
+//     exit;
+// }
 
 // 支払い方法コードを日本語名にマッピングする関数 (仮)
 function get_payment_method_name($choice) {
