@@ -52,7 +52,7 @@ if ($sql->rowCount() == 0) {
     exit;
 
 }
-} else {
+else {
     echo '<table>';
     echo '<tr><th>商品画像</th><th>商品名</th><th>価格</th><th>個数</th><th>小計</th><th></th></tr>';
     
