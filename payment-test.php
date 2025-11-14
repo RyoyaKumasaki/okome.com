@@ -80,7 +80,7 @@ $order_id = null; // 最終的に確定した注文IDを保持
     // 2. Orderテーブルに登録 (注文ヘッダーの作成)
     // ----------------------------------------------------
     $sql_order = '
-        INSERT INTO order (user_id,price)
+        INSERT INTO `order` (user_id,price)
         VALUES (?, ?)
     ';
     $stmt_order = $pdo->prepare($sql_order);
