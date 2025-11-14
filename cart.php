@@ -27,7 +27,7 @@ $cart_id = null;
 
 
 // カート明細の取得
-<?php
+
 
 $sql = $pdo->prepare('SELECT cd.cart_detail_id, p.product_name, p.product_picture, cd.price, cd.amount
 
