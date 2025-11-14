@@ -12,7 +12,7 @@ $cart_id = null;
 
 // ★修正ポイント2: Cartテーブルからcart_idを取得する
 
-    $sql_get_cart = $pdo->prepare('SELECT cart_id FROM Cart WHERE user_id = ?'); 
+    $sql_get_cart = $pdo->prepare('SELECT cart_id FROM cart WHERE user_id = ?'); 
     $sql_get_cart->execute([$user_id]);
     $cart_row = $sql_get_cart->fetch(PDO::FETCH_ASSOC);
 
