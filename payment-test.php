@@ -109,7 +109,7 @@ $order_id = null; // 最終的に確定した注文IDを保持
     foreach ($cart_details as $item) {
         $product_id = $item['product_id'];
         $quantity = $item['quantity'];
-        $order_price = $item['order_price'];
+        $order_price = $item['price'];
 
         // Order_Itemテーブルに登録
         $stmt_item = $pdo->prepare($sql_item);
