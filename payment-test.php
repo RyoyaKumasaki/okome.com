@@ -145,7 +145,7 @@ $order_id = null; // 最終的に確定した注文IDを保持
     // 該当顧客のCart_ItemとCartを削除
     
     // Cart_Itemテーブルを削除するためのCart_idを取得 (複数のCartが存在しないことを前提)
-    $stmt_cart_id = $pdo->prepare('SELECT cart_id FROM Cart WHERE user_id = ?');
+    $stmt_cart_id = $pdo->prepare('SELECT cart_id FROM cart WHERE user_id = ?');
     $stmt_cart_id->execute([$user_id]);
     $customer_cart = $stmt_cart_id->fetch(PDO::FETCH_ASSOC);
 
