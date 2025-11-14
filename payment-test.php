@@ -42,20 +42,20 @@ if (!$user_id) {
 
 $order_id = null; // 最終的に確定した注文IDを保持
 
-try {
+// try {
     // ----------------------------------------------------
     // 0-2. 登録する内容を取得（カート明細の取得）
     // ----------------------------------------------------
     $sql_cart = '
         SELECT 
             cd.product_id, 
-            cd.quantity, 
+            cd.amount AS quantity, 
             p.price AS unit_price,
-            p.stock_quantity
-        FROM Cart_Item cd
+            p.quantity
+        FROM Cart_detail cd
         JOIN Product p ON cd.product_id = p.product_id
-        JOIN Cart c ON cd.cart_id = c.cart_id
-        WHERE c.customer_id = ?
+        JOIN cart c ON cd.cart_id = c.cart_id
+        WHERE c.user_id = ?
     ';
     $stmt_cart = $pdo->prepare($sql_cart);
     $stmt_cart->execute([$user_id]);
@@ -80,7 +80,7 @@ try {
     // 2. Orderテーブルに登録 (注文ヘッダーの作成)
     // ----------------------------------------------------
     $sql_order = '
-        INSERT INTO [Order] (user_id,price)
+        INSERT INTO [order] (user_id,price)
         VALUES (?, ?)
     ';
     $stmt_order = $pdo->prepare($sql_order);
@@ -96,12 +96,12 @@ try {
     // 3. Order_Itemに登録（注文明細の作成）＆ Productの在庫更新
     // ----------------------------------------------------
     $sql_item = '
-        INSERT INTO Order_detail (order_id, product_id, count, order_price)
+        INSERT INTO order_detail (order_id, product_id, count, order_price)
         VALUES (?, ?, ?, ?)
     ';
     // 在庫チェックと更新を同時に行うSQL
     $sql_stock_update = '
-        UPDATE Product
+        UPDATE product
         SET quantity = quantity - ?
         WHERE product_id = ? AND quantity >= ?
     ';
@@ -171,22 +171,22 @@ try {
     echo "<p>合計金額: ¥" . number_format($total_price) . "</p>";
 
 
-} catch (PDOException $e) {
-    // データベースエラーが発生した場合
-    if ($pdo->inTransaction()) {
-        $pdo->rollBack();
-    }
-    echo "<h2>エラー</h2><p>注文処理中にデータベースエラーが発生しました。時間を置いて再度お試しください。</p>";
-    // ログ記録を推奨: error_log("PDO Error: " . $e->getMessage());
+// } catch (PDOException $e) {
+//     // データベースエラーが発生した場合
+//     if ($pdo->inTransaction()) {
+//         $pdo->rollBack();
+//     }
+//     echo "<h2>エラー</h2><p>注文処理中にデータベースエラーが発生しました。時間を置いて再度お試しください。</p>";
+//     // ログ記録を推奨: error_log("PDO Error: " . $e->getMessage());
     
-} catch (Exception $e) {
-    // その他のビジネスロジックエラー（在庫不足、カートが空など）が発生した場合
-    if ($pdo->inTransaction()) {
-        $pdo->rollBack();
-    }
-    echo "<h2>エラー</h2><p>注文処理エラーが発生しました: " . htmlspecialchars($e->getMessage()) . "</p>";
-    // ログ記録を推奨
-}
+// } catch (Exception $e) {
+//     // その他のビジネスロジックエラー（在庫不足、カートが空など）が発生した場合
+//     if ($pdo->inTransaction()) {
+//         $pdo->rollBack();
+//     }
+//     echo "<h2>エラー</h2><p>注文処理エラーが発生しました: " . htmlspecialchars($e->getMessage()) . "</p>";
+//     // ログ記録を推奨
+// }
 
 require 'footer.php';
 ?>
