@@ -136,7 +136,7 @@ $order_id = null; // 最終的に確定した注文IDを保持
     //     VALUES (?, ?, ?, NOW(), ?)
     // ';
     // $stmt_payment = $pdo->prepare($sql_payment);
-    $stmt_payment->execute([$order_id, $payment_method_name, $transaction_id, $total_price]);
+    //$stmt_payment->execute([$order_id, $payment_method_name, $transaction_id, $total_price]);
 
 
     // ----------------------------------------------------
