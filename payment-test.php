@@ -52,8 +52,8 @@ $order_id = null; // 最終的に確定した注文IDを保持
             cd.amount AS quantity, 
             p.price AS unit_price,
             p.quantity
-        FROM Cart_detail cd
-        JOIN Product p ON cd.product_id = p.product_id
+        FROM cart_detail cd
+        JOIN product p ON cd.product_id = p.product_id
         JOIN cart c ON cd.cart_id = c.cart_id
         WHERE c.user_id = ?
     ';
