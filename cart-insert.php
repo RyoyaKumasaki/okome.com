@@ -34,7 +34,7 @@ $cart = $sql->fetch();
 if ($cart) {
     $cart_id = $cart['cart_id'];
 } else {
-    $insertCart = $pdo->prepare('INSERT INTO cart (user_id, created_at) VALUES (?, NOW())');
+    $insertCart = $pdo->prepare('INSERT INTO cart (user_id, date) VALUES (?, NOW())');
     $insertCart->execute([$user_id]);
     $cart_id = $pdo->lastInsertId();
 }
