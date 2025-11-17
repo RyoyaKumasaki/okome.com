@@ -6,7 +6,7 @@ require 'header.php';
 require 'menu.php';
 
 ?>
-<h1>ログイン</h1>
+<h1 class="has-text-left is-size-3">ログイン</h1>
 <form action="login-output.php" method="post">
   <p>ログイン名：<input type="text" name="login_name"></p>
   <p>パスワード：<input type="password" name="password"></p>

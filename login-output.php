@@ -2,8 +2,6 @@
 session_start();
 require 'db-connect.php';
 $page_title = 'ログイン';
-require 'header.php';
-require 'menu.php';
 
 unset($_SESSION['customer']);
 
@@ -24,10 +22,14 @@ if ($customer && password_verify($_POST['password'], $customer['password'])) {
         'login_name'=>$customer['login_name'],
         'telephone_number'=>$customer['telephone_number']
     ];
-    echo 'ログイン成功!ようこそ ' . htmlspecialchars($customer['name'], ENT_QUOTES, 'UTF-8');
+    header("Location: top.php");
+    exit;
+    //echo 'ログイン成功!ようこそ ' . htmlspecialchars($customer['name'], ENT_QUOTES, 'UTF-8');
 } else {
-    echo 'ログイン名またはパスワードが違います。';
+    header("Location: login-input.php");
+    exit;
 }
-
+require 'header.php';
+require 'menu.php';
 require 'footer.php';
 ?>
