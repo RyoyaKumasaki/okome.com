@@ -15,25 +15,21 @@ if (!$product_id) {
 }
 
 // ----------------------------------------------------
-// 2. トランザクション処理（データの整合性維持）
+// 2. トランザクション処理
 // ----------------------------------------------------
 $pdo->beginTransaction();
 
 try {
-    // 依存関係のあるテーブルの確認 (オプション)
-    // 例えば、この商品を参照している cart_detail や order_detail のレコードがある場合、
-    // 外部キー制約により削除が失敗します。
-    // その場合、まず依存するレコードを削除/更新する必要がありますが、
-    // ここでは外部キーに CASCADE が設定されていない前提で、商品削除のみ試みます。
+    // status カラムを 0 (削除済み) に更新する
     
-    // 商品テーブルからレコードを削除
-    $sql = 'DELETE FROM product WHERE product_id = ?';
+    $sql = 'UPDATE product SET status = 0 WHERE product_id = ?'; 
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$product_id]);
 
     if ($stmt->rowCount() > 0) {
         $pdo->commit();
-        echo '<h2>削除完了</h2><p>商品ID: ' . htmlspecialchars($product_id) . ' の商品を削除しました。</p>';
+        echo '<h2>論理削除完了</h2><p>商品ID: ' . htmlspecialchars($product_id) . ' の商品情報を更新しました。</p>';
+        echo '<p>この商品はサイト上から非表示になりましたが、注文履歴などのデータは保持されます。</p>'; // メッセージ変更
     } else {
         // レコードが見つからなかった場合
         $pdo->rollBack();
@@ -42,13 +38,8 @@ try {
 
 } catch (PDOException $e) {
     $pdo->rollBack();
-    // 外部キー制約違反などで削除できなかった場合のメッセージ
-    if ($e->getCode() == '23000') { 
-        echo '<h2>削除エラー</h2><p>この商品は、注文履歴やカート情報に登録されているため、削除できません。</p>';
-        echo '<p>先に依存するレコードを処理してください。</p>';
-    } else {
-        echo '<h2>データベースエラー</h2><p>削除処理中に予期せぬエラーが発生しました。</p>';
-    }
+    // 予期せぬDBエラーの場合
+    echo '<h2>データベースエラー</h2><p>削除処理中に予期せぬエラーが発生しました。</p>';
     // error_log($e->getMessage());
 }
 
