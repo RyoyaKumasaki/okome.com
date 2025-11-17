@@ -12,8 +12,8 @@ require 'menu.php';
     $customer = $_SESSION['customer'];
     ?>
 
-    <p>ユーザーID<?= htmlspecialchars($customer['user_id']) ?></p>
-    <p>住所<?= htmlspecialchars($customer['address']) ?></p>
+    <p>ユーザーID　　<?= htmlspecialchars($customer['user_id']) ?></p>
+    <p>住所　　<?= htmlspecialchars($customer['address']) ?></p>
     <hr>
 
     <?php
