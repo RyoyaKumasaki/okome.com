@@ -4,6 +4,7 @@
         <th>商品ID</th>
         <th>商品名</th>
         <th>在庫数</th>
+        <th>ステータス</th>
     </tr>
     <?php
     $stmt = $pdo->query('select * from product');
@@ -12,5 +13,6 @@
         echo '<td>' . htmlspecialchars($row['product_id'], ENT_QUOTES, 'UTF-8') . '</td>';
         echo '<td>' . htmlspecialchars($row['product_name'], ENT_QUOTES, 'UTF-8') . '</td>';
         echo '<td>' . htmlspecialchars($row['quantity'], ENT_QUOTES, 'UTF-8') . '</td>';
+        echo '<td>' . ($row['status'] == 1 ? '在庫有り' : '削除済み') . '</td>';
         echo '</tr>';
     }
