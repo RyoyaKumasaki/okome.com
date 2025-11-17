@@ -13,7 +13,7 @@ if (!isset($_SESSION['customer']['user_id'])) {
 
 $user_id = $_SESSION['customer']['user_id'];
 $product_id = $_POST['product_id'];
-$buy_amount = (int)$_POST['buy_quantity'];
+$buy_amount = (int)$_POST['quantity'];
 
 // 商品の価格をproductテーブルから取得
 $sql = $pdo->prepare('SELECT price FROM product WHERE product_id = ?');
