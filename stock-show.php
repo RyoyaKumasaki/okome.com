@@ -6,4 +6,7 @@
 <a href="stock-add.php">
     <button>商品追加</button>
 </a>
+<a href="top.php">
+    <button>トップページへ戻る</button>
+</a>
 <?php require_once 'footer.php'?>
