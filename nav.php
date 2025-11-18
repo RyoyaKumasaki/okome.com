@@ -7,13 +7,13 @@
 <a href="logout-input.php">ログアウト</a>
 <a href="customer-input.php">会員登録</a>
 <hr>
-<form action="product-detail.php" method="post">
+<form action="top.php" method="post">
     <div class="field level">
         <div class="control has-icons-left level-left">
             <span class="icon is-small is-left">
                 <i class="fas fa-search"></i>
             </span>
-            <input class="input" type="text" style="width: 600px;" name="product_id" placeholder="商品検索">
+            <input class="input" type="text" style="width: 600px;" name="product_name" placeholder="商品検索">
             <input type="submit" class="button is-outlined" value="検索">
         </div>
         <div class="has-text-right has-icon-right level-right">
