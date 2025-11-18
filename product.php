@@ -1,6 +1,13 @@
 <h2 class="has-text-left is-size-3">商品一覧</h2>
 <?php
+if(isset($_POST['product_name'])){
+    $sql = $pdo->prepare('select * from product where product_name like ?');
+    $search_term = '%' . $_POST['product_name'] . '%';
+    $sql->execute([$search_term]);
+}
+else{
 $sql = $pdo->query('SELECT * FROM product');
+}
 foreach($sql as $row){
     $product_id = $row['product_id'];
     $product_name = $row['product_name'];
