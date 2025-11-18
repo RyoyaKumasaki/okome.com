@@ -12,13 +12,13 @@ require 'menu.php';
     $customer = $_SESSION['customer'];
     ?>
 
-    <p>ユーザーID<?= htmlspecialchars($customer['user_id']) ?></p>
-    <p>住所<?= htmlspecialchars($customer['address']) ?></p>
+    <p>ユーザーID:<?= htmlspecialchars($customer['user_id']) ?></p>
+    <p>住所:<?= htmlspecialchars($customer['address']) ?></p>
     <hr>
 
     <?php
     $pdo = new PDO($connect, USER, PASS);
-    $sql = $pdo->prepare('SELECT * FROM purchase WHERE customer_id=? ORDER BY id DESC');
+    $sql = $pdo->prepare('SELECT * FROM `Order` WHERE user_id=? ORDER BY order_id DESC');
     $sql->execute([$customer['user_id']]);
     ?>
 
