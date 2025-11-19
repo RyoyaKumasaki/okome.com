@@ -37,16 +37,16 @@ if (!$user_id) {
 
 $order_id = null; // 最終的に確定した注文IDを保持
 
-// try {
+try {
     // ----------------------------------------------------
     // 0-2. 登録する内容を取得（カート明細の取得）
     // ----------------------------------------------------
     $sql_cart = '
         SELECT 
             cd.product_id, 
-            cd.amount AS quantity, -- カート内の数量
-            p.price AS unit_price, -- 注文時の単価
-            p.quantity AS stock_quantity -- 商品の現在の在庫数
+            cd.amount, 
+            p.price AS unit_price, 
+            p.quantity AS stock_quantity 
         FROM cart_detail cd
         JOIN product p ON cd.product_id = p.product_id
         JOIN cart c ON cd.cart_id = c.cart_id
@@ -63,7 +63,7 @@ $order_id = null; // 最終的に確定した注文IDを保持
     // 合計金額を計算
     $total_price = 0;
     foreach ($cart_details as $item) {
-        $total_price += $item['unit_price'] * $item['quantity'];
+        $total_price += $item['unit_price'] * $item['amount']; 
     }
 
     // ----------------------------------------------------
@@ -74,7 +74,6 @@ $order_id = null; // 最終的に確定した注文IDを保持
     // ----------------------------------------------------
     // 2. Orderテーブルに登録 (注文ヘッダーの作成)
     // ----------------------------------------------------
-    // ★修正1: カラムを user_id と price のみ (date, status はデフォルト値に依存)
     $sql_order = '
         INSERT INTO `order` (user_id, price) 
         VALUES (?, ?)
@@ -82,7 +81,7 @@ $order_id = null; // 最終的に確定した注文IDを保持
     $stmt_order = $pdo->prepare($sql_order);
     $stmt_order->execute([
         $user_id,
-        $total_price, // total_price を price カラムに挿入
+        $total_price,
     ]);
     
     // 挿入された注文IDを取得
@@ -98,22 +97,22 @@ $order_id = null; // 最終的に確定した注文IDを保持
     // 在庫チェックと更新を同時に行うSQL
     $sql_stock_update = '
         UPDATE product
-        SET quantity = quantity - ?
+        SET quantity = quantity - ? 
         WHERE product_id = ? AND quantity >= ?
     ';
 
     foreach ($cart_details as $item) {
         $product_id = $item['product_id'];
-        $quantity = $item['quantity']; // カート内の注文数量
+        $amount = $item['amount']; // カート内の注文数量
         $order_price = $item['unit_price'];
 
         // Order_Itemテーブルに登録
         $stmt_item = $pdo->prepare($sql_item);
-        $stmt_item->execute([$order_id, $product_id, $quantity, $order_price]);
+        $stmt_item->execute([$order_id, $product_id, $amount, $order_price]); 
 
         // Productの在庫更新
         $stmt_stock = $pdo->prepare($sql_stock_update);
-        $stmt_stock->execute([$quantity, $product_id, $quantity]); 
+        $stmt_stock->execute([$amount, $product_id, $amount]); 
 
         // 在庫更新の行数が0であれば、在庫不足としてロールバック
         if ($stmt_stock->rowCount() === 0) {
@@ -157,21 +156,21 @@ $order_id = null; // 最終的に確定した注文IDを保持
     echo "<p>合計金額: ¥" . number_format($total_price) . "</p>";
 
 
-// } catch (PDOException $e) {
-//     // データベースエラーが発生した場合
-//     if ($pdo->inTransaction()) {
-//         $pdo->rollBack();
-//     }
-//     echo "<h2>エラー</h2><p>注文処理中にデータベースエラーが発生しました。時間を置いて再度お試しください。</p>";
-//     echo "<p>（詳細: " . htmlspecialchars($e->getMessage()) . "）</p>";
+} catch (PDOException $e) {
+    // データベースエラーが発生した場合
+    if ($pdo->inTransaction()) {
+        $pdo->rollBack();
+    }
+    echo "<h2>エラー</h2><p>注文処理中にデータベースエラーが発生しました。時間を置いて再度お試しください。</p>";
+    echo "<p>（詳細: " . htmlspecialchars($e->getMessage()) . "）</p>";
     
-// } catch (Exception $e) {
-//     // その他のビジネスロジックエラー（在庫不足、カートが空など）が発生した場合
-//     if ($pdo->inTransaction()) {
-//         $pdo->rollBack();
-//     }
-//     echo "<h2>エラー</h2><p>注文処理エラーが発生しました: " . htmlspecialchars($e->getMessage()) . "</p>";
-// }
+} catch (Exception $e) {
+    // その他のビジネスロジックエラー（在庫不足、カートが空など）が発生した場合
+    if ($pdo->inTransaction()) {
+        $pdo->rollBack();
+    }
+    echo "<h2>エラー</h2><p>注文処理エラーが発生しました: " . htmlspecialchars($e->getMessage()) . "</p>";
+}
 
 require 'footer.php';
 ?>
