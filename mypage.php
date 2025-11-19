@@ -11,72 +11,85 @@ if (isset($_SESSION['customer'])) {
     $address = $_SESSION['customer']['address'];
     $login_name = $_SESSION['customer']['login_name'];
 } else {
-  header("Location: login-input.php");
-  exit;
+    header("Location: login-input.php");
+    exit;
 }
 ?>
 <?php
 require 'header.php';
 require 'menu.php';
 ?>
-<div class="card">
-  <header class="card-header">
-    <h1 class="card-header-title has-text-left is-size-3">ユーザー情報</h1>
-  </header>
-  <div class="card-content">
-    <div class="content">
-      <table border="0" cellpadding="8">
-        <tr>
-          <th>ユーザーID：</th>
-          <td><?= htmlspecialchars($login_name) ?></td>
-        </tr>
-        <tr>
-          <th>メールアドレス：</th>
-          <td><?= htmlspecialchars($mail) ?></td>
-        </tr>
-        <tr>
-          <th>住所：</th>
-          <td><?= htmlspecialchars($address) ?></td>
-        </tr>
-      </table>
-      <div class="card-footer">
-      <form action="mypage-login.php" method="get"> <!--パスワード入力画面のリンク-->
-        <button type="submit" class="card-footer-item">ユーザー情報を変更</button>
-      </form>
-      <a href="history.php" class="card-footer-item">購入履歴を見る</a>
-      </div>
+
+<div class="container is-max-desktop p-4"> <div class="card mb-5">
+        <header class="card-header">
+            <p class="card-header-title has-text-left is-size-4">ユーザー情報</p>
+        </header>
+        <div class="card-content">
+            <div class="content">
+                <table class="table is-narrow is-fullwidth"> <tr>
+                        <th>ユーザー名：</th>
+                        <td><?= htmlspecialchars($name) ?></td>
+                    </tr>
+                    <tr>
+                        <th>ユーザーID：</th>
+                        <td><?= htmlspecialchars($login_name) ?></td>
+                    </tr>
+                    <tr>
+                        <th>メールアドレス：</th>
+                        <td><?= htmlspecialchars($mail) ?></td>
+                    </tr>
+                    <tr>
+                        <th>住所：</th>
+                        <td><?= htmlspecialchars($address) ?></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <footer class="card-footer">
+            <form action="mypage-login.php" method="get" class="card-footer-item">
+                <button type="submit" class="button is-link is-light is-fullwidth">ユーザー情報を変更</button>
+            </form>
+            <form action="history.php" class="card-footer-item">
+                <button type="submit" class="button is-link is-light is-fullwidth">購入履歴を見る</button>
+            </form>
+            <!-- <a href="history.php" class="card-footer-item button is-info is-light">購入履歴を見る</a> -->
+        </footer>
     </div>
-  </div>
-</div>
-<div class="card">
-  <header class="card-header">
-    <h2 class="has-text-left is-size-4">レビュー投稿履歴</h2>
-  </header>
-  <div class="card-content">
-    <div class="content">
-  <?php
-    if(isset($_SESSION['customer'])) :
-      $sql = $pdo->prepare('SELECT * FROM review WHERE user_id = ?');
-      $sql->execute([$_SESSION['customer']['user_id']]);
+    <div class="card mb-5">
+        <header class="card-header">
+            <p class="card-header-title has-text-left is-size-4">レビュー投稿履歴</p>
+        </header>
+        <div class="card-content">
+            <div class="content">
+                <?php
+                if(isset($_SESSION['customer'])) {
+                    $sql = $pdo->prepare('SELECT * FROM review WHERE user_id = ?');
+                    $sql->execute([$_SESSION['customer']['user_id']]);
+                    $reviews = $sql->fetchAll(PDO::FETCH_ASSOC);
 
-      $reviews = $sql->fetchAll(PDO::FETCH_ASSOC); // ← 配列に変換！
-
-      foreach ($reviews as $row) : ?>
-        <?php if($row['comment'] == '') : ?>
-          <p class="card-content">
-            <?= htmlspecialchars($row['comment']) ?><br>
-          </p><hr>
-        <?php else : ?>
-          <p class="card-content">投稿したレビューはありません</p>
-        <?php endif;?>
-      <?php endforeach; ?>
-    <?php endif;?>
+                    if (empty($reviews)) { // レビューが一件もない場合
+                        echo '<p>投稿したレビューはありません。</p>';
+                    } else { // レビューがある場合
+                        foreach ($reviews as $row) {
+                            // コメントが空でないことを確認してから表示 (念のため)
+                            if (!empty($row['comment'])) {
+                                // ここで商品名なども表示できるよう、JOINでデータを拡張するのが理想ですが、ここではレビューコメントのみを表示します。
+                                echo '<div class="box p-3 mb-3">';
+                                echo '<p><strong>[商品ID: ' . htmlspecialchars($row['product_id']) . ']</strong></p>';
+                                echo '<p>' . nl2br(htmlspecialchars($row['comment'])) . '</p>';
+                                echo '</div>';
+                            }
+                        }
+                    }
+                }
+                ?>
+            </div>
+        </div>
     </div>
-  </div>
+    <form action="logout-input.php" method="get">
+        <button type="submit" class="button is-danger is-small">ログアウト</button>
+    </form>
+
 </div>
 
-
-<form action="logout-input.php" method="get">  
-<button type="submit">ログアウト</button>
-</form>
 <?php require 'footer.php'; ?>

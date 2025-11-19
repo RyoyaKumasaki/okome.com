@@ -3,6 +3,7 @@
 if (!isset($_SESSION['customer']['user_id'])) {
     echo 'カートを見るにはログインが必要です。<br>';
     echo '<a href="login-input.php">ログインページへ</a>';
+    require 'footer.php';
     exit;
 }
 ?> 
@@ -18,12 +19,12 @@ $has_items = false;
 $total_price = 0;
 if ($sql->rowCount() == 0) {
     echo 'カートに商品が入っていません。';
-    echo '<br><a href="top.php">トップページへ戻る</a>';
+    require 'footer.php';
     exit;
 }
 else{
 echo '<table>';
-echo '<tr><th>商品画像</th><th>商品名</th><th>個数</th><th>価格</th><th>小計</th><th></th></tr>';
+echo '<tr><th>商品画像</th><th>商品名</th><th>価格</th><th>個数</th><th>小計</th><th></th></tr>';
 foreach($sql as $row){
     $has_items = true;
     $subtotal = $row['price'] * $row['amount'];
@@ -68,6 +69,9 @@ if (!$has_items) {
     echo '<tr><td colspan="4">合計金額</td><td>' . htmlspecialchars($total_price, ENT_QUOTES, 'UTF-8') . '円</td><td></td></tr>';
     echo '</table>';
     echo '<form action="payment.php" method="post">';
+    echo '<input type="hidden" name="total_price" value="' . htmlspecialchars($total_price, ENT_QUOTES, 'UTF-8') . '">';
+    echo '<input type="hidden" name="user_id" value="' . htmlspecialchars($_SESSION['customer']['user_id'], ENT_QUOTES, 'UTF-8') . '">';
+    echo '<input type="hidden" name="cart_id" value="' . htmlspecialchars($cart_id, ENT_QUOTES, 'UTF-8') . '">';
     echo '<input type="submit" value="購入手続きへ進む">';
     echo '</form>';
 }

@@ -70,7 +70,7 @@ function displayStars($rating) {
             </div>
 
             <div class="column is-narrow has-text-right">
-                <form action="product-detail.php" method="post" style="display:inline;">
+                <form action="product-detail.php" method="post">
                     <input type="hidden" name="product_id" value="<?= htmlspecialchars($row['product_id']); ?>">
                     <input type="submit" class="button is-primary" value="商品詳細を見る"><br>
                 </form>
