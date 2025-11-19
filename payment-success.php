@@ -44,9 +44,9 @@ try {
     $sql_cart = '
         SELECT 
             cd.product_id, 
-            cd.amount, 
-            p.price AS unit_price, 
-            p.quantity AS stock_quantity 
+            cd.amount, -- cart_detailのカラム'amount'をそのまま取得
+            p.price AS unit_price, -- 注文時の単価
+            p.quantity AS stock_quantity -- productの在庫数
         FROM cart_detail cd
         JOIN product p ON cd.product_id = p.product_id
         JOIN cart c ON cd.cart_id = c.cart_id
@@ -91,7 +91,7 @@ try {
     // 3. Order_Itemに登録（注文明細の作成）＆ Productの在庫更新
     // ----------------------------------------------------
     $sql_item = '
-        INSERT INTO order_detail (order_id, product_id, quantity, unit_price)
+        INSERT INTO order_detail (order_id, product_id, count, order_price)
         VALUES (?, ?, ?, ?)
     ';
     // 在庫チェックと更新を同時に行うSQL
