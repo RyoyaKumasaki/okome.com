@@ -44,7 +44,7 @@ try {
     $sql_cart = '
         SELECT 
             cd.product_id, 
-            cd.amount, 
+            cd.amount AS amount,
             p.price AS unit_price, 
             p.quantity AS stock_quantity 
         FROM cart_detail cd
@@ -91,7 +91,7 @@ try {
     // 3. Order_Itemに登録（注文明細の作成）＆ Productの在庫更新
     // ----------------------------------------------------
     $sql_item = '
-        INSERT INTO order_detail (order_id, product_id, quantity, unit_price)
+        INSERT INTO order_detail (order_id, product_id, count, order_price)
         VALUES (?, ?, ?, ?)
     ';
     // 在庫チェックと更新を同時に行うSQL
