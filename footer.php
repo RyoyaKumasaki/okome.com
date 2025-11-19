@@ -1,8 +1,8 @@
-</div>
-</div>
-<footer>
-    <p>　</p>
+<footer class="footer mb-6" style="background-color: #FFFFEB;">
+    <p></p>
 </footer>
+</div>
+</div>
 </body>
 </html>
 <?php
