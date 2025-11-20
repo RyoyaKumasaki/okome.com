@@ -150,6 +150,7 @@ try {
     $pdo->commit();
 
     // 成功メッセージ
+    require 'menu.php';
     echo "<h2>注文完了</h2>";
     echo "<p>ご注文ありがとうございます。注文ID: {$order_id} で注文が正常に完了しました。</p>";
     echo "<p>お支払い方法: {$payment_method_name}</p>";
