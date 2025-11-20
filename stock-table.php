@@ -16,3 +16,5 @@
         echo '<td>' . ($row['status'] == 1 ? '在庫有り' : '削除済み') . '</td>';
         echo '</tr>';
     }
+    ?>
+</table>
