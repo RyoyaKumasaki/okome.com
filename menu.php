@@ -15,5 +15,5 @@
         </div>
     </nav>
 </header>
-    <div class="container">
+    <div class="container mb-6">
         <div class="content">

@@ -1,8 +1,13 @@
-<footer class="footer mb-6" style="background-color: #FFFFEB;">
-    <p></p>
+</div>
+</div>
+</main>
+<footer class="footer has-background-grey-dark">
+  <div class="content has-text-centered">
+    <p class="has-text-white has-text-weight-bold">
+      © 2025 お米.com All rights reserved.
+    </p>
+  </div>
 </footer>
-</div>
-</div>
 </body>
 </html>
 <?php
