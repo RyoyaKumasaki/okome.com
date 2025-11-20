@@ -4,9 +4,11 @@
 <?php require 'menu.php'; ?>
 <?php require_once 'db-connect.php'; ?>
 <h1>商品追加</h1>
-<form action="product-add-output.php " method="post">
+<form action="product-add-output.php " method="post" enctype="multipart/form-data">
 <table>
 <?php 
+$upload_dir = 'img/';
+
 $product_name = $quantity = $price = $description = $image_url = $producer_image_url = '';
     if (isset($_SESSION['product'])) {
         $product_name = $_SESSION['product']['product_name'];
@@ -27,10 +29,10 @@ $product_name = $quantity = $price = $description = $image_url = $producer_image
     echo '<tr><td>説明</td><td>';
     echo '<input type="text" name="description" value="',$description,'">';
     echo '</td></tr>';
-    echo '<tr><td>商品画像URL</td><td>';
+    echo '<tr><td>商品画像</td><td>';
     echo '<input type="text" name="image_url" value="',$image_url,'">';
     echo '</td></tr>';
-    echo '<tr><td>生産者画像URL</td><td>';
+    echo '<tr><td>生産者画像</td><td>';
     echo '<input type="text" name="producer_image_url" value="',$producer_image_url,'">';
     echo '</td></tr>';
     echo '<input type="submit" value="確定">';

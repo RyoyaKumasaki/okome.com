@@ -6,6 +6,7 @@
 <a href="login-input.php">ログイン</a>
 <a href="logout-input.php">ログアウト</a>
 <a href="customer-input.php">会員登録</a>
+<a href="stock-show.php">在庫確認</a>
 <hr>
 <form action="top.php" method="post">
     <div class="field level">
