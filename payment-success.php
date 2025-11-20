@@ -2,10 +2,11 @@
 session_start();
 // db-connect.php がPDOインスタンス ($pdo) を提供するものと仮定します
 require 'db-connect.php'; 
+$page_title = '注文処理結果'; // ページタイトルを設定
 require 'header.php';
 
 // ----------------------------------------------------
-// 0-1. 支払い方法の取得と検証
+// 0-1. 支払い方法の取得と検証 (変更なし)
 // ----------------------------------------------------
 
 $payment_choice = $_POST['choice'] ?? null;
@@ -23,14 +24,23 @@ function get_payment_method_name($choice) {
 $payment_method_name = get_payment_method_name($payment_choice);
 
 
-// 顧客IDと配送情報を取得 (実際のECサイトでは、これらの情報はセッションやフォームの hidden フィールドから取得します)
+// 顧客IDと配送情報を取得 (変更なし)
 $user_id = $_SESSION['customer']['user_id'] ?? null;
-// 配送情報は仮の値。実際はフォーム/セッションから取得した確定情報を使用。
 $shipping_info = $_SESSION['shipping_info'] ?? '未設定の配送情報（要修正）'; 
 
-
+// ユーザー認証チェック (変更なし)
 if (!$user_id) {
-    echo "<h2>エラー</h2><p>ユーザーが認証されていません。ログインし直してください。</p>";
+    require 'menu.php';
+    ?>
+    <section class="section">
+        <div class="container is-max-desktop has-text-centered">
+            <div class="notification is-danger">
+                <h2 class="title is-4">エラー</h2>
+                <p>ユーザーが認証されていません。ログインし直してください。</p>
+            </div>
+        </div>
+    </section>
+    <?php
     require 'footer.php';
     exit;
 }
@@ -39,7 +49,7 @@ $order_id = null; // 最終的に確定した注文IDを保持
 
 try {
     // ----------------------------------------------------
-    // 0-2. 登録する内容を取得（カート明細の取得）
+    // 0-2. 登録する内容を取得（カート明細の取得）(変更なし)
     // ----------------------------------------------------
     $sql_cart = '
         SELECT 
@@ -60,19 +70,19 @@ try {
         throw new Exception("カートに商品が入っていません。");
     }
 
-    // 合計金額を計算
+    // 合計金額を計算 (変更なし)
     $total_price = 0;
     foreach ($cart_details as $item) {
         $total_price += $item['unit_price'] * $item['amount']; 
     }
 
     // ----------------------------------------------------
-    // 1. トランザクション開始
+    // 1. トランザクション開始 (変更なし)
     // ----------------------------------------------------
     $pdo->beginTransaction();
 
     // ----------------------------------------------------
-    // 2. Orderテーブルに登録 (注文ヘッダーの作成)
+    // 2. Orderテーブルに登録 (注文ヘッダーの作成) (変更なし)
     // ----------------------------------------------------
     $sql_order = '
         INSERT INTO `order` (user_id, price) 
@@ -84,17 +94,17 @@ try {
         $total_price,
     ]);
     
-    // 挿入された注文IDを取得
+    // 挿入された注文IDを取得 (変更なし)
     $order_id = $pdo->lastInsertId();
 
     // ----------------------------------------------------
-    // 3. Order_Itemに登録（注文明細の作成）＆ Productの在庫更新
+    // 3. Order_Itemに登録（注文明細の作成）＆ Productの在庫更新 (変更なし)
     // ----------------------------------------------------
     $sql_item = '
         INSERT INTO order_detail (order_id, product_id, count, order_price)
         VALUES (?, ?, ?, ?)
     ';
-    // 在庫チェックと更新を同時に行うSQL
+    // 在庫チェックと更新を同時に行うSQL (変更なし)
     $sql_stock_update = '
         UPDATE product
         SET quantity = quantity - ? 
@@ -106,27 +116,27 @@ try {
         $amount = $item['amount']; // カート内の注文数量
         $order_price = $item['unit_price'];
 
-        // Order_Itemテーブルに登録
+        // Order_Itemテーブルに登録 (変更なし)
         $stmt_item = $pdo->prepare($sql_item);
         $stmt_item->execute([$order_id, $product_id, $amount, $order_price]); 
 
-        // Productの在庫更新
+        // Productの在庫更新 (変更なし)
         $stmt_stock = $pdo->prepare($sql_stock_update);
         $stmt_stock->execute([$amount, $product_id, $amount]); 
 
-        // 在庫更新の行数が0であれば、在庫不足としてロールバック
+        // 在庫更新の行数が0であれば、在庫不足としてロールバック (変更なし)
         if ($stmt_stock->rowCount() === 0) {
             throw new Exception("商品ID: {$product_id} の在庫が不足しているか、既に売り切れました。");
         }
     }
 
     // ----------------------------------------------------
-    // 4. Paymentテーブルに登録 (未使用)
+    // 4. Paymentテーブルに登録 (未使用) (変更なし)
     // ----------------------------------------------------
     // 処理なし
 
     // ----------------------------------------------------
-    // 5. Cartデータを削除
+    // 5. Cartデータを削除 (変更なし)
     // ----------------------------------------------------
     // 該当顧客のCart_ItemとCartを削除
     
@@ -145,32 +155,75 @@ try {
     }
     
     // ----------------------------------------------------
-    // 6. すべて成功した場合、コミット
+    // 6. すべて成功した場合、コミット (変更なし)
     // ----------------------------------------------------
     $pdo->commit();
 
-    // 成功メッセージ
-    require 'menu.php';
-    echo "<h2>注文完了</h2>";
-    echo "<p>ご注文ありがとうございます。注文ID: {$order_id} で注文が正常に完了しました。</p>";
-    echo "<p>お支払い方法: {$payment_method_name}</p>";
-    echo "<p>合計金額: ¥" . number_format($total_price) . "</p>";
-
+    // 成功メッセージ (★ここからBulma装飾★)
+    require 'menu.php'; // メニューは成功時に表示
+    ?>
+    <section class="section">
+        <div class="container is-max-desktop has-text-centered">
+            <div class="notification is-success p-6">
+                <h2 class="title is-3">🎉 注文完了 🎉</h2>
+                <p class="subtitle is-5">ご注文ありがとうございます。以下の内容で注文が正常に完了しました。</p>
+                <div class="box has-text-left mt-5">
+                    <p class="mb-2"><strong>注文ID:</strong> <span class="has-text-weight-bold has-text-primary"><?= htmlspecialchars($order_id) ?></span></p>
+                    <p class="mb-2"><strong>お支払い方法:</strong> <?= htmlspecialchars($payment_method_name) ?></p>
+                    <p class="mb-2"><strong>合計金額:</strong> <span class="has-text-weight-bold has-text-danger">¥<?= number_format($total_price) ?></span></p>
+                </div>
+                <div class="mt-5">
+                    <a href="top.php" class="button is-primary is-light">トップ画面に戻る</a>
+                    <a href="history.php" class="button is-info is-light ml-3">注文履歴を確認する</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <?php
 
 } catch (PDOException $e) {
-    // データベースエラーが発生した場合
+    // データベースエラーが発生した場合 (★ここからBulma装飾★)
     if ($pdo->inTransaction()) {
         $pdo->rollBack();
     }
-    echo "<h2>エラー</h2><p>注文処理中にデータベースエラーが発生しました。時間を置いて再度お試しください。</p>";
-    echo "<p>（詳細: " . htmlspecialchars($e->getMessage()) . "）</p>";
+    require 'menu.php'; // メニューはエラー時にも表示
+    ?>
+    <section class="section">
+        <div class="container is-max-desktop has-text-centered">
+            <div class="notification is-danger p-6">
+                <h2 class="title is-4">🚨 注文処理エラー 🚨</h2>
+                <p class="mb-3">注文処理中にデータベースエラーが発生しました。時間を置いて再度お試しください。</p>
+                <div class="box has-text-left is-size-7 has-background-white-ter p-3">
+                    <p class="has-text-danger">（詳細: <?= htmlspecialchars($e->getMessage()) ?>）</p>
+                </div>
+                <div class="mt-4">
+                    <a href="cart-show.php" class="button is-danger is-light">カートに戻る</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <?php
     
 } catch (Exception $e) {
-    // その他のビジネスロジックエラー（在庫不足、カートが空など）が発生した場合
+    // その他のビジネスロジックエラー（在庫不足、カートが空など）が発生した場合 (★ここからBulma装飾★)
     if ($pdo->inTransaction()) {
         $pdo->rollBack();
     }
-    echo "<h2>エラー</h2><p>注文処理エラーが発生しました: " . htmlspecialchars($e->getMessage()) . "</p>";
+    require 'menu.php'; // メニューはエラー時にも表示
+    ?>
+    <section class="section">
+        <div class="container is-max-desktop has-text-centered">
+            <div class="notification is-warning p-6">
+                <h2 class="title is-4">⚠️ 注文処理エラー ⚠️</h2>
+                <p class="mb-3">注文処理エラーが発生しました。</p>
+                <p class="subtitle is-5 has-text-danger"><?= htmlspecialchars($e->getMessage()) ?></p>
+                <div class="mt-4">
+                    <a href="cart-show.php" class="button is-warning is-light">カートに戻る</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <?php
 }
 
 require 'footer.php';
