@@ -43,6 +43,6 @@ try {
     // error_log($e->getMessage());
 }
 
-echo '<p><a href="product-list.php">商品一覧に戻る</a></p>'; // 戻り先ファイル名は適切に修正してください
+echo '<p><a href="stock-show.php">商品一覧に戻る</a></p>'; // 戻り先ファイル名は適切に修正してください
 require 'footer.php';
 ?>
