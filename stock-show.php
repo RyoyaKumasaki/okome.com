@@ -3,7 +3,7 @@
 <h1>在庫一覧</h1>
 <a href="stock-show.php"><button>更新</button></a>
 <?php require 'stock-table.php'; ?>
-<a href="stock-add.php">
+<a href="stock-register.php">
     <button>商品追加</button>
 </a>
 <a href="top.php">
