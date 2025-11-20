@@ -8,6 +8,7 @@ require_once 'db-connect.php';
 if (!isset($_SESSION['customer']['user_id'])) {
     echo 'カートに追加するにはログインが必要です。<br>';
     echo '<a href="login-input.php">ログインページへ</a>';
+    require 'footer.php';
     exit;
 }
 
