@@ -21,6 +21,4 @@
     </title>
 </head>
 <body style="background-color: #FFFFEB;">
-<body>
-    
-</body>
+    <main>
