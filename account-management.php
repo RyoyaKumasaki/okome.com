@@ -35,7 +35,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 <form method="post">
     <input type="hidden" name="customer_id" value="<?= htmlspecialchars($customer_id) ?>">
 
-    <?php if ($user['status'] == 1): ?>
+    <?php if ($user['status'] == 0): ?>
         <button type="submit" name="action" value="restore">復元</button>
     <?php else: ?>
         <button type="submit" name="action" value="delete">削除</button>
