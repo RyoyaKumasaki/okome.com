@@ -60,12 +60,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $product_picture_filename = time() . '_' . uniqid() . '.' . $file_ext;
             $dest_path = $upload_dir . $product_picture_filename;
 
-            // ファイル移動を実行
-            if (!move_uploaded_file($file_tmp_path, $dest_path)) {
-                // ファイル移動が失敗した場合、エラーを設定
-                $error = "ファイルのアップロードに失敗しました。ディレクトリの権限（パーミッション）を確認してください。";
-                $product_picture_filename = ''; // DBに登録しないようにクリア
+            // --- ★修正・デバッグポイント: 権限と存在チェックを追加 ---
+            if (!is_writable($upload_dir)) {
+                $error = "【パーミッションエラー】アップロード先ディレクトリ({$upload_dir})に書き込み権限がありません。パーミッションを707などに設定してください。";
+            } elseif (!is_uploaded_file($file_tmp_path)) {
+                $error = "【ファイルエラー】一時ファイルが見つかりません。アップロード設定を確認してください。";
+            } else {
+                // ファイル移動を実行
+                if (!move_uploaded_file($file_tmp_path, $dest_path)) {
+                    // ファイル移動が失敗した場合、エラーを設定
+                    $error = "ファイルのアップロード（移動）に失敗しました。パスを確認してください。";
+                    $product_picture_filename = ''; // DBに登録しないようにクリア
+                }
             }
+            // --- デバッグポイント終了 ---
+            
         } else {
              // ファイル選択時のシステムエラー
              $error = "画像のアップロードに失敗しました（エラーコード: " . $_FILES['product_picture']['error'] . "）。";
