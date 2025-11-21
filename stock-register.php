@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "商品名、価格、在庫数を正しく入力してください。";
     }
 
-    $product_picture_filename = ''; // DBに保存するファイル名
+    $product_picture_filename = 'img'; // DBに保存するファイル名
 
     // ファイルアップロード処理の開始
     if (!$error && isset($_FILES['product_picture']) && $_FILES['product_picture']['error'] === UPLOAD_ERR_OK) {
