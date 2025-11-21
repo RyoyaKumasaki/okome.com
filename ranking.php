@@ -56,7 +56,7 @@ function displayStars($rating) {
         <div class="columns is-mobile is-vcentered">
             <div class="column is-narrow">
                 <div class="image is-96x96">
-                    <img src="img/<?= htmlspecialchars($row['product_picture']); ?>">
+                    <img src="img/products/<?= htmlspecialchars($row['product_picture']); ?>">
                 </div>
             </div>
             
