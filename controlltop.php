@@ -14,7 +14,7 @@
     <input type="textbox" name="user_name" placeholder="ユーザーID検索">
     <button type="submit">検索</button>
     </form>
-    <form action="logout-input.php" method="post">
+    <form action="admin-logout-input.php" method="post">
     <button type="submit">ログアウト</button>
     </form> 
 </body>
