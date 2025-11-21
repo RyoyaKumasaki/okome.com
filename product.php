@@ -14,7 +14,7 @@ foreach($sql as $row) : ?>
     <div class="column is-one-third-desktop is-half-tablet">
         <div class="card has-text-centered p-4">
             <h3> <?= htmlspecialchars($product_name); ?> </h3>
-            <img src="img/<?= htmlspecialchars($product_picture); ?>" width="150px"><br>
+            <img src="img/products<?= htmlspecialchars($product_picture); ?>" width="150px"><br>
             <p>価格：<?= htmlspecialchars($price); ?>円</p>
             <form action="product-detail.php" method="post" class="mt-4">
                 <input type="hidden" name="product_id" value="<?= htmlspecialchars($product_id); ?>">
