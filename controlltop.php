@@ -1,7 +1,7 @@
 <?php session_start(); ?>
+<?php $page_title = '管理者トップ画面'; ?>
 <?php require 'controllheader.php'; ?>
 <?php require 'admin-menu.php'; ?>
-<?php $page_title = '管理者トップ画面'; ?>
     <h2>管理画面</h2>
     <form action="stock-show.php" method="post">
         <button type="submit">在庫管理</button>

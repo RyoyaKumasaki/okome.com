@@ -1,3 +1,4 @@
+<?php $page_title = '在庫情報'; ?>
 <?php require 'controllheader.php'; ?>
 <?php require 'admin-menu.php'; ?>
 <h1>在庫一覧</h1>

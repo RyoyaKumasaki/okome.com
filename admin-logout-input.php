@@ -1,3 +1,4 @@
+<?php $page_title = 'ログアウト'; ?>
 <?php require 'controllheader.php'; ?>
 <?php require 'admin-menu.php'; ?>
 <p>ログアウトしますか？</p>
