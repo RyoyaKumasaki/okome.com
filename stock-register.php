@@ -9,49 +9,75 @@ $upload_dir = 'img/products/';
 
 $message = '';
 $error = '';
+$product_name = '';
+$quantity = 0;
+$price = 0;
+$explanation = '';
+$producer_pic = '';
+$product_picture_filename = '';
+$dest_path = '';
+
+// ----------------------------------------------------
+// 0. ディレクトリの確認と作成 (処理の最初に実行)
+// ----------------------------------------------------
+if (!is_dir($upload_dir)) {
+    // 0777 はディレクトリの権限。レンタルサーバーの推奨値に合わせてください。
+    if (!mkdir($upload_dir, 0777, true)) {
+        // ディレクトリ作成に失敗した場合、エラーを設定して以降の処理を中断
+        $error = "致命的なエラー：アップロードディレクトリの作成に失敗しました ({$upload_dir})。権限を確認してください。";
+    }
+}
+
 
 // ----------------------------------------------------
 // 1. フォームが送信された場合の処理
 // ----------------------------------------------------
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
+    // POSTデータの取得
     $product_name = $_POST['product_name'] ?? '';
     $quantity = (int)($_POST['quantity'] ?? 0);
     $price = (int)($_POST['price'] ?? 0);
     $explanation = $_POST['product_explanation'] ?? '';
-    $producer_pic = $_POST['producer_picture'] ?? ''; // 生産者画像は手動入力と仮定
+    $producer_pic = $_POST['producer_picture'] ?? ''; 
 
     // ユーザー入力の基本的な検証
     if (empty($product_name) || $price <= 0 || $quantity < 0) {
         $error = "商品名、価格、在庫数を正しく入力してください。";
     }
 
-    $product_picture_filename = 'img'; // DBに保存するファイル名
-
-    // ファイルアップロード処理の開始
-    if (!$error && isset($_FILES['product_picture']) && $_FILES['product_picture']['error'] === UPLOAD_ERR_OK) {
-        $file_tmp_path = $_FILES['product_picture']['tmp_name'];
-        $file_name = $_FILES['product_picture']['name'];
-        $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
+    // ----------------------------------------------------
+    // 1-1. ファイルアップロード処理の開始
+    // ----------------------------------------------------
+    if (!$error && isset($_FILES['product_picture']) && $_FILES['product_picture']['error'] !== UPLOAD_ERR_NO_FILE) {
         
-        // ファイル名を一意にする (例: タイムスタンプ + ランダム + 拡張子)
-        $product_picture_filename = time() . '_' . uniqid() . '.' . $file_ext;
-        $dest_path = $upload_dir . $product_picture_filename;
+        if ($_FILES['product_picture']['error'] === UPLOAD_ERR_OK) {
+            $file_tmp_path = $_FILES['product_picture']['tmp_name'];
+            $file_name = $_FILES['product_picture']['name'];
+            $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
+            
+            // ファイル名を一意にする
+            $product_picture_filename = time() . '_' . uniqid() . '.' . $file_ext;
+            $dest_path = $upload_dir . $product_picture_filename;
 
-        // ファイルをサーバーの指定された場所へ移動
-        if (!move_uploaded_file($file_tmp_path, $dest_path)) {
-            $error = "ファイルのアップロードに失敗しました。ディレクトリの権限を確認してください。";
+            // ファイル移動を実行
+            if (!move_uploaded_file($file_tmp_path, $dest_path)) {
+                // ファイル移動が失敗した場合、エラーを設定
+                $error = "ファイルのアップロードに失敗しました。ディレクトリの権限（パーミッション）を確認してください。";
+                $product_picture_filename = ''; // DBに登録しないようにクリア
+            }
+        } else {
+             // ファイル選択時のシステムエラー
+             $error = "画像のアップロードに失敗しました（エラーコード: " . $_FILES['product_picture']['error'] . "）。";
         }
-    } elseif (!$error && !empty($_FILES['product_picture']['name'])) {
-        // ファイルが選択されたがエラーが発生した場合
-        $error = "画像のアップロードに失敗しました（エラーコード: " . $_FILES['product_picture']['error'] . "）。";
     }
 
 
     // ----------------------------------------------------
     // 2. データベースへの登録処理（トランザクション）
     // ----------------------------------------------------
-    if (!$error) {
+    // $error が発生していない場合にのみDB処理を実行
+    if (!$error) { 
         $pdo->beginTransaction();
         
         try {
@@ -67,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $quantity,
                 $price,
                 $explanation,
-                $product_picture_filename, // DBにファイル名を保存
+                $product_picture_filename, // ★成功した場合のファイル名をDBに保存
                 $producer_pic
             ]);
 
