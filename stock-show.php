@@ -9,4 +9,4 @@
 <a href="controlltop.php">
     <button>トップページへ戻る</button>
 </a>
-<?php require_once 'footer.php'?>
+<?php require_once 'footer.php'; ?>
