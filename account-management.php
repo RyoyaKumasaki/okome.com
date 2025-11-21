@@ -2,7 +2,6 @@
 session_start();
 require 'db-connect.php';
 $page_title = 'アカウント管理';
-var_dump($_POST);
 require 'controllheader.php';
 require 'admin-menu.php';
 ?>
@@ -11,7 +10,7 @@ require 'admin-menu.php';
 $user_name = $_POST['user_name'];
 
 $sql = "SELECT * FROM customer_user
-        WHERE user_name = :user_name"; //name, user_name, address, telephone_number, mail
+        WHERE login_name = :user_name"; //name, user_name, address, telephone_number, mail
 
 $stmt = $pdo->prepare($sql);
 $stmt->execute([':user_name' => $user_name]);
@@ -20,7 +19,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
 <h2>氏名：<?= htmlspecialchars($user['name']); ?></h2>
-<p>ユーザー名：<?= htmlspecialchars($user['user_name']); ?></p>
+<p>ユーザー名：<?= htmlspecialchars($user['login_name']); ?></p>
 <p>メールアドレス：<?= htmlspecialchars($user['mail']); ?></p>
 <p>住所：<?= htmlspecialchars($user['address']); ?></p>
 <p>電話番号：<?= htmlspecialchars($user['telephone_number']); ?></p>
