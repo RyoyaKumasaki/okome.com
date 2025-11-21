@@ -2,6 +2,7 @@
 session_start();
 require 'db-connect.php';
 $page_title = 'アカウント管理';
+var_dump($_POST);
 require 'controllheader.php';
 require 'admin-menu.php';
 ?>
