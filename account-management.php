@@ -21,15 +21,13 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
     if ($_POST['action'] === 'delete') {
-        // 削除（delete_flag = 1）
-        $sql = "UPDATE customer_user SET delete_flag = 1 WHERE customer_id = :id";
+        $sql = "UPDATE customer_user SET status = 0 WHERE login_name = :id";
         $pdo->prepare($sql)->execute([':id' => $customer_id]);
         $message = "アカウントを削除しました。";
 
     } elseif ($_POST['action'] === 'restore') {
-        // 復元（delete_flag = 0）
-        $sql = "UPDATE customer_user SET delete_flag = 0 WHERE customer_id = :id";
-        $pdo->prepare($sql)->execute([':id' => $customer_id]);
+        $sql = "UPDATE customer_user SET status = 1 WHERE login_name = :id";
+        $pdo->prepare($sql)->execute([':id' => $user_name]);
         $message = "アカウントを復元しました。";
     }
 }
