@@ -11,7 +11,7 @@
     </form>
     <h2>アカウント検索</h2>
     <form action="account-management.php" method="post">
-    <input type="textbox" name="user_name" placeholder="ユーザーID検索">
+    <input type="text" name="user_name" placeholder="ユーザーID検索">
     <button type="submit">検索</button>
     </form>
     <form action="admin-logout-input.php" method="post">
