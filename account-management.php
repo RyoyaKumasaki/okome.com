@@ -4,25 +4,29 @@ require 'db-connect.php';
 $page_title = 'アカウント管理';
 require 'controllheader.php';
 require 'admin-menu.php';
-?>
 
-<?php
-$user_name = $_POST['user_name'];
+// 初回アクセス（検索フォームから来た時）か？
+// 2回目のPOST（削除/復元）か？を判定
+$user_name = $_POST['user_name'] ?? ($_POST['login_name'] ?? null);
 
-$sql = "SELECT * FROM customer_user
-        WHERE login_name = :user_name"; //name, user_name, address, telephone_number, mail
+// user_name が無い場合はエラー回避
+if (!$user_name) {
+    echo "ユーザーが指定されていません。<br>";
+    require 'footer.php';
+    exit;
+}
 
+$sql = "SELECT * FROM customer_user WHERE login_name = :user_name";
 $stmt = $pdo->prepare($sql);
 $stmt->execute([':user_name' => $user_name]);
-
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
-?>
 
-<?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
+// 1. 復元 / 削除ボタンが押された場合
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
     if ($_POST['action'] === 'delete') {
         $sql = "UPDATE customer_user SET status = 0 WHERE login_name = :id";
-        $pdo->prepare($sql)->execute([':id' => $customer_id]);
+        $pdo->prepare($sql)->execute([':id' => $user_name]);
         $message = "アカウントを削除しました。";
 
     } elseif ($_POST['action'] === 'restore') {
@@ -30,10 +34,19 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
         $pdo->prepare($sql)->execute([':id' => $user_name]);
         $message = "アカウントを復元しました。";
     }
+
+    // 更新したので再取得
+    $stmt = $pdo->prepare($sql = "SELECT * FROM customer_user WHERE login_name = :user_name");
+    $stmt->execute([':user_name' => $user_name]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 ?>
+
+<?php if (isset($message)) echo "<p>$message</p>"; ?>
+
 <form method="post">
-    <input type="hidden" name="customer_id" value="<?= htmlspecialchars($customer_id) ?>">
+    <!-- 次のPOSTでも user_name を渡す -->
+    <input type="hidden" name="login_name" value="<?= htmlspecialchars($user_name) ?>">
 
     <?php if ($user['status'] == 0): ?>
         <button type="submit" name="action" value="restore">復元</button>
