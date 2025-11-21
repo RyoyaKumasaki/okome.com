@@ -1,7 +1,7 @@
 <?php
 session_start();
 require 'controllheader.php';
-require 'controlltop.php';
+require 'admin-menu.php';
 require_once 'db-connect.php'; 
 
 // 画像保存先ディレクトリ
