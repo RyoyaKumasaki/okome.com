@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php endif; ?>
 
 <!-- enctype="multipart/form-data" はファイルアップロードに必須 -->
-<form action="product-register.php" method="post" enctype="multipart/form-data">
+<form action="stock-register.php" method="post" enctype="multipart/form-data">
     
     <p>商品名: <input type="text" name="product_name" value="<?= htmlspecialchars($product_name ?? '') ?>" required></p>
     
