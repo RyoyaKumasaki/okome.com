@@ -23,6 +23,14 @@
         echo '<hr>';
         }
         ?>
+        <button type="submit">削除</button>
+        <!--↓ここからレビューの削除を行う-->
+
+
+        <!-- -->
+        <form action="top.php">
+            <button type="submit">トップへ戻る</button>
+        </form>
     </p>
 </body>
 </html>
