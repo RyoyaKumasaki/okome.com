@@ -23,4 +23,5 @@
         echo '</tr>';
     }
     ?>
+    </form>
 </table>
