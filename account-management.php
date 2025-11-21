@@ -18,6 +18,31 @@ $stmt->execute([':user_name' => $user_name]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
+
+    if ($_POST['action'] === 'delete') {
+        // 削除（delete_flag = 1）
+        $sql = "UPDATE customer_user SET delete_flag = 1 WHERE customer_id = :id";
+        $pdo->prepare($sql)->execute([':id' => $customer_id]);
+        $message = "アカウントを削除しました。";
+
+    } elseif ($_POST['action'] === 'restore') {
+        // 復元（delete_flag = 0）
+        $sql = "UPDATE customer_user SET delete_flag = 0 WHERE customer_id = :id";
+        $pdo->prepare($sql)->execute([':id' => $customer_id]);
+        $message = "アカウントを復元しました。";
+    }
+}
+<form method="post">
+    <input type="hidden" name="customer_id" value="<?= htmlspecialchars($customer_id) ?>">
+
+    <?php if ($user['status'] == 1): ?>
+        <button type="submit" name="action" value="restore">復元</button>
+    <?php else: ?>
+        <button type="submit" name="action" value="delete">削除</button>
+    <?php endif; ?>
+</form>
+
 <h2>氏名：<?= htmlspecialchars($user['name']); ?></h2>
 <p>ユーザー名：<?= htmlspecialchars($user['login_name']); ?></p>
 <p>メールアドレス：<?= htmlspecialchars($user['mail']); ?></p>
