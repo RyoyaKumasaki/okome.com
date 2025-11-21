@@ -18,7 +18,7 @@ $stmt->execute([':user_name' => $user_name]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
+<?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
     if ($_POST['action'] === 'delete') {
         $sql = "UPDATE customer_user SET status = 0 WHERE login_name = :id";
@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $message = "アカウントを復元しました。";
     }
 }
+?>
 <form method="post">
     <input type="hidden" name="customer_id" value="<?= htmlspecialchars($customer_id) ?>">
 
