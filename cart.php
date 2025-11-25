@@ -31,7 +31,7 @@ foreach($sql as $row){
     $subtotal = $row['price'] * $row['amount'];
     $total_price += $subtotal;
     echo '<tr>';
-    echo '<td><img src="img/' . htmlspecialchars($row['product_picture'], ENT_QUOTES, 'UTF-8') . '" width="100px"></td>';
+    echo '<td><img src="img/products/' . htmlspecialchars($row['product_picture'], ENT_QUOTES, 'UTF-8') . '" width="100px"></td>';
     echo '<td>' . htmlspecialchars($row['product_name'], ENT_QUOTES, 'UTF-8') . '</td>';
     echo '<td>';
         // 個数を変更するためのフォーム
