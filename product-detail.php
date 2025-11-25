@@ -19,7 +19,7 @@ foreach($sql as $row){
 }
 //商品情報を表示
 echo '<h2>' . $product_name . '</h2>';
-echo '<img src="img/products' . $product_picture . '" width="300px"><br>';
+echo '<img src="img/products/' . $product_picture . '" width="300px"><br>';
 echo '<p> 価格：' . $price . '円</p>';
 echo '<p> 在庫数：' . $quantity . '個</p>';
 echo '<p>購入個数</p>';
