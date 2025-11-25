@@ -19,7 +19,7 @@ $has_items = false;
 $total_price = 0;
 if ($sql->rowCount() == 0) {
     echo 'カートに商品が入っていません。';
-    <a href="top.php">トップ画面に戻る</a>
+    echo '<a href="top.php">トップ画面に戻る</a>';
     require 'footer.php';
     exit;
 }
