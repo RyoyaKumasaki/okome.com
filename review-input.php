@@ -4,7 +4,7 @@
 <?php require 'db-connect.php' ?>
 <?php
 $sql = $pdo->prepare('select * from product where id = ?');
-$sql->execute([$_SESSION['product_id']]);
+$sql->execute([$_POST['product_id']]);
 $product = $sql->fetch();
 echo '<h2>商品レビュー</h2>';
 echo '<p>' . htmlspecialchars($product['product_picture'], ENT_QUOTES, 'UTF-8') . '</p>';
