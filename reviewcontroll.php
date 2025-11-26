@@ -4,7 +4,7 @@ require 'db-connect.php';
 
 // 論理削除処理（POSTリクエストのとき）
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
-    $stmt = $pdo->prepare("UPDATE review SET status = 1 WHERE review_id = ?");
+    $stmt = $pdo->prepare("UPDATE review SET status = 0 WHERE review_id = ?");
     $stmt->execute([$_POST['delete_id']]);
 
     // リダイレクトで二重送信防止（出力前に実行）
