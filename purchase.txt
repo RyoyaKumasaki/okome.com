@@ -1,5 +1,6 @@
 //purchaseのSQL 
 //登録する内容を取得
+<?php
 $user_id = $_SESSION['customer']['user_id'];
 $total_price = 0;
 $cart_details = [];

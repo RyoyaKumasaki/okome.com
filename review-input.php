@@ -3,15 +3,16 @@
 <?PHP require 'menu.php'?>
 <?php require 'db-connect.php' ?>
 <?php
-$sql = $pdo->prepare('select * from product where id = ?');
-$sql->execute([$_SESSION['product_id']]);
+
+$sql = $pdo->prepare('select * from product where product_id = ?');
+$sql->execute([$_POST['product_id']]);
 $product = $sql->fetch();
 echo '<h2>商品レビュー</h2>';
-echo '<p>' . htmlspecialchars($product['product_picture'], ENT_QUOTES, 'UTF-8') . '</p>';
+echo '<p><img src ="img/products' . htmlspecialchars($product['product_picture'], ENT_QUOTES, 'UTF-8') . '"></p>';
 echo '<p>商品名: ' . htmlspecialchars($product['product_name'], ENT_QUOTES, 'UTF-8') . '</p>';
 echo '<p>評価点</p>';   
 echo '<form action="review-output.php" method="post">';
-echo '<input type="hidden" name="product_id" value="' . htmlspecialchars($product['id'], ENT_QUOTES, 'UTF-8') . '">';
+echo '<input type="hidden" name="product_id" value="' . htmlspecialchars($product['product_id'], ENT_QUOTES, 'UTF-8') . '">';
 for ($i = 1; $i <= 5; $i++) {
     echo '<input type="radio" name="rating" value="' . $i . '">' . $i . ' ';
 }
