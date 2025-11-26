@@ -11,7 +11,7 @@ echo '<p>' . htmlspecialchars($product['product_picture'], ENT_QUOTES, 'UTF-8') 
 echo '<p>商品名: ' . htmlspecialchars($product['product_name'], ENT_QUOTES, 'UTF-8') . '</p>';
 echo '<p>評価点</p>';   
 echo '<form action="review-output.php" method="post">';
-echo '<input type="hidden" name="product_id" value="' . htmlspecialchars($product['id'], ENT_QUOTES, 'UTF-8') . '">';
+echo '<input type="hidden" name="product_id" value="' . htmlspecialchars($product['product_id'], ENT_QUOTES, 'UTF-8') . '">';
 for ($i = 1; $i <= 5; $i++) {
     echo '<input type="radio" name="rating" value="' . $i . '">' . $i . ' ';
 }
