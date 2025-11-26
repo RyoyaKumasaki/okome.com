@@ -3,7 +3,7 @@
 <?PHP require 'menu.php'?>
 <?php require 'db-connect.php' ?>
 <?php
-// $user_id = $_SESSION['customer']['user_id'];
+
 $sql = $pdo->prepare('select * from product where product_id = ?');
 $sql->execute([$_POST['product_id']]);
 $product = $sql->fetch();
