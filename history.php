@@ -71,7 +71,7 @@ exit;
                                         <td class="has-text-centered">
                                         <form action="review-input.php" method="post">
                                         <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['product_id']); ?>">
-                                        <input type="submit" class="button is-small" value="レビュー投稿">
+                                        <input type="submit" class="button" value="レビュー投稿">
                                         </form>
                                         </td>
                                         <td class="has-text-right"><?= number_format($product['price']); ?>円</td>
