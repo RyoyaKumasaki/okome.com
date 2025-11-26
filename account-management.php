@@ -52,7 +52,6 @@ if (!$search_login_name) {
 $sql = "SELECT * FROM customer_user
         WHERE login_name = :login_name";
 
-$sql = "SELECT * FROM customer_user WHERE login_name = :user_name";
 $stmt = $pdo->prepare($sql);
 $stmt->execute([':login_name' => $search_login_name]);
 
