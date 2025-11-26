@@ -8,7 +8,7 @@ $sql = $pdo->prepare('select * from product where product_id = ?');
 $sql->execute([$_POST['product_id']]);
 $product = $sql->fetch();
 echo '<h2>商品レビュー</h2>';
-echo '<p><img src="img/products/' . htmlspecialchars($product['product_picture'], ENT_QUOTES, 'UTF-8') . '" alt="' . htmlspecialchars($product['product_name'], ENT_QUOTES, 'UTF-8') . '" style="max-width:20%;height:20px;"></p>';
+echo '<p><img src="img/products/' . htmlspecialchars($product['product_picture'], ENT_QUOTES, 'UTF-8') . '" alt="' . htmlspecialchars($product['product_name'], ENT_QUOTES, 'UTF-8') . '" style="max-width:40%;height:40px;"></p>';
 echo '<p>商品名: ' . htmlspecialchars($product['product_name'], ENT_QUOTES, 'UTF-8') . '</p>';
 echo '<p>評価点</p>';   
 echo '<form action="review-output.php" method="post">';
