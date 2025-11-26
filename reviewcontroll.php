@@ -1,36 +1,39 @@
-<?php session_start(); ?>
 <?php
-    require 'dbconnect.php';
-    require 'controllheader.php';
+session_start();
+require 'db-connect.php';
+$page_title = 'アカウント管理';
+require 'controllheader.php';
+require 'admin-menu.php';
 ?>
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>レビュー管理画面</title>
-</head>
-<body>
-    <h2>レビュー管理画面</h2>
-    <p>
-        <?php
-        foreach($sql as $row){
-        $user_id = $row['user_id'];
-        $rating = $row['rating'];
-        $comment = $row['comment'];
-        echo '<p>投稿者名：' . $user_id . '</p>';
-        echo '<p>評価：' . str_repeat('★', $rating) . str_repeat('☆', 5 - $rating) . '</p>';
-        echo '<p>レビュー内容：' . $comment . '</p>';
-        echo '<hr>';
-        }
-        ?>
-        <button type="submit">削除</button>
-        <!--↓ここからレビューの削除を行う-->
+<h2>レビュー管理画面</h2>
+
+<?php
+
+// 論理削除処理
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
+    $stmt = $pdo->prepare("UPDATE review SET status = 1 WHERE id = ?");
+    $stmt->execute([$_POST['delete_id']]);
+}
+
+// deleted_flg=0（未削除）だけ取得
+$stmt = $pdo->query("SELECT id, comment FROM review WHERE status = 0 ORDER BY id DESC");
+$reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 
 
-        <!-- -->
-        <form action="top.php">
-            <button type="submit">トップへ戻る</button>
+<?php foreach ($reviews as $r): ?>
+    <div style="border:1px solid #ccc; padding:10px; margin:10px 0;">
+        <p><?= htmlspecialchars($r['comment'], ENT_QUOTES, 'UTF-8') ?></p>
+
+        <!-- 論理削除ボタン -->
+        <form method="POST" style="display:inline;">
+            <input type="hidden" name="delete_id" value="<?= $r['id'] ?>">
+            <button type="submit">削除</button>
         </form>
-    </p>
-</body>
-</html>
+    </div>
+<?php endforeach; ?>
+
+<form action="controlltop.php" method="get">
+        <button type="submit">トップへ戻る</button>
+</form>
+<?php require 'footer.php'; ?>
