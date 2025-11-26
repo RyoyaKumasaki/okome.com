@@ -4,6 +4,7 @@
 <?php require 'db-connect.php' ?>
 <?php
 try{
+$user_id = $_SESSION['customer']['user_id'];
 $product_id = $_POST['product_id'] ?? '';
 $rating = (int)($_POST['rating'] ?? 0);
 $comment = $_POST['comment'] ?? '';
