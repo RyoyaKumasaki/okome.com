@@ -1,23 +1,26 @@
 <?php
 session_start();
 require 'db-connect.php';
-$page_title = 'アカウント管理';
-require 'controllheader.php';
-require 'admin-menu.php';
-?>
-<h2>レビュー管理画面</h2>
 
-<?php
-// 論理削除処理
+// 論理削除処理（POSTリクエストのとき）
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
     $stmt = $pdo->prepare("UPDATE review SET status = 1 WHERE review_id = ?");
     $stmt->execute([$_POST['delete_id']]);
 
-    // POST後リロード防止
+    // リダイレクトで二重送信防止（出力前に実行）
     header('Location: '.$_SERVER['PHP_SELF']);
     exit;
 }
 
+// ページタイトルとヘッダーは出力前に読み込む
+$page_title = 'アカウント管理';
+require 'controllheader.php';
+require 'admin-menu.php';
+?>
+
+<h2>レビュー管理画面</h2>
+
+<?php
 // レビュー一覧取得（status = 1 のみ＝未削除）
 $stmt = $pdo->query("SELECT review_id, comment FROM review WHERE status = 1 ORDER BY review_id DESC");
 $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
