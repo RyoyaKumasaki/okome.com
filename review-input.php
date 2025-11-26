@@ -3,7 +3,7 @@
 <?PHP require 'menu.php'?>
 <?php require 'db-connect.php' ?>
 <?php
-$sql = $pdo->prepare('select * from product where id = ?');
+$sql = $pdo->prepare('select * from product where product_id = ?');
 $sql->execute([$_POST['product_id']]);
 $product = $sql->fetch();
 echo '<h2>商品レビュー</h2>';
