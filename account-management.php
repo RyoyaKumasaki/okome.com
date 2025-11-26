@@ -98,7 +98,17 @@ if (!$user) {
         <p><strong>ログイン名：</strong><?= htmlspecialchars($user['login_name']); ?></p>
         <p><strong>メールアドレス：</strong><?= htmlspecialchars($user['mail']); ?></p>
         <p><strong>住所：</strong><?= htmlspecialchars($user['address']); ?></p>
-        <p><strong>電話番号：</strong><?= htmlspecialchars($user['telephone_number']); ?></p>
+        <div class="field">
+            <label class="label is-small">電話番号</label>
+                <div class="control">
+                    <input 
+                        class="input is-static" 
+                        type="tel" 
+                        value="<?= htmlspecialchars($user['telephone_number']); ?>" 
+                        readonly
+                    >
+                </div>
+        </div>
         <p><strong>アカウント状態：</strong><span class="tag is-<?= ($user['status'] == 1) ? 'success' : 'warning' ?>"><?= ($user['status'] == 1) ? 'アクティブ' : '削除済み/休止' ?></span></p>
     </div>
 </div>
