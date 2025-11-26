@@ -69,7 +69,7 @@ exit;
                                     <tr>
                                         <td class="has-text-centered"><?= htmlspecialchars($product['product_id']); ?></td>
                                         <td><?= htmlspecialchars($product['product_name']); ?></td>
-                                        <td class="button" name="">レビュー投稿</td>
+                                        <td class="button">レビュー投稿</td>
                                         <td class="has-text-right"><?= number_format($product['price']); ?>円</td>
                                         <td class="has-text-centered"><?= htmlspecialchars($product['count']); ?></td>
                                         <td class="has-text-right"><?= number_format($subtotal); ?>円</td>
