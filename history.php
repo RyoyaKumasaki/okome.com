@@ -42,7 +42,6 @@ exit;
                     </h3>
                     
                     <div class="table-container">
-                        <form action="review-input.php" method="post">
                         <table class="table is-striped is-fullwidth is-hoverable">
                             <thead>
                                 <tr>
@@ -69,7 +68,12 @@ exit;
                                     <tr>
                                         <td class="has-text-centered"><?= htmlspecialchars($product['product_id']); ?></td>
                                         <td><?= htmlspecialchars($product['product_name']); ?></td>
-                                        <td class="button">レビュー投稿</td>
+                                        <td class="has-text-centered">
+                                        <form action="review-input.php" method="post">
+                                        <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['product_id']); ?>">
+                                        <input type="submit" class="button is-small" value="レビュー投稿">
+                                        </form>
+                                        </td>
                                         <td class="has-text-right"><?= number_format($product['price']); ?>円</td>
                                         <td class="has-text-centered"><?= htmlspecialchars($product['count']); ?></td>
                                         <td class="has-text-right"><?= number_format($subtotal); ?>円</td>
@@ -83,7 +87,6 @@ exit;
                                 </tr>
                             </tfoot>
                         </table>
-                        </form>
                     </div>
                 </div>
             <?php endforeach; ?>
