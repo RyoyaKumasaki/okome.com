@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
 }
 
 // レビュー一覧取得（status = 0 のみ）
-$stmt = $pdo->query("SELECT cart_detail_id, comment FROM review WHERE status = 0 ORDER BY cart_detail_id DESC");
+$stmt = $pdo->query("SELECT review_id, comment FROM review WHERE status = 0 ORDER BY review_id DESC");
 $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
