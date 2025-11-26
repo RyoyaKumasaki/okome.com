@@ -18,8 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
     exit;
 }
 
-// レビュー一覧取得（status = 0 のみ＝未削除）
-$stmt = $pdo->query("SELECT review_id, comment FROM review WHERE status = 0 ORDER BY review_id DESC");
+// レビュー一覧取得（status = 1 のみ＝未削除）
+$stmt = $pdo->query("SELECT review_id, comment FROM review WHERE status = 1 ORDER BY review_id DESC");
 $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
