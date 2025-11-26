@@ -9,14 +9,14 @@ require 'admin-menu.php';
 
 <?php
 
-// 論理削除処理
+// 論理削除
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
-    $stmt = $pdo->prepare("UPDATE review SET status = 1 WHERE id = ?");
+    $stmt = $pdo->prepare("UPDATE review SET status = 1 WHERE cart_detail_id = ?");
     $stmt->execute([$_POST['delete_id']]);
 }
 
-// deleted_flg=0（未削除）だけ取得
-$stmt = $pdo->query("SELECT id, comment FROM review WHERE status = 0 ORDER BY id DESC");
+// レビュー一覧取得（status = 0 のみ）
+$stmt = $pdo->query("SELECT cart_detail_id, comment FROM review WHERE status = 0 ORDER BY cart_detail_id DESC");
 $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
@@ -25,9 +25,8 @@ $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div style="border:1px solid #ccc; padding:10px; margin:10px 0;">
         <p><?= htmlspecialchars($r['comment'], ENT_QUOTES, 'UTF-8') ?></p>
 
-        <!-- 論理削除ボタン -->
         <form method="POST" style="display:inline;">
-            <input type="hidden" name="delete_id" value="<?= $r['id'] ?>">
+            <input type="hidden" name="delete_id" value="<?= $r['cart_detail_id'] ?>">
             <button type="submit">削除</button>
         </form>
     </div>
