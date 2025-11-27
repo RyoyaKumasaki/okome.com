@@ -215,6 +215,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </form>
+    
+    <div class="mt-5 has-text-right">
+        <a href="controlltop.php" class="button is-link is-outlined">
+            <span class="icon"><i class="fas fa-home"></i></span>
+            <span>トップ画面へ戻る</span>
+        </a>
+    </div>
 </div>
 
 <?php require 'footer.php'; ?>
