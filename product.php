@@ -1,7 +1,7 @@
 <h2 class="has-text-left is-size-3">商品一覧</h2>
 <div class="columns is-desktop is-multiline">
 <?php
-$sql = $pdo->query('SELECT * FROM product');
+$sql = $pdo->query('SELECT * FROM product where status = 1');
 foreach($sql as $row) : ?>
 <?php
     $product_id = $row['product_id'];
