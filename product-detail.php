@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -208,7 +209,6 @@
 </head>
 <body>
 
-<?php session_start(); ?>
 <?php $page_title='商品画面'; ?>
 <?php require 'header.php'?>
 <?php require 'menu.php'?>
