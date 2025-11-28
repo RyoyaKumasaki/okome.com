@@ -87,7 +87,7 @@
                     <input type="submit" value="レビューを投稿" class="button is-primary is-medium">
                 </div>
             </div>
-    <div class="mt-5 has-text-right">
+    <div class="mt-5 has-text-centered">
         <a href="controlltop.php" class="button is-link is-light">
             <span class="icon"><i class="fas fa-home"></i></span>
             <span>トップ画面へ戻る</span>
