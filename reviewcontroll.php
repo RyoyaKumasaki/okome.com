@@ -25,7 +25,9 @@
         ?>
         <button type="submit">削除</button>
         <!--↓ここからレビューの削除を行う-->
-
+        <?php
+         
+        ?>
 
         <!-- -->
         <form action="top.php">
