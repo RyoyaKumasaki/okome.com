@@ -9,6 +9,13 @@
 <a href="stock-show.php">在庫確認</a>
 <hr>
 <form action="top.php" method="post">
+    <?php 
+    // POSTされたデータがある場合のみ、検索ロジックを実行する
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_name'])) {
+        require 'product-search.php';
+    }
+    ?>
+
     <div class="field level">
         <div class="control has-icons-left level-left">
             <span class="icon is-small is-left">
