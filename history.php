@@ -47,6 +47,7 @@ exit;
                                 <tr>
                                     <th class="has-text-centered">商品番号</th>
                                     <th>商品名</th>
+                                    <th></th>
                                     <th class="has-text-right">価格</th>
                                     <th class="has-text-centered">個数</th>
                                     <th class="has-text-right">小計</th>
@@ -67,6 +68,12 @@ exit;
                                     <tr>
                                         <td class="has-text-centered"><?= htmlspecialchars($product['product_id']); ?></td>
                                         <td><?= htmlspecialchars($product['product_name']); ?></td>
+                                        <td class="has-text-centered">
+                                        <form action="review-input.php" method="post">
+                                        <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['product_id']); ?>">
+                                        <input type="submit" class="button is-small is-link" value="レビュー投稿">
+                                        </form>
+                                        </td>
                                         <td class="has-text-right"><?= number_format($product['price']); ?>円</td>
                                         <td class="has-text-centered"><?= htmlspecialchars($product['count']); ?></td>
                                         <td class="has-text-right"><?= number_format($subtotal); ?>円</td>

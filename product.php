@@ -1,7 +1,7 @@
 <h2 class="has-text-left is-size-3">商品一覧</h2>
 <div class="columns is-desktop is-multiline">
 <?php
-$sql = $pdo->query('SELECT * FROM product');
+$sql = $pdo->query('SELECT * FROM product where status = 1');
 foreach($sql as $row) : ?>
 <?php
     $product_id = $row['product_id'];
@@ -14,7 +14,7 @@ foreach($sql as $row) : ?>
     <div class="column is-one-third-desktop is-half-tablet">
         <div class="card has-text-centered p-4">
             <h3> <?= htmlspecialchars($product_name); ?> </h3>
-            <img src="img/<?= htmlspecialchars($product_picture); ?>" width="150px"><br>
+            <img src="img/products/<?= htmlspecialchars($product_picture); ?>" width="150px"><br>
             <p>価格：<?= htmlspecialchars($price); ?>円</p>
             <form action="product-detail.php" method="post" class="mt-4">
                 <input type="hidden" name="product_id" value="<?= htmlspecialchars($product_id); ?>">

@@ -18,7 +18,8 @@ $sql->execute([$_SESSION['customer']['user_id']]);
 $has_items = false;
 $total_price = 0;
 if ($sql->rowCount() == 0) {
-    echo 'カートに商品が入っていません。';
+    echo 'カートに商品が入っていません。<br>';
+    echo '<a href="top.php">トップ画面に戻る</a>';
     require 'footer.php';
     exit;
 }
@@ -30,7 +31,7 @@ foreach($sql as $row){
     $subtotal = $row['price'] * $row['amount'];
     $total_price += $subtotal;
     echo '<tr>';
-    echo '<td><img src="img/' . htmlspecialchars($row['product_picture'], ENT_QUOTES, 'UTF-8') . '" width="100px"></td>';
+    echo '<td><img src="img/products/' . htmlspecialchars($row['product_picture'], ENT_QUOTES, 'UTF-8') . '" width="100px"></td>';
     echo '<td>' . htmlspecialchars($row['product_name'], ENT_QUOTES, 'UTF-8') . '</td>';
     echo '<td>';
         // 個数を変更するためのフォーム

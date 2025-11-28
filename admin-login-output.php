@@ -10,7 +10,7 @@ $sql->execute([$_POST['login_name']]);
 $admin = $sql->fetch(PDO::FETCH_ASSOC);
 
 if ($admin && password_verify($_POST['password'], $admin['password'])) {
-    $_SESSION['customer'] = [
+    $_SESSION['admin'] = [
         // 'id' => $customer['id'],
         // 'name' => $customer['name'],
         // 'address' => $customer['address'],

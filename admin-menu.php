@@ -10,7 +10,7 @@
             <img class="navbar-item" src="img/お米ドットコムアイコン.png" alt="ロゴ" width="100px">
         </div>
         <div class="navbar-end is-flex is-justify-content-end"> <!-- 右寄せしたいメニュー項目 -->
-            <a class="navbar-item is-size-3" href="controlltop.php">お米.com</a>
+            <p class="navbar-item is-size-3 has-text-white">お米.com</p>
             <p class="navbar-item">　　　</p>
         </div>
     </nav>

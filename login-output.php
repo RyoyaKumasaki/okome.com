@@ -9,7 +9,7 @@ $sql = $pdo->prepare('SELECT * FROM customer_user WHERE login_name = ?');
 $sql->execute([$_POST['login_name']]);
 $customer = $sql->fetch(PDO::FETCH_ASSOC);
 
-if ($customer && password_verify($_POST['password'], $customer['password'])) {
+if ($customer && password_verify($_POST['password'], $customer['password']) && $customer['status'] == 1) {
     $_SESSION['customer'] = [
         // 'id' => $customer['id'],
         // 'name' => $customer['name'],
