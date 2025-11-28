@@ -87,6 +87,9 @@
                     <input type="submit" value="レビューを投稿" class="button is-primary is-medium">
                 </div>
             </div>
+            <span class="icon"><i class="fas fa-home"></i></span>
+            <span>トップ画面へ戻る</span>
+
         </form>
     </div>
 </div>
