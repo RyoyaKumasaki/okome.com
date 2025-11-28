@@ -16,6 +16,7 @@
             </span>
             <input class="input mr-2" type="text" style="width: 600px;" name="product_name" placeholder="商品検索">
             <input type="submit" class="button is-light is-active" value="検索">
+            <?php require 'product-search.php' ?>
         </div>
         <div class="has-text-right has-icon-right level-right">
             <a href="cart-show.php" class=" is-size-4"><i class="fas fa-shopping-cart mr-3"></i></a>
