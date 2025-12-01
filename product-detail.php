@@ -5,7 +5,7 @@ session_start();
 require_once 'db-connect.php';
 
 // タイトル（header.php で使う用）
-$page_title = $product['product_name'] . ' | 商品詳細';
+$page_title = '商品詳細';
 
 // header, menu 読み込み
 require 'header.php';
