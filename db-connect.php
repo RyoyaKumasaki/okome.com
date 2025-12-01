@@ -5,4 +5,3 @@ const USER = 'LAA1607615';
 const PASS = 'okome';
 $connect = 'mysql:host='. SERVER . ';dbname='. DBNAME . ';charset=utf8';
 $pdo = new PDO($connect, USER, PASS);
-?>
