@@ -4,6 +4,7 @@
 // セッション開始（必ず最上部）
 // ----------------------------------------
 session_start();
+?>
 <?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="ja">
