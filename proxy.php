@@ -1,31 +1,42 @@
 <?php
+// ヘッダーを設定し、クライアントにJSON形式で応答することを通知
 header('Content-Type: application/json');
 
-// ★ここにあなたのGemini APIキーを設定してください
+// ==========================================================
+// ★【重要】設定エリア
+// ==========================================================
 // 実際の有効なキーに置き換えてください。
-$geminiApiKey = 'AIzaSyCBW3vAWtkoLflv375Sudy6_fSiJCAebQg'; // 仮のキー。ご自身の有効なキーに置き換えてください。
+$geminiApiKey = 'AIzaSyCs1t4YnCsuSds1gCvulN7-ud52wzFLtIQ';
+$modelName = 'gemini-2.5-pro'; // 利用するモデル名
+
+// 仮のキー（プレースホルダー）
+const PLACEHOLDER_KEY = 'YOUR_GEMINI_API_KEY';
+// ==========================================================
 
 // ブラウザから送られてきたJSONデータを受け取る
 $requestBody = file_get_contents('php://input');
 $data = json_decode($requestBody, true);
-$userQuestion = $data['question'];
+$userQuestion = $data['question'] ?? null; // null合体演算子で未定義の場合の警告を回避
 
-if (empty($geminiApiKey) || $geminiApiKey === 'YOUR_GEMINI_API_KEY') {
+// 1. APIキーの未設定チェックと仮キーの利用防止
+// ハードコードされた仮のキーもチェック対象に追加
+if (empty($geminiApiKey) || $geminiApiKey === PLACEHOLDER_KEY) {
     http_response_code(500);
-    echo json_encode(['error' => 'Gemini APIキーが設定されていません。proxy.phpをご確認ください。']);
+    // JSON_UNESCAPED_UNICODEを追加して日本語の文字化けを防止
+    echo json_encode(['error' => 'Gemini APIキーが設定されていません。proxy.phpをご確認ください。'], JSON_UNESCAPED_UNICODE);
     exit;
 }
 
+// 2. ユーザー入力のチェック
 if (empty($userQuestion)) {
-    http_response_code(400); // ユーザーからの入力エラーは400 Bad Requestが適切
+    http_response_code(400); 
     echo json_encode(['error' => 'Question is required.']);
     exit;
 }
 
-// Gemini APIへのリクエスト
-// ★★★ここをあなたのAPIキーで利用可能なモデル名に変更してください★★★
-// 例: gemini-1.0-pro, text-bison-001 など
-$geminiApiEndpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=$geminiApiKey";
+// 3. Gemini APIへのリクエストURLを構築
+$geminiApiEndpoint = "https://generativelanguage.googleapis.com/v1beta/models/{$modelName}:generateContent?key={$geminiApiKey}";
+
 $requestData = [
     'contents' => [
         [
@@ -34,44 +45,45 @@ $requestData = [
         ]
     ],
     'generationConfig' => [
-        'maxOutputTokens' => 1000, // 応答の最大トークン数
+        'maxOutputTokens' => 1000,
         'temperature' => 0.7
     ]
 ];
 
+// 4. stream_context_createを使用したAPI呼び出し設定
 $options = [
     'http' => [
         'method' => 'POST',
-        'header' => 'Content-Type: application/json',
+        // 重要な修正: ヘッダーの末尾に \r\n が必要
+        'header' => "Content-Type: application/json\r\n", 
         'content' => json_encode($requestData)
     ]
 ];
 $context = stream_context_create($options);
 
 // APIを呼び出し、応答を取得
-// @を付けてfile_get_contentsのエラー出力を抑制し、手動で処理
 $geminiResponse = @file_get_contents($geminiApiEndpoint, false, $context);
 
-// API通信エラーをチェック
+// 5. API通信エラーをチェック
 if ($geminiResponse === false) {
-    // 応答ヘッダーを取得して、Geminiからのエラーコードを特定
-    // $http_response_headerはfile_get_contents後に自動的に設定されるグローバル変数
+    // 応答ヘッダーからHTTPステータスコードを抽出
     $errorHeader = $http_response_header[0] ?? 'HTTP/1.1 500 Internal Server Error';
-    $httpCode = explode(' ', $errorHeader)[1]; // "500" の部分を抽出
+    $httpCode = explode(' ', $errorHeader)[1];
 
-    // クライアントに適切なHTTPステータスコードを返す
     http_response_code((int)$httpCode); 
-    echo json_encode(['error' => "API通信エラーが発生しました (Status: $httpCode)。Gemini APIのURL、APIキー、利用可能なモデル名を確認してください。", 'details' => $errorHeader]);
+    // JSON_UNESCAPED_UNICODEを追加
+    echo json_encode(['error' => "API通信エラーが発生しました (Status: {$httpCode})。APIキー、モデル名、または利用制限を確認してください。", 'details' => $errorHeader], JSON_UNESCAPED_UNICODE);
     exit;
 }
 
-// JSON応答をデコード
+// 6. JSON応答をデコード
 $geminiData = json_decode($geminiResponse, true);
 
-// 応答形式をチェックし、フロントエンドが期待する形式に変換
+// 7. 応答形式をチェックし、フロントエンドが期待する形式に変換
 if (isset($geminiData['candidates'][0]['content']['parts'][0]['text'])) {
     $aiText = $geminiData['candidates'][0]['content']['parts'][0]['text'];
     $responseToFrontend = [
+        // フロントエンドのJavaScript（OpenAI互換形式）に合わせる
         'choices' => [
             [
                 'message' => [
@@ -80,10 +92,12 @@ if (isset($geminiData['candidates'][0]['content']['parts'][0]['text'])) {
             ]
         ]
     ];
-    echo json_encode($responseToFrontend);
+    // 日本語の文字化けを防止
+    echo json_encode($responseToFrontend, JSON_UNESCAPED_UNICODE);
 } else {
-    // 応答にテキストが含まれていない場合の詳細ログ
-    http_response_code(500); // サーバー内部での応答処理の問題として500を返す
-    echo json_encode(['error' => 'Geminiの応答形式が予期せぬものでした。詳細: ' . json_encode($geminiData, JSON_UNESCAPED_UNICODE)]);
+    // 応答にテキストが含まれていない場合 (例: 不適切なコンテンツとしてブロックされた場合)
+    http_response_code(500); 
+    // JSON_UNESCAPED_UNICODEを追加
+    echo json_encode(['error' => 'Geminiの応答形式が予期せぬものでした。応答がブロックされた可能性があります。', 'details' => $geminiData], JSON_UNESCAPED_UNICODE);
 }
 ?>

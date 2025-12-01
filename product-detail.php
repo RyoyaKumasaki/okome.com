@@ -1,8 +1,29 @@
+<<<<<<< HEAD
 <?php 
 // ----------------------------------------
 // セッション開始（必ず最上部）
 // ----------------------------------------
 session_start();
+=======
+<?php session_start(); ?>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>商品画面</title>
+    <style>
+        /* ---------------------------------- */
+        /* 全体的なリセットと基本スタイル */
+        /* ---------------------------------- */
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+>>>>>>> ff099d0fc36a89c09d6c8920a50506a53d58a5db
 
 $page_title = '商品画面';
 
@@ -194,6 +215,13 @@ hr {
 }
 </style>
 
+<<<<<<< HEAD
+=======
+<?php $page_title='商品画面'; ?>
+<?php require 'header.php'?>
+<?php require 'menu.php'?>
+<?php require_once 'db-connect.php'?>
+>>>>>>> ff099d0fc36a89c09d6c8920a50506a53d58a5db
 
 <div class="product-page-container">
 

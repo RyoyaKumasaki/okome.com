@@ -3,7 +3,7 @@
 if (isset($_SESSION['admin'])) {
     unset($_SESSION['admin']);
 }
-header("Location: controlltop.php");
+header("Location: admin-login-input.php");
 exit;
 ?>
 <?php require 'controllheader.php'; ?>

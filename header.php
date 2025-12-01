@@ -1,84 +1,130 @@
+<?php
+// PHPファイルを分割しているため、Tailwind CSSは使えないため、BulmaとカスタムCSSを調整します。
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- BulmaとFontAwesomeの読み込み -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
     <style>
+    /* フォント設定 */
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+    body {
+        font-family: 'Noto Sans JP', sans-serif;
+    }
+
+    /* カスタムカラー */
     .custom-green-navbar {
-    background-color: #9CEF36;
+        background-color: #9CEF36;
     }
     .custom-green-navbar a{
         color: #fff;
     }
     .custom-green-hero {
-    background-color: #8AE51A;
+        background-color: #8AE51A;
     }
+
+    /* AIチャットコンテナのデザイン */
     .ai-chat-container {
-            margin-top: 50px;
-            padding: 30px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .ai-chat-container h3 {
-            color: #1a73e8;
-            border-bottom: 2px solid #e0e0e0;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-        .chat-area {
-            height: 200px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 15px;
-            overflow-y: auto;
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-        .user-message {
-            text-align: right;
-            color: #007bff;
-        }
-        .ai-message {
-            text-align: left;
-            color: #333;
-        }
-        .chat-input {
-            display: flex;
-            gap: 10px;
-        }
-        .chat-input textarea {
-            flex-grow: 1;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            resize: none;
-        }
-        .chat-input button {
-            background-color: #1a73e8;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .chat-input button:hover {
-            background-color: #165ab7;
-        }
+        margin-top: 50px;
+        padding: 30px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        max-width: 600px; /* 最大幅を設定 */
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .ai-chat-container h3 {
+        color: #1a73e8;
+        border-bottom: 2px solid #e0e0e0;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        font-size: 1.5rem; /* Bulmaのh3より大きく調整 */
+    }
+    .chat-area {
+        height: 350px; /* 高さを確保 */
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 15px;
+        overflow-y: auto;
+        margin-bottom: 15px;
+        line-height: 1.6;
+        background-color: #fcfcfc;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    /* メッセージのラッパー（左右寄せ用） */
+    .user-message-wrapper {
+        align-self: flex-end; /* 右寄せ */
+    }
+    .ai-message-wrapper {
+        align-self: flex-start; /* 左寄せ */
+    }
+
+    /* メッセージ本体 */
+    .user-message, .ai-message {
+        max-width: 85%;
+        padding: 10px 15px;
+        border-radius: 18px;
+        margin-bottom: 10px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    .user-message {
+        background-color: #e3f2fd; /* Blue 50 */
+        color: #0d47a1; 
+        text-align: left;
+    }
+    .ai-message {
+        background-color: #e0f2f1; /* Teal 50 */
+        color: #004d40; 
+        text-align: left;
+    }
+
+    /* 入力部分 */
+    .chat-input {
+        display: flex;
+        gap: 10px;
+    }
+    .chat-input textarea {
+        flex-grow: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        resize: none;
+    }
+    .chat-input button {
+        background-color: #4CAF50; /* Green 500 */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+    .chat-input button:hover {
+        background-color: #43a047;
+    }
+    .chat-input button:disabled {
+        background-color: #a5d6a7;
+        cursor: not-allowed;
+    }
+
+    /* 全体レイアウト */
     html {
-        /* ページの高さをビューポートの高さに合わせる */
         height: 100%; 
     }
     body {
-        /* Flexコンテナとし、子要素を縦方向に配置 */
         display: flex;
         flex-direction: column;
-        min-height: 100vh; /* 最小高さをビューポートの高さに設定 */
-        margin: 0; /* bodyのデフォルトマージンをリセット */
+        min-height: 100vh;
+        margin: 0;
     }
-    /* メインコンテンツ部分が領域を最大限占めるようにする */
     main {
         flex-grow: 1;
     }

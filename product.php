@@ -1,9 +1,22 @@
 <h2 class="has-text-left is-size-3">商品一覧</h2>
 <div class="columns is-desktop is-multiline">
 <?php
-$sql = $pdo->query('SELECT * FROM product');
-foreach($sql as $row) : ?>
-<?php
+// ★修正点: $results が存在するかチェックし、表示するデータソースを決定する
+
+if (isset($results) && !empty($results)) {
+    // 検索結果 ($results) がある場合
+    $data_to_display = $results;
+} elseif (isset($results) && empty($results)) {
+    // 検索結果が空の場合
+    echo '<p class="notification is-warning">該当する商品は見つかりませんでした。</p>';
+    $data_to_display = [];
+} else {
+    // 検索が行われていない（通常のページロード）場合、全商品を取得
+    $sql_all = $pdo->query('SELECT * FROM product');
+    $data_to_display = $sql_all->fetchAll();
+}
+
+foreach($data_to_display as $row) : // ★データソースを $data_to_display に統一★
     $product_id = $row['product_id'];
     $product_name = $row['product_name'];
     $quantity = $row['quantity'];
@@ -25,4 +38,3 @@ foreach($sql as $row) : ?>
 <?php endforeach; ?>
 </div>
 <hr>
-

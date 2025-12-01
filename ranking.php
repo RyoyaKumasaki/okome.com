@@ -23,6 +23,7 @@ JOIN (
     LIMIT 3
 ) top_products ON p.product_id = top_products.product_id
 LEFT JOIN `LAA1607615-okome`.`review` r ON p.product_id = r.product_id
+where p.status = 1
 GROUP BY p.product_id;
 ";
 $sql = $pdo->prepare($sql);
