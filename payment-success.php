@@ -1,17 +1,12 @@
 <?php
 session_start();
-// db-connect.php がPDOインスタンス ($pdo) を提供するものと仮定します
 require 'db-connect.php'; 
-$page_title = '注文処理結果'; // ページタイトルを設定
+$page_title = '注文処理結果'; 
 require 'header.php';
 
-// ----------------------------------------------------
-// 0-1. 支払い方法の取得と検証 (変更なし)
-// ----------------------------------------------------
 
 $payment_choice = $_POST['choice'] ?? null;
 
-// 支払い方法コードを日本語名にマッピングする関数 (仮)
 function get_payment_method_name($choice) {
     $map = [
         'kure' => 'クレジットカード',
@@ -24,11 +19,9 @@ function get_payment_method_name($choice) {
 $payment_method_name = get_payment_method_name($payment_choice);
 
 
-// 顧客IDと配送情報を取得 (変更なし)
 $user_id = $_SESSION['customer']['user_id'] ?? null;
 $shipping_info = $_SESSION['shipping_info'] ?? '未設定の配送情報（要修正）'; 
 
-// ユーザー認証チェック (変更なし)
 if (!$user_id) {
     require 'menu.php';
     ?>
@@ -48,9 +41,6 @@ if (!$user_id) {
 $order_id = null; // 最終的に確定した注文IDを保持
 
 try {
-    // ----------------------------------------------------
-    // 0-2. 登録する内容を取得（カート明細の取得）(変更なし)
-    // ----------------------------------------------------
     $sql_cart = '
         SELECT 
             cd.product_id, 
@@ -70,19 +60,18 @@ try {
         throw new Exception("カートに商品が入っていません。");
     }
 
-    // 合計金額を計算 (変更なし)
     $total_price = 0;
     foreach ($cart_details as $item) {
         $total_price += $item['unit_price'] * $item['amount']; 
     }
 
     // ----------------------------------------------------
-    // 1. トランザクション開始 (変更なし)
+    // 1. トランザクション開始 
     // ----------------------------------------------------
     $pdo->beginTransaction();
 
     // ----------------------------------------------------
-    // 2. Orderテーブルに登録 (注文ヘッダーの作成) (変更なし)
+    // 2. Orderテーブルに登録 (注文ヘッダーの作成) 
     // ----------------------------------------------------
     $sql_order = '
         INSERT INTO `order` (user_id, price) 
@@ -94,17 +83,17 @@ try {
         $total_price,
     ]);
     
-    // 挿入された注文IDを取得 (変更なし)
+    // 挿入された注文IDを取得 
     $order_id = $pdo->lastInsertId();
 
     // ----------------------------------------------------
-    // 3. Order_Itemに登録（注文明細の作成）＆ Productの在庫更新 (変更なし)
+    // 3. Order_Itemに登録（注文明細の作成）＆ Productの在庫更新 
     // ----------------------------------------------------
     $sql_item = '
         INSERT INTO order_detail (order_id, product_id, count, order_price)
         VALUES (?, ?, ?, ?)
     ';
-    // 在庫チェックと更新を同時に行うSQL (変更なし)
+    // 在庫チェックと更新を同時に行うSQL 
     $sql_stock_update = '
         UPDATE product
         SET quantity = quantity - ? 
@@ -116,29 +105,22 @@ try {
         $amount = $item['amount']; // カート内の注文数量
         $order_price = $item['unit_price'];
 
-        // Order_Itemテーブルに登録 (変更なし)
+        // Order_Itemテーブルに登録 
         $stmt_item = $pdo->prepare($sql_item);
         $stmt_item->execute([$order_id, $product_id, $amount, $order_price]); 
 
-        // Productの在庫更新 (変更なし)
+        // Productの在庫更新 
         $stmt_stock = $pdo->prepare($sql_stock_update);
         $stmt_stock->execute([$amount, $product_id, $amount]); 
 
-        // 在庫更新の行数が0であれば、在庫不足としてロールバック (変更なし)
+        // 在庫更新の行数が0であれば、在庫不足としてロールバック 
         if ($stmt_stock->rowCount() === 0) {
             throw new Exception("商品ID: {$product_id} の在庫が不足しているか、既に売り切れました。");
         }
     }
 
-    // ----------------------------------------------------
-    // 4. Paymentテーブルに登録 (未使用) (変更なし)
-    // ----------------------------------------------------
-    // 処理なし
 
-    // ----------------------------------------------------
     // 5. Cartデータを削除 (変更なし)
-    // ----------------------------------------------------
-    // 該当顧客のCart_ItemとCartを削除
     
     $stmt_cart_id = $pdo->prepare('SELECT cart_id FROM cart WHERE user_id = ?');
     $stmt_cart_id->execute([$user_id]);
@@ -154,9 +136,7 @@ try {
         $pdo->prepare($sql_delete_cart)->execute([$user_cart_id]); 
     }
     
-    // ----------------------------------------------------
     // 6. すべて成功した場合、コミット (変更なし)
-    // ----------------------------------------------------
     $pdo->commit();
 
     // 成功メッセージ (★ここからBulma装飾★)

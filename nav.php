@@ -36,4 +36,5 @@
             <!-- has-icon-right -->
             <!-- <a href="mypage.php"><img src="img/guest.png" width="150px"></a> -->
     </div>
+        <?php require 'product-search.php' ?>
 </form>
