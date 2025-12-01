@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 <?php 
-// ----------------------------------------
-// セッション開始（必ず最上部）
-// ----------------------------------------
 session_start();
-<?php session_start(); ?>
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -22,7 +18,6 @@ session_start();
             margin: 0;
             padding: 20px;
         }
->>>>>>> ff099d0fc36a89c09d6c8920a50506a53d58a5db
 
 $page_title = '商品画面';
 
