@@ -1,5 +1,33 @@
+<<<<<<< HEAD
 <?php
 session_start();
+=======
+<?php 
+// ----------------------------------------
+// セッション開始（必ず最上部）
+// ----------------------------------------
+session_start();
+?>
+<?php session_start(); ?>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>商品画面</title>
+    <style>
+        /* ---------------------------------- */
+        /* 全体的なリセットと基本スタイル */
+        /* ---------------------------------- */
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+>>>>>>> ff099d0fc36a89c09d6c8920a50506a53d58a5db
+>>>>>>> 600cb0e6ffd661499573b79238cb33605333d476
 
 $page_title = '商品画面';
 require 'header.php';
