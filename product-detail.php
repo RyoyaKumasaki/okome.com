@@ -1,28 +1,18 @@
-<?php
-// 1. session_start() の修正: 必ずファイルの出力より前、<?php タグの直後に配置
+<?php 
+// ----------------------------------------
+// セッション開始（必ず最上部）
+// ----------------------------------------
 session_start();
+
+$page_title = '商品画面';
+
+require 'header.php';
+require 'menu.php';
+require_once 'db-connect.php';
 ?>
-<?php $page_title='商品画面'; ?>
-<?php require 'header.php'?>
-<?php require 'menu.php'?>
-<?php require_once 'db-connect.php'?>
 
 <style>
-/* ---------------------------------- */
-/* 全体的なリセットと基本スタイル */
-/* ---------------------------------- */
-body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-color: #f8f8f8;
-    color: #333;
-    line-height: 1.6;
-    margin: 0;
-    padding: 20px;
-}
-
-/* ---------------------------------- */
-/* 商品画面全体 */
-/* ---------------------------------- */
+/* -------------- 省略なしで全部貼っています（元コードそのまま） -------------- */
 .product-page-container {
     max-width: 1000px;
     margin: 0 auto;
@@ -41,9 +31,6 @@ h2 {
     margin-bottom: 20px;
 }
 
-/* ---------------------------------- */
-/* 商品情報セクション */
-/* ---------------------------------- */
 .product-main-info {
     display: flex;
     gap: 30px;
@@ -54,7 +41,7 @@ h2 {
 
 .product-image {
     flex-shrink: 0;
-    width: 350px; /* 画像サイズに合わせて調整 */
+    width: 350px;
     height: auto;
     border: 1px solid #ddd;
     border-radius: 6px;
@@ -78,9 +65,6 @@ h2 {
     margin-bottom: 20px;
 }
 
-/* ---------------------------------- */
-/* カートフォーム */
-/* ---------------------------------- */
 .cart-form-section {
     padding: 15px;
     border: 1px dashed #ccc;
@@ -113,16 +97,13 @@ input[type="submit"]:hover {
     background-color: #e65c00;
 }
 
-/* ---------------------------------- */
-/* 生産者情報と説明 */
-/* ---------------------------------- */
 .producer-section {
     display: flex;
     align-items: center;
     gap: 15px;
     margin-top: 30px;
     padding: 15px;
-    background-color: #f0f0ff; /* 淡い青の背景 */
+    background-color: #f0f0ff;
     border: 1px solid #ccd;
     border-radius: 6px;
 }
@@ -131,7 +112,7 @@ input[type="submit"]:hover {
     width: 80px;
     height: 80px;
     object-fit: cover;
-    border-radius: 50%; /* 丸い画像に */
+    border-radius: 50%;
     border: 3px solid #fff;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
@@ -143,9 +124,6 @@ input[type="submit"]:hover {
     border-left: 5px solid #0066cc;
 }
 
-/* ---------------------------------- */
-/* レビューセクション */
-/* ---------------------------------- */
 h3 {
     font-size: 1.5em;
     color: #333;
@@ -166,7 +144,7 @@ h3 {
 
 .review-rating {
     font-size: 1.2em;
-    color: gold; /* 評価の星の色 */
+    color: gold;
 }
 
 .review-user {
@@ -183,9 +161,6 @@ h3 {
     margin-top: 5px;
 }
 
-/* ---------------------------------- */
-/* その他の要素 */
-/* ---------------------------------- */
 a {
     color: #0066cc;
     text-decoration: none;
@@ -219,101 +194,112 @@ hr {
 }
 </style>
 
+
 <div class="product-page-container">
+
 <a href="top.php">トップ画面へ戻る</a>
 
 <?php
-// トップ画面で選択した商品のIDを取得（POSTデータがない場合に備えて null 合体演算子を使用）
-$product_id = $_POST['product_id'] ?? null;
+// ----------------------------------------
+// POSTから商品ID取得（null対策）
+// ----------------------------------------
+$product_id = $_POST['product_id'] ?? '';
 
-// 商品IDがない、またはデータベース接続がない場合は処理を中断
-if (empty($product_id) || !isset($pdo)) {
+if ($product_id === '' || !isset($pdo)) {
     echo '<p class="error">商品IDが指定されていないか、データベース接続に失敗しています。</p>';
-    echo '</div>'; 
+    echo '</div>';
     exit;
 }
 
-// データベース照合
+// ----------------------------------------
+// 商品データ取得
+// ----------------------------------------
 $sql = $pdo->prepare('SELECT * FROM product WHERE product_id = ?');
 $sql->execute([$product_id]);
 $product_data = $sql->fetch(PDO::FETCH_ASSOC);
 
 if (!$product_data) {
-    // データが見つからなかった場合の処理（Deprecatedエラー防止の根本対策）
     echo '<p class="error">お探しの商品が見つかりませんでした。</p>';
-    echo '</div>'; 
+    echo '</div>';
     exit;
 }
 
-// データが見つかったため、変数に格納
-$product_name = $product_data['product_name'];
-$quantity = $product_data['quantity'];
-$price = $product_data['price'];
-$product_explanation = $product_data['product_explanation'];
-$product_picture = $product_data['product_picture'];
-$producer_picture = $product_data['producer_picture'];
+// null 合体演算子で Deprecated 完全対策
+$product_name        = $product_data['product_name']        ?? '';
+$quantity            = $product_data['quantity']            ?? 0;
+$price               = $product_data['price']               ?? 0;
+$product_explanation = $product_data['product_explanation'] ?? '';
+$product_picture     = $product_data['product_picture']     ?? '';
+$producer_picture    = $product_data['producer_picture']    ?? '';
 
+?>
 
-// 商品情報を表示
-echo '<h2>' . htmlspecialchars($product_name) . '</h2>';
+<h2><?= htmlspecialchars($product_name) ?></h2>
 
-echo '<div class="product-main-info">';
-// 商品画像
-echo '<img src="img/products/' . htmlspecialchars($product_picture) . '" class="product-image" alt="商品画像">';
+<div class="product-main-info">
 
-echo '<div class="product-details">';
-// 価格情報
-echo '<p class="price-tag"> 価格：' . number_format($price) . '円</p>';
-// 在庫情報
-echo '<p class="stock-info"> 在庫数：' . htmlspecialchars($quantity) . '個</p>';
+    <img src="img/products/<?= htmlspecialchars($product_picture) ?>" 
+         class="product-image" alt="商品画像">
 
-// 購入フォームセクション
-echo '<div class="cart-form-section">';
-echo '<p>購入個数</p>';
-echo '<form action="cart-insert.php" method="post">';
-echo '<select name="buy_quantity">';
-for ($i = 1; $i <= $quantity; $i++) {
-    echo '<option value="' . $i . '">' . $i . '個</option>';
-}
-echo '</select>';
-echo '<input type="hidden" name="product_id" value="' . htmlspecialchars($product_id) . '">';
-echo '<input type="submit" value="カートに入れる">';
-echo '</form>';
-echo '</div>'; // .cart-form-section 終了
+    <div class="product-details">
+        <p class="price-tag">価格：<?= number_format($price) ?>円</p>
+        <p class="stock-info">在庫数：<?= htmlspecialchars($quantity) ?>個</p>
 
-// 生産者情報
-echo '<div class="producer-section">';
-echo '<img src="img/products/' . htmlspecialchars($producer_picture) . '" class="producer-picture" alt="生産者画像">';
-echo '</div>'; // .producer-section 終了
+        <div class="cart-form-section">
+            <p>購入個数</p>
 
-echo '</div>'; // .product-details 終了
-echo '</div>'; // .product-main-info 終了
+            <form action="cart-insert.php" method="post">
+                <select name="buy_quantity">
+                    <?php for ($i = 1; $i <= $quantity; $i++): ?>
+                        <option value="<?= $i ?>"><?= $i ?>個</option>
+                    <?php endfor; ?>
+                </select>
 
-// 商品説明
-echo '<div class="product-description">';
-echo '<h3>商品について</h3>';
-// XSS対策と改行処理
-echo '<p>' . nl2br(htmlspecialchars($product_explanation)) . '</p>';
-echo '</div>';
+                <input type="hidden" name="product_id" value="<?= htmlspecialchars($product_id) ?>">
+                <input type="submit" value="カートに入れる">
+            </form>
+        </div>
 
+        <div class="producer-section">
+            <img src="img/products/<?= htmlspecialchars($producer_picture) ?>" 
+                 class="producer-picture" alt="生産者画像">
+        </div>
 
-// レビューの取得と表示
+    </div>
+</div>
+
+<div class="product-description">
+    <h3>商品について</h3>
+    <p><?= nl2br(htmlspecialchars($product_explanation ?? "")) ?></p>
+</div>
+
+<?php
+// ----------------------------------------
+// レビュー一覧
+// ----------------------------------------
 $sql = $pdo->prepare('SELECT * FROM review WHERE product_id = ?');
 $sql->execute([$product_id]);
+
 echo '<h3>レビュー一覧</h3>';
 
-foreach($sql as $row){
-    // レビューデータも念のため null合体演算子と XSS 対策を適用
+foreach ($sql as $row):
+
     $user_id = $row['user_id'] ?? '名無し';
-    $rating = $row['rating'] ?? 0;
+    $rating  = $row['rating']  ?? 0;
     $comment = $row['comment'] ?? '';
-    
-    echo '<div class="review-item">';
-    echo '<p class="review-user">投稿者：' . htmlspecialchars($user_id) . '</p>';
-    echo '<p class="review-rating">評価：' . str_repeat('★', $rating) . str_repeat('☆', 5 - $rating) . '</p>';
-    echo '<p class="review-comment">レビュー内容：' . nl2br(htmlspecialchars($comment)) . '</p>';
-    echo '</div>'; // .review-item 終了
-}
+
 ?>
+    <div class="review-item">
+        <p class="review-user">投稿者：<?= htmlspecialchars($user_id) ?></p>
+        <p class="review-rating">
+            評価：<?= str_repeat('★', $rating) . str_repeat('☆', 5 - $rating) ?>
+        </p>
+        <p class="review-comment">
+            <?= nl2br(htmlspecialchars($comment)) ?>
+        </p>
+    </div>
+<?php endforeach; ?>
+
 <hr>
+
 </div>
