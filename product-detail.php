@@ -109,7 +109,7 @@ require_once 'db-connect.php';
         <!-- 商品説明 -->
         <div class="box mt-6">
             <h3 class="title is-4">商品について</h3>
-            <p><?= nl2br(htmlspecialchars($product_explanation)) ?></p>
+            <p><?= nl2br(htmlspecialchars($product_explanation ?? '', ENT_QUOTES, 'UTF-8')) ?></p>
         </div>
 
         <!-- レビュー一覧 -->
