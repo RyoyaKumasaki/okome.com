@@ -1,147 +1,95 @@
-<<<<<<< HEAD
 <?php
 session_start();
-=======
-<?php 
-// ----------------------------------------
-// セッション開始（必ず最上部）
-// ----------------------------------------
-session_start();
-?>
-<?php session_start(); ?>
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>商品画面</title>
-    <style>
-        /* ---------------------------------- */
-        /* 全体的なリセットと基本スタイル */
-        /* ---------------------------------- */
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: #f8f8f8;
-            color: #333;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-        }
->>>>>>> ff099d0fc36a89c09d6c8920a50506a53d58a5db
->>>>>>> 600cb0e6ffd661499573b79238cb33605333d476
 
-$page_title = '商品画面';
-require 'header.php';
-require 'menu.php';
+// DB 接続
 require_once 'db-connect.php';
 
-// POSTから商品ID取得
-$product_id = $_POST['product_id'] ?? '';
+// タイトル（header.php で使う用）
+$page_title = $product['product_name'] . ' | 商品詳細';
 
-if ($product_id === '' || !isset($pdo)) {
-    echo '<p class="error">商品IDが指定されていないか、データベース接続に失敗しています。</p>';
+// header, menu 読み込み
+require 'header.php';
+require 'menu.php';
+
+// 商品 ID を取得
+$product_id = isset($_GET['product_id']) ? (int)$_GET['product_id'] : 0;
+
+// 商品情報を取得
+$stmt = $pdo->prepare('SELECT * FROM product WHERE product_id = ?');
+$stmt->execute([$product_id]);
+$product = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$product) {
+    echo "<section class='section'><div class='container'><p>商品が見つかりません。</p></div></section>";
+    require 'footer.php';
     exit;
 }
-
-// 商品データ取得
-$sql = $pdo->prepare('SELECT * FROM product WHERE product_id = ?');
-$sql->execute([$product_id]);
-$product_data = $sql->fetch(PDO::FETCH_ASSOC);
-
-if (!$product_data) {
-    echo '<p class="error">お探しの商品が見つかりませんでした。</p>';
-    exit;
-}
-
-// null 回避
-$product_name        = $product_data['product_name']        ?? '';
-$quantity            = $product_data['quantity']            ?? 0;
-$price               = $product_data['price']               ?? 0;
-$product_explanation = $product_data['product_explanation'] ?? '';
-$product_picture     = $product_data['product_picture']     ?? '';
-$producer_picture    = $product_data['producer_picture']    ?? '';
 ?>
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<title>商品画面</title>
 
-<style>
-/* ここに CSS（あなたの書いたやつ全部） */
-</style>
+<section class="section">
+    <div class="container">
 
-</head>
-<body>
+        <h1 class="title is-3 has-text-centered">
+            <?= htmlspecialchars($product['product_name']) ?>
+        </h1>
 
-<div class="product-page-container">
+        <div class="columns is-centered">
 
-<a href="top.php">トップ画面へ戻る</a>
+            <!-- 左側：画像 -->
+            <div class="column is-4">
+                <figure class="image">
+                    <img class="product-image"
+                         src="img/<?= htmlspecialchars($product['product_image']) ?>"
+                         alt="<?= htmlspecialchars($product['product_name']) ?>">
+                </figure>
+            </div>
 
-<h2><?= htmlspecialchars($product_name) ?></h2>
+            <!-- 右側：商品情報 -->
+            <div class="column is-6">
 
-<div class="product-main-info">
+                <div class="box">
 
-    <img src="img/products/<?= htmlspecialchars($product_picture) ?>" 
-         class="product-image" alt="商品画像">
+                    <p class="price">
+                        ￥<?= number_format($product['price']) ?>
+                    </p>
 
-    <div class="product-details">
-        <p class="price-tag">価格：<?= number_format($price) ?>円</p>
-        <p class="stock-info">在庫数：<?= htmlspecialchars($quantity) ?>個</p>
+                    <hr>
 
-        <div class="cart-form-section">
-            <p>購入個数</p>
+                    <h2 class="title is-5">商品説明</h2>
+                    <p>
+                        <?= nl2br(htmlspecialchars($product['product_explanation'] ?? '')) ?>
+                    </p>
 
-            <form action="cart-insert.php" method="post">
-                <select name="buy_quantity">
-                    <?php for ($i = 1; $i <= $quantity; $i++): ?>
-                        <option value="<?= $i ?>"><?= $i ?>個</option>
-                    <?php endfor; ?>
-                </select>
+                    <hr>
 
-                <input type="hidden" name="product_id" value="<?= htmlspecialchars($product_id) ?>">
-                <input type="submit" value="カートに入れる">
-            </form>
+                    <form action="cart-add.php" method="post">
+                        <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
+
+                        <div class="field">
+                            <label class="label">個数</label>
+                            <div class="control">
+                                <input class="input" type="number" name="amount" value="1" min="1">
+                            </div>
+                        </div>
+
+                        <div class="control">
+                            <button class="button is-primary is-medium is-fullwidth">
+                                カートに追加
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
         </div>
 
-        <div class="producer-section">
-            <img src="img/products/<?= htmlspecialchars($producer_picture) ?>" 
-                 class="producer-picture" alt="生産者画像">
+        <div class="has-text-centered">
+            <a href="product-list.php" class="button is-light">← 商品一覧へ戻る</a>
         </div>
 
     </div>
-</div>
+</section>
 
-<div class="product-description">
-    <h3>商品について</h3>
-    <p><?= nl2br(htmlspecialchars((string)$product_explanation)) ?></p>
-</div>
-
-<?php
-// レビュー一覧
-$sql = $pdo->prepare('SELECT * FROM review WHERE product_id = ?');
-$sql->execute([$product_id]);
-
-echo '<h3>レビュー一覧</h3>';
-
-foreach ($sql as $row):
-    $user_id = $row['user_id'] ?? '名無し';
-    $rating  = $row['rating']  ?? 0;
-    $comment = $row['comment'] ?? '';
-?>
-    <div class="review-item">
-        <p class="review-user">投稿者：<?= htmlspecialchars($user_id) ?></p>
-        <p class="review-rating">
-            評価：<?= str_repeat('★', $rating) . str_repeat('☆', 5 - $rating) ?>
-        </p>
-        <p class="review-comment">
-            <?= nl2br(htmlspecialchars($comment)) ?>
-        </p>
-    </div>
-<?php endforeach; ?>
-
-<hr>
-
-</div>
-
-</body>
-</html>
+<?php require 'footer.php'; ?>
