@@ -270,7 +270,7 @@ $producer_picture    = $product_data['producer_picture']    ?? '';
 
 <div class="product-description">
     <h3>商品について</h3>
-    <p><?= nl2br(htmlspecialchars($product_explanation ?? "")) ?></p>
+    <p><?= nl2br(htmlspecialchars((string)$product_explanation)) ?></p>
 </div>
 
 <?php
