@@ -1,4 +1,4 @@
-<form action="top.php" method="post">
+<form action="top.php" method="post" class="mt-5">
     <?php 
     // POSTされたデータがある場合のみ、検索ロジックを実行する
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_name'])) {
