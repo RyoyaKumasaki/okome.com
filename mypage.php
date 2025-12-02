@@ -63,7 +63,11 @@ require 'menu.php';
             <div class="content">
                 <?php
                 if(isset($_SESSION['customer'])) {
-                    $sql = $pdo->prepare('SELECT * FROM review WHERE user_id = ?');
+                    $sql = $pdo->prepare('select pd.product_name, rv.comment, rv.product_id 
+                                            from review rv 
+                                            join product pd 
+                                            on rv.product_id = pd.product_id where rv.user_id = ?');
+                    // $sql = $pdo->prepare('SELECT * FROM review WHERE user_id = ?');
                     $sql->execute([$_SESSION['customer']['user_id']]);
                     $reviews = $sql->fetchAll(PDO::FETCH_ASSOC);
 
@@ -75,7 +79,7 @@ require 'menu.php';
                             if (!empty($row['comment'])) {
                                 // ここで商品名なども表示できるよう、JOINでデータを拡張するのが理想ですが、ここではレビューコメントのみを表示します。
                                 echo '<div class="box p-3 mb-3">';
-                                echo '<p><strong>[商品ID: ' . htmlspecialchars($row['product_id']) . ']</strong></p>';
+                                echo '<p><strong>[商品名: ' . htmlspecialchars($row['product_name']) . ']</strong></p>';
                                 echo '<p>' . nl2br(htmlspecialchars($row['comment'])) . '</p>';
                                 echo '</div>';
                             }

@@ -16,3 +16,4 @@ $sql->execute([$product_id, $user_id, $rating, $comment]);
 }
 ?>
 <p>レビューを送信しました。ありがとうございました。</p>
+<a href="top.php"></a>
