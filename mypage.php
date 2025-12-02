@@ -68,8 +68,8 @@ require 'menu.php';
                                             join product pd 
                                             on rv.product_id = pd.product_id where rv.user_id = ?');
                     // $sql = $pdo->prepare('SELECT * FROM review WHERE user_id = ?');
-                    // $sql->execute([$_SESSION['customer']['user_id']]);
-                    // $reviews = $sql->fetchAll(PDO::FETCH_ASSOC);
+                    $sql->execute([$_SESSION['customer']['user_id']]);
+                    $reviews = $sql->fetchAll(PDO::FETCH_ASSOC);
 
                     if (empty($reviews)) { // レビューが一件もない場合
                         echo '<p>投稿したレビューはありません。</p>';
