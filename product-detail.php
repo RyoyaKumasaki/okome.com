@@ -90,7 +90,7 @@ require_once 'db-connect.php';
                         <input type="hidden" name="product_id" value="<?= htmlspecialchars($product_id) ?>">
                         <div class="control">
                             <button class="button is-primary is-fullwidth mt-3"
-                            <?php if ($quantity == 0): ?>disabled<?php endif; ?>>>
+                            <?php if ($quantity == 0): ?>disabled<?php endif; ?>>
                                 カートに入れる
                             </button>
                         </div>
