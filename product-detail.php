@@ -82,27 +82,19 @@ require_once 'db-connect.php';
                                         <?php for ($i = 1; $i <= $quantity; $i++): ?>
                                             <option value="<?= $i ?>"><?= $i ?>個</option>
                                         <?php endfor; ?>
-                        <input type="hidden" name="product_id" value="<?= htmlspecialchars($product_id) ?>">
-                        <div class="control">
-                            <button class="button is-primary is-fullwidth mt-3">
-                                カートに入れる
-                            </button>
-                        </div>
                                         <?php endif; ?>
                                     </select>
                                 </div>
                             </div>
                         </div>
-
                         <input type="hidden" name="product_id" value="<?= htmlspecialchars($product_id) ?>">
-
                         <div class="control">
-                            <button class="button is-primary is-fullwidth mt-3">
+                            <button class="button is-primary is-fullwidth mt-3"
+                            <?php if ($quantity == 0): ?>disabled<?php endif; ?>>>
                                 カートに入れる
                             </button>
                         </div>
                     </form>
-
                 </div>
 
                 <!-- 生産者情報 -->
