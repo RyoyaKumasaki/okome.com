@@ -76,9 +76,16 @@ require_once 'db-connect.php';
                             <div class="control">
                                 <div class="select">
                                     <select name="buy_quantity">
+                                        <? if($quantity == 0): ?>
+                                            <option value="0">現在在庫切れです</option>
+                                        <?php else: ?>
                                         <?php for ($i = 1; $i <= $quantity; $i++): ?>
                                             <option value="<?= $i ?>"><?= $i ?>個</option>
                                         <?php endfor; ?>
+
+
+                                        
+                                        <?php endif; ?>
                                     </select>
                                 </div>
                             </div>
