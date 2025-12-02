@@ -45,7 +45,7 @@ $requestData = [
         ]
     ],
     'generationConfig' => [
-        'maxOutputTokens' => 1000,
+        'maxOutputTokens' => 65536,
         'temperature' => 0.7
     ]
 ];
