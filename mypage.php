@@ -79,7 +79,7 @@ require 'menu.php';
                             if (!empty($row['comment'])) {
                                 // ここで商品名なども表示できるよう、JOINでデータを拡張するのが理想ですが、ここではレビューコメントのみを表示します。
                                 echo '<div class="box p-3 mb-3">';
-                                echo '<p><strong>[商品ID: ' . htmlspecialchars($row['product_name']) . ']</strong></p>';
+                                echo '<p><strong>[商品名: ' . htmlspecialchars($row['product_name']) . ']</strong></p>';
                                 echo '<p>' . nl2br(htmlspecialchars($row['comment'])) . '</p>';
                                 echo '</div>';
                             }
