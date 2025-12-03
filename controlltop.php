@@ -40,7 +40,7 @@
         <div class="box mb-6 has-background-info-light">
             <p class="title is-5">レビュー管理</p>
             <p class="subtitle is-6 mb-3">ユーザーレビューの確認・削除を行います。</p>
-            <form action="review-management.php" method="post">
+            <form action="reviewcontroll.php" method="post">
                 <button type="submit" class="button is-info is-fullwidth">レビュー管理へ</button>
             </form>
         </div>
