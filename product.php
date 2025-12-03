@@ -30,7 +30,7 @@ foreach($data_to_display as $row) : // ★データソースを $data_to_display
             <h3 class="title is-5"> <?= htmlspecialchars($product_name); ?> </h3>
             
             <div class="card-image is-flex is-justify-content-center mb-3">
-                <figure class="image is-96x96"> 
+                <figure class="image is-64x64"> 
                     <img src="img/products/<?= htmlspecialchars($product_picture); ?>" alt="<?= htmlspecialchars($product_name); ?>">
                 </figure>
             </div>
