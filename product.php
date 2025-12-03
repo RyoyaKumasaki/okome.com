@@ -34,7 +34,7 @@ foreach($data_to_display as $row) : // ★データソースを $data_to_display
                     <img src="img/products/<?= htmlspecialchars($product_picture); ?>" alt="<?= htmlspecialchars($product_name); ?>">
                 </figure>
             </div>
-            <p class="subtitle is-6 has-text-weight-bold">価格：<?= number_format($price); ?>円</p>
+            <p class="subtitle is-6 has-text-weight-bold mt-auto">価格：<?= number_format($price); ?>円</p>
             
             <form action="product-detail.php" method="post" class="mt-auto">
                 <input type="hidden" name="product_id" value="<?= htmlspecialchars($product_id); ?>">
