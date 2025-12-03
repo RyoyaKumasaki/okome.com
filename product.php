@@ -26,7 +26,7 @@ foreach($data_to_display as $row) : // ★データソースを $data_to_display
     $product_picture = $row['product_picture'] ?? '';
 ?>
     <div class="column is-one-third-desktop is-half-tablet">
-        <div class="card has-text-centered p-4" style="height: 100%;">
+        <div class="card has-text-centered p-4 is-flex is-flex-direction-column" style="min-height: 280px;">
             <h3 class="title is-5"> <?= htmlspecialchars($product_name); ?> </h3>
             
             <div class="card-image is-flex is-justify-content-center mb-3">
@@ -36,7 +36,7 @@ foreach($data_to_display as $row) : // ★データソースを $data_to_display
             </div>
             <p class="subtitle is-6 has-text-weight-bold">価格：<?= number_format($price); ?>円</p>
             
-            <form action="product-detail.php" method="post" class="mt-4">
+            <form action="product-detail.php" method="post" class="mt-auto">
                 <input type="hidden" name="product_id" value="<?= htmlspecialchars($product_id); ?>">
                 <input type="submit" class="button is-primary is-fullwidth" value="商品詳細を見る">
             </form>
