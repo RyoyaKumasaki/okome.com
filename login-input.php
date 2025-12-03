@@ -2,12 +2,22 @@
 session_start();
 require 'db-connect.php';
 $page_title = 'ログイン';
+
+// ★★★ セッションからエラーメッセージを読み込み、削除する ★★★
+$error = $_SESSION['login_error'] ?? null;
+unset($_SESSION['login_error']);
+
 require 'header.php';
 require 'menu.php';
-
 ?>
 <section class="section">
     <div class="container is-max-desktop">
+        <?php if($error): ?>
+            <div class="notification is-danger">
+                <p><?= htmlspecialchars($error) ?></p>
+            </div>
+        <?php endif; ?>
+        
         <div class="box">
             <h1 class="title is-3 has-text-centered">ログイン</h1>
             
