@@ -12,26 +12,33 @@ if (isset($results) && !empty($results)) {
     $data_to_display = [];
 } else {
     // 検索が行われていない（通常のページロード）場合、全商品を取得
-    $sql_all = $pdo->query('SELECT * FROM product WHERE `status` = 1');
+    // status = 1 (アクティブ) の商品のみを取得
+    $sql_all = $pdo->query('SELECT * FROM product WHERE status = 1'); 
     $data_to_display = $sql_all->fetchAll();
 }
 
 foreach($data_to_display as $row) : // ★データソースを $data_to_display に統一★
     $product_id = $row['product_id'];
-    $product_name = $row['product_name'];
-    $quantity = $row['quantity'];
-    $price = $row['price'];
-    $product_explanation = $row['product_explanation'];
-    $product_picture = $row['product_picture'];
+    $product_name = $row['product_name'] ?? '';
+    $quantity = $row['quantity'] ?? 0;
+    $price = $row['price'] ?? 0;
+    $product_explanation = $row['product_explanation'] ?? '';
+    $product_picture = $row['product_picture'] ?? '';
 ?>
     <div class="column is-one-third-desktop is-half-tablet">
-        <div class="card has-text-centered p-4">
-            <h3> <?= htmlspecialchars($product_name); ?> </h3>
-            <img src="img/products/<?= htmlspecialchars($product_picture); ?>" width="150px"><br>
-            <p>価格：<?= htmlspecialchars($price); ?>円</p>
+        <div class="card has-text-centered p-4" style="height: 100%;">
+            <h3 class="title is-5"> <?= htmlspecialchars($product_name); ?> </h3>
+            
+            <div class="card-image is-flex is-justify-content-center mb-3">
+                <figure class="image is-128x128"> 
+                    <img src="img/products/<?= htmlspecialchars($product_picture); ?>" alt="<?= htmlspecialchars($product_name); ?>">
+                </figure>
+            </div>
+            <p class="subtitle is-6 has-text-weight-bold">価格：<?= number_format($price); ?>円</p>
+            
             <form action="product-detail.php" method="post" class="mt-4">
                 <input type="hidden" name="product_id" value="<?= htmlspecialchars($product_id); ?>">
-                <input type="submit" class="button is-primary" value="商品詳細を見る">
+                <input type="submit" class="button is-primary is-fullwidth" value="商品詳細を見る">
             </form>
         </div>
     </div>
