@@ -66,7 +66,7 @@ require 'menu.php';
                     $sql = $pdo->prepare('select pd.product_name, rv.comment, rv.product_id 
                                             from review rv 
                                             join product pd 
-                                            on rv.product_id = pd.product_id where rv.user_id = ?');
+                                            on rv.product_id = pd.product_id where rv.user_id = ? order by review_id desc');
                     // $sql = $pdo->prepare('SELECT * FROM review WHERE user_id = ?');
                     $sql->execute([$_SESSION['customer']['user_id']]);
                     $reviews = $sql->fetchAll(PDO::FETCH_ASSOC);
