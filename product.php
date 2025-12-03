@@ -12,7 +12,7 @@ if (isset($results) && !empty($results)) {
     $data_to_display = [];
 } else {
     // 検索が行われていない（通常のページロード）場合、全商品を取得
-    $sql_all = $pdo->query('SELECT * FROM product');
+    $sql_all = $pdo->query('SELECT * FROM product WHERE `status` = 1');
     $data_to_display = $sql_all->fetchAll();
 }
 
