@@ -26,11 +26,11 @@ foreach($data_to_display as $row) : // ★データソースを $data_to_display
     $product_picture = $row['product_picture'] ?? '';
 ?>
     <div class="column is-one-third-desktop is-half-tablet">
-        <div class="card has-text-centered p-4 is-flex is-flex-direction-column" style="min-height: 280px;">
+        <div class="card has-text-centered p-4 is-flex is-flex-direction-column" style="min-height: 350px;">
             <h3 class="title is-5"> <?= htmlspecialchars($product_name); ?> </h3>
             
             <div class="card-image is-flex is-justify-content-center mb-3">
-                <figure class="image is-64x64"> 
+                <figure class="image is-96x96"> 
                     <img src="img/products/<?= htmlspecialchars($product_picture); ?>" alt="<?= htmlspecialchars($product_name); ?>">
                 </figure>
             </div>
