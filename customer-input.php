@@ -77,7 +77,7 @@
                 <div class="field">
                     <label class="label">電話番号</label>
                     <div class="control">
-                        <input class="input" type="tel" name="telephone_number" value="<?= htmlspecialchars($telephone_number); ?>" pattern="[0-9]{3,4}-[0-9]{2,4}-[0-9]{3,4}" placeholder="例: 03-1234-5678">
+                        <input class="input" type="tel" name="telephone_number" value="<?= htmlspecialchars($telephone_number); ?>" pattern="[0-9]{3,4}-[0-9]{2,4}-[0-9]{3,4}" placeholder="例: 080-1234-5678">
                     </div>
                 </div>
 
