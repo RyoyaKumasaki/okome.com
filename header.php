@@ -1,6 +1,3 @@
-<?php
-// PHPファイルを分割しているため、Tailwind CSSは使えないため、BulmaとカスタムCSSを調整します。
-?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
