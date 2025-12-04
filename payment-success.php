@@ -145,7 +145,21 @@ try {
     <section class="section">
         <div class="container is-max-desktop has-text-centered">
             <div class="notification is-success p-6">
-                <h2 class="title is-3">🎉 注文完了 🎉</h2>
+                <h2 class="title is-3">
+                    <span class="icon-text">
+                        <span class="icon has-text-warning">
+                            <i class="fas fa-star"></i>
+                        </span>
+        
+                        <span class="mx-3">
+                            注文完了
+                        </span>
+    
+                        <span class="icon has-text-warning">
+                            <i class="fas fa-star"></i>
+                        </span>
+                    </span>
+                </h2>
                 <p class="subtitle is-5">ご注文ありがとうございます。以下の内容で注文が正常に完了しました。</p>
                 <div class="box has-text-left mt-5">
                     <p class="mb-2"><strong>注文ID:</strong> <span class="has-text-weight-bold has-text-primary"><?= htmlspecialchars($order_id) ?></span></p>
@@ -171,7 +185,21 @@ try {
     <section class="section">
         <div class="container is-max-desktop has-text-centered">
             <div class="notification is-danger p-6">
-                <h2 class="title is-4">🚨 注文処理エラー 🚨</h2>
+                <h2 class="title is-4">
+                    <span class="icon-text">
+                        <span class="icon has-text-danger">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </span>
+        
+                        <span class="mx-3">
+                            注文処理エラー
+                        </span>
+    
+                        <span class="icon has-text-danger">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </span>
+                    </span>
+                </h2>
                 <p class="mb-3">注文処理中にデータベースエラーが発生しました。時間を置いて再度お試しください。</p>
                 <div class="box has-text-left is-size-7 has-background-white-ter p-3">
                     <p class="has-text-danger">（詳細: <?= htmlspecialchars($e->getMessage()) ?>）</p>
@@ -194,7 +222,21 @@ try {
     <section class="section">
         <div class="container is-max-desktop has-text-centered">
             <div class="notification is-warning p-6">
-                <h2 class="title is-4">⚠️ 注文処理エラー ⚠️</h2>
+                <h2 class="title is-4">
+                    <span class="icon-text">
+                        <span class="icon has-text-danger">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </span>
+        
+                        <span class="mx-3">
+                            注文処理エラー
+                        </span>
+    
+                        <span class="icon has-text-danger">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </span>
+                    </span>
+                </h2>
                 <p class="mb-3">注文処理エラーが発生しました。</p>
                 <p class="subtitle is-5 has-text-danger"><?= htmlspecialchars($e->getMessage()) ?></p>
                 <div class="mt-4">
