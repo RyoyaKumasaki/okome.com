@@ -119,16 +119,21 @@ require_once 'db-connect.php';
             <h3 class="title is-4">レビュー一覧</h3>
 
             <?php
-            $sql = $pdo->prepare('SELECT * FROM review WHERE product_id = ?');
+            $sql = $pdo->prepare('SELECT cu.name, rv.comment, rv.created_at 
+                                    FROM review rv 
+                                    join customer_user cu 
+                                    on rv.user_id = cu.user_id 
+                                    WHERE rv.product_id = ?');
             $sql->execute([$product_id]);
 
             foreach ($sql as $row):
-                $user_id = $row['user_id'] ?? '名無し';
+                $user_name = $row['name'] ?? '名無し';
                 $rating = $row['rating'] ?? 0;
                 $comment = $row['comment'] ?? '';
+                $created_at = $row['created_at']
             ?>
                 <div class="box">
-                    <p class="has-text-weight-bold">投稿者：<?= htmlspecialchars($user_id) ?></p>
+                    <p class="has-text-weight-bold">投稿者：<?= htmlspecialchars($user_name) ?>（<?= htmlspecialchars($created_at); ?>）</p>
                     <p class="has-text-warning">
                         評価：
                         <?= str_repeat('★', $rating) ?>
