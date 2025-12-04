@@ -119,7 +119,7 @@ require_once 'db-connect.php';
             <h3 class="title is-4">レビュー一覧</h3>
 
             <?php
-            $sql = $pdo->prepare('SELECT cu.name, rv.comment, rv.created_at 
+            $sql = $pdo->prepare('SELECT cu.name, rv.comment, rv.created_at, rv.rating
                                     FROM review rv 
                                     join customer_user cu 
                                     on rv.user_id = cu.user_id 
