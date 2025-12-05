@@ -8,7 +8,6 @@ $error = "";
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST['email'] ?? '';
 
-    // ... (PHPロジックは省略)
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = "有効なメールアドレスを入力してください。";
     } else {
