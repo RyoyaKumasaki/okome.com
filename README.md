@@ -1,1 +1,0 @@
-# okome.com
