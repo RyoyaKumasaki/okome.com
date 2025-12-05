@@ -1,5 +1,4 @@
 <?php
-// ヘッダーやDB接続ファイルを読み込む
 require 'controllheader.php';
 require 'admin-menu.php';
 require_once 'db-connect.php';
@@ -43,7 +42,7 @@ try {
     } else {
         // レコードが見つからなかった場合
         $pdo->rollBack();
-        $message_type = 'warning'; // 警告色で表示
+        $message_type = 'warning'; 
         $message_title = '情報が見つかりません';
         $message_body = '商品ID: ' . htmlspecialchars($product_id) . ' は見つかりませんでした。削除処理は実行されませんでした。';
     }
@@ -54,7 +53,6 @@ try {
     $message_type = 'danger';
     $message_title = 'データベースエラー';
     $message_body = '削除処理中に予期せぬエラーが発生しました。時間を置いて再度お試しください。';
-    // error_log($e->getMessage()); // 開発環境ではログに出力することを推奨
 }
 
 // ----------------------------------------------------

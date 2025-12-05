@@ -20,7 +20,7 @@ JOIN (
     FROM `LAA1607615-okome`.`review`
     GROUP BY product_id
     ORDER BY AVG(rating) DESC
-    LIMIT 3
+    LIMIT 4
 ) top_products ON p.product_id = top_products.product_id
 LEFT JOIN `LAA1607615-okome`.`review` r ON p.product_id = r.product_id
 where p.status = 1

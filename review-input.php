@@ -115,12 +115,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const rating = parseInt(star.dataset.rating);
         const radio = star.previousElementSibling;
 
-        // 星をホバーしたときの処理
         star.parentNode.addEventListener('mouseover', () => {
             highlightStars(rating, true);
         });
 
-        // ホバーが外れたときの処理
         star.parentNode.addEventListener('mouseout', () => {
             const checkedStar = document.querySelector('input[name="rating"]:checked');
             if (checkedStar) {
