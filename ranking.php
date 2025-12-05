@@ -50,8 +50,8 @@ function displayStars($rating) {
     return $stars;
 }
 ?>
+<?php $ranking = 1; ?>
 <?php foreach ($sql as $row) : ?>
-    <?php $ranking = 1; ?>
     <div class="card mt-4">
     <div class="card-content">
         <div class="columns is-mobile is-vcentered">
