@@ -1,8 +1,6 @@
 <h2 class="has-text-left is-size-3">商品一覧</h2>
 <div class="columns is-desktop is-multiline">
 <?php
-// ★修正点: $results が存在するかチェックし、表示するデータソースを決定する
-
 if (isset($results) && !empty($results)) {
     // 検索結果 ($results) がある場合
     $data_to_display = $results;

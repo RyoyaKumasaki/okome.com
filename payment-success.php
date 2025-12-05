@@ -139,7 +139,7 @@ try {
     // 6. すべて成功した場合、コミット (変更なし)
     $pdo->commit();
 
-    // 成功メッセージ (★ここからBulma装飾★)
+    // 成功メッセージ 
     require 'menu.php'; // メニューは成功時に表示
     ?>
     <section class="section">
@@ -176,7 +176,6 @@ try {
     <?php
 
 } catch (PDOException $e) {
-    // データベースエラーが発生した場合 (★ここからBulma装飾★)
     if ($pdo->inTransaction()) {
         $pdo->rollBack();
     }
@@ -213,7 +212,7 @@ try {
     <?php
     
 } catch (Exception $e) {
-    // その他のビジネスロジックエラー（在庫不足、カートが空など）が発生した場合 (★ここからBulma装飾★)
+    // その他のビジネスロジックエラー（在庫不足、カートが空など）が発生した場合 
     if ($pdo->inTransaction()) {
         $pdo->rollBack();
     }

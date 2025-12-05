@@ -106,7 +106,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // エラーがなければ、生産者画像 (producer_picture) の処理
     if (!$error) {
-        // ★修正点: producer_pictureのアップロード処理を追加
         $result_producer_pic = handle_file_upload($_FILES['producer_picture'], $upload_dir, $error, $uploaded_dest_paths);
         if ($result_producer_pic === false) {
              // エラーメッセージは関数内で設定済み
@@ -138,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $price,
                 $explanation,
                 $product_picture_filename, // 商品画像ファイル名をDBに保存
-                $producer_picture_filename // ★修正点: 生産者画像ファイル名をDBに保存
+                $producer_picture_filename 
             ]);
 
             $pdo->commit();
@@ -241,7 +240,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <p class="help">農家の方の顔写真などを登録してください。</p>
             </div>
         </div>
-        <!-- ★修正点ここまで -->
 
         <!-- 商品説明 -->
         <div class="field">
