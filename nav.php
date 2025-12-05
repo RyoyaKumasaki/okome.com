@@ -56,7 +56,5 @@
                 <label>こんにちは、ゲストさん</label>
             <?php endif; ?>
         </div>
-            <!-- has-icon-right -->
-            <!-- <a href="mypage.php"><img src="img/guest.png" width="150px"></a> -->
     </div>
 </form>

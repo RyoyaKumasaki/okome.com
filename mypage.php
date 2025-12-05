@@ -52,7 +52,6 @@ require 'menu.php';
             <form action="history.php" class="card-footer-item">
                 <button type="submit" class="button is-link is-light is-fullwidth">購入履歴を見る</button>
             </form>
-            <!-- <a href="history.php" class="card-footer-item button is-info is-light">購入履歴を見る</a> -->
         </footer>
     </div>
     <div class="card mb-5">
@@ -67,7 +66,6 @@ require 'menu.php';
                                             from review rv 
                                             join product pd 
                                             on rv.product_id = pd.product_id where rv.user_id = ? order by rv.created_at desc');
-                    // $sql = $pdo->prepare('SELECT * FROM review WHERE user_id = ?');
                     $sql->execute([$_SESSION['customer']['user_id']]);
                     $reviews = $sql->fetchAll(PDO::FETCH_ASSOC);
 

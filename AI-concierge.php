@@ -1,7 +1,3 @@
-<?php 
-// AI-concierge.php - AIチャットインターフェース
-?>
-
 <div class="container ai-chat-container">
     <h3 class="title is-4 has-text-centered">AIお米コンシェルジュ</h3>
     
@@ -47,13 +43,11 @@
             if (!response.ok) {
                 let errorData;
                 try {
-                    // サーバーからJSONエラー応答が返ると期待
                     errorData = await response.json();
                 } catch (e) {
                     // JSONデコードに失敗した場合（PHPエラーのHTMLなどが返ってきた場合）
                     const rawText = await response.text();
                     console.error('JSONデコードエラー (サーバーがJSON以外を返しました):', rawText);
-                    // 以前発生したSyntaxErrorの原因に対処するメッセージ
                     return `🚨サーバーエラー (HTTP ${response.status})。proxy.phpが不正な応答を返しました。proxy.phpのコードを確認してください。`;
                 }
 
