@@ -181,7 +181,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="field">
             <label class="label">商品名</label>
             <div class="control">
-                <input class="input" type="text" name="product_name" value="<?= htmlspecialchars($product_name ?? '') ?>" required>
+                <input class="input" type="text" name="product_name" pattern="\text{`[^<_>?&\-\$*]+`}" value="<?= htmlspecialchars($product_name ?? '') ?>" required>
             </div>
         </div>
         
@@ -245,7 +245,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="field">
             <label class="label">商品説明</label>
             <div class="control">
-                <textarea class="textarea" name="product_explanation" rows="5" placeholder="商品の詳細を入力してください"><?= htmlspecialchars($explanation ?? '') ?></textarea>
+                <textarea class="textarea" name="product_explanation" rows="5"  placeholder="商品の詳細を入力してください"pattern="\text{`[^<_>?&\-\$*]+`}" ><?= htmlspecialchars($explanation ?? '') ?></textarea>
             </div>
         </div>
         

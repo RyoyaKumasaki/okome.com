@@ -44,7 +44,7 @@
             <span class="icon is-small is-left">
                 <i class="fas fa-search"></i>
             </span>
-            <input class="input mr-2" type="text" style="width: 600px;" name="product_name" placeholder="商品検索" pattern="[^<->?&\$*]_+`" />
+            <input class="input mr-2" type="text" style="width: 600px;" name="product_name" placeholder="商品検索" title  pattern="\text{`[^<_>?&\-\$*]+`}">
             <input type="submit" class="button is-light is-active" value="検索">
         </div>
         <div class="has-text-right has-icon-right level-right">
