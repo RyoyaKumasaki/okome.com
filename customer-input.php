@@ -40,21 +40,21 @@
                 <div class="field">
                     <label class="label">お名前</label>
                     <div class="control">
-                        <input class="input" type="text" name="name" value="<?= htmlspecialchars($name) ?>" required>
+                        <input class="input" type="text" name="name" pattern="[^<->?&\$*_`]+" value="<?= htmlspecialchars($name) ?>" required>
                     </div>
                 </div>
 
                 <div class="field">
                     <label class="label">ご住所</label>
                     <div class="control">
-                        <input class="input" type="text" name="address" value="<?= htmlspecialchars($address) ?>" required>
+                        <input class="input" type="text" name="address" pattern="[^<->?&\$*_`]+"  value="<?= htmlspecialchars($address) ?>" required>
                     </div>
                 </div>
 
                 <div class="field">
                     <label class="label">ログイン名</label>
                     <div class="control">
-                        <input class="input" type="text" name="login_name" value="<?= htmlspecialchars($login_name) ?>" required>
+                        <input class="input" type="text" name="login_name" pattern="[^<->?&\$*_`]+"  value="<?= htmlspecialchars($login_name) ?>" required>
                     </div>
                 </div>
 

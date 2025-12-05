@@ -16,7 +16,7 @@ require 'admin-menu.php';
                 <div class="field">
                     <label class="label" for="login_name">ログイン名</label>
                     <div class="control">
-                        <input class="input" type="text" id="login_name" name="login_name" required pattern="\text{`[^<_>?&\-\$*]+`}">
+                        <input class="input" type="text" id="login_name" name="login_name" required pattern="[^<->?&\$*_`]+">
                     </div>
                 </div>
 

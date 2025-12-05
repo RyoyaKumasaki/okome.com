@@ -78,7 +78,7 @@
             <div class="field">
                 <label class="label">コメント</label>
                 <div class="control">
-                    <textarea class="textarea" name="comment" rows="4" placeholder="商品の良い点、悪い点などを具体的にご記入ください。"></textarea>
+                    <textarea class="textarea" name="comment" pattern="[^<->?&\$*_`]+"  rows="4" placeholder="商品の良い点、悪い点などを具体的にご記入ください。"></textarea>
                 </div>
             </div>
 
