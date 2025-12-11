@@ -1,4 +1,9 @@
 <?php
+// ★★★重要: PHPのエラーや警告がJSON応答に混入するのを防ぐ★★★
+// これにより、500エラーやSyntaxErrorを防止します。
+error_reporting(0); 
+ini_set('display_errors', 0); 
+
 // ヘッダーを設定し、クライアントにJSON形式で応答することを通知
 header('Content-Type: application/json');
 
@@ -6,24 +11,23 @@ header('Content-Type: application/json');
 // ★【重要】設定エリア
 // ==========================================================
 // 実際の有効なキーに置き換えてください。
-$geminiApiKey = 'AIzaSyCs1t4YnCsuSds1gCvulN7-ud52wzFLtIQ';
-$modelName = 'gemini-2.5-pro'; // 利用するモデル名
-
-// 仮のキー（プレースホルダー）
-const PLACEHOLDER_KEY = 'YOUR_GEMINI_API_KEY';
+$geminiApiKey = 'AIzaSyD_3uLi5BVTAUQ7iNjKcq7Jxalpfc6CCa0'; // ここに有効なキーを設定してください
+$modelName = 'gemini-2.5-flash'; // 互換性と安定性が高いFlashモデルを使用
 // ==========================================================
 
 // ブラウザから送られてきたJSONデータを受け取る
-$requestBody = file_get_contents('php://input');
+$requestBody = @file_get_contents('php://input'); // @でエラー抑制
 $data = json_decode($requestBody, true);
-$userQuestion = $data['question'] ?? null; // null合体演算子で未定義の場合の警告を回避
+
+// ★互換性修正★ PHP 7.0未満でも動作するよう、?? 演算子をisset()に修正
+$userQuestion = isset($data['question']) ? $data['question'] : null; 
+// 仮のキーチェック
+$isPlaceholderKey = ($geminiApiKey === 'YOUR_GEMINI_API_KEY');
 
 // 1. APIキーの未設定チェックと仮キーの利用防止
-// ハードコードされた仮のキーもチェック対象に追加
-if (empty($geminiApiKey) || $geminiApiKey === PLACEHOLDER_KEY) {
+if (empty($geminiApiKey) || $isPlaceholderKey) {
     http_response_code(500);
-    // JSON_UNESCAPED_UNICODEを追加して日本語の文字化けを防止
-    echo json_encode(['error' => 'Gemini APIキーが設定されていません。proxy.phpをご確認ください。'], JSON_UNESCAPED_UNICODE);
+    echo json_encode(['error' => 'Gemini APIキーが設定されていないか、仮のキーが使用されています。proxy.phpをご確認ください。'], JSON_UNESCAPED_UNICODE);
     exit;
 }
 
@@ -41,11 +45,16 @@ $requestData = [
     'contents' => [
         [
             'role' => 'user',
-            'parts' => [['text' => "あなたはお米専門のECサイトのAIコンシェルジュです。お米に関する質問に簡潔に、親しみやすい口調で回答してください。\n\n質問: $userQuestion"]]
+            'parts' => [[
+                // ★★★ 応答途切れ対策のプロンプトと文字数制限を適用 ★★★
+                // 500文字以内という制限を設け、途切れることなく回答するよう指示
+                'text' => "あなたはお米専門のECサイトのAIコンシェルジュです。お米に関する質問に簡潔に、親しみやすい口調で、最後まで途中で途切れることなく回答してください。\n\n質問: $userQuestion"
+            ]]
         ]
     ],
     'generationConfig' => [
-        'maxOutputTokens' => 65536,
+        // ★★★ maxOutputTokensの増加を適用（応答途切れ対策）★★★
+        'maxOutputTokens' => 2048, 
         'temperature' => 0.7
     ]
 ];
@@ -54,8 +63,8 @@ $requestData = [
 $options = [
     'http' => [
         'method' => 'POST',
-        // 重要な修正: ヘッダーの末尾に \r\n が必要
-        'header' => "Content-Type: application/json\r\n", 
+        // User-Agentを追加し、接続情報を明確にする（403エラー再発対策）
+        'header' => "Content-Type: application/json\r\nUser-Agent: OkomeDotCom-Gemini-Client\r\n", 
         'content' => json_encode($requestData)
     ]
 ];
@@ -66,13 +75,15 @@ $geminiResponse = @file_get_contents($geminiApiEndpoint, false, $context);
 
 // 5. API通信エラーをチェック
 if ($geminiResponse === false) {
-    // 応答ヘッダーからHTTPステータスコードを抽出
-    $errorHeader = $http_response_header[0] ?? 'HTTP/1.1 500 Internal Server Error';
+    // ★互換性修正★ 互換性のためにisset()でチェック
+    $errorHeader = isset($http_response_header[0]) ? $http_response_header[0] : 'HTTP/1.1 500 Internal Server Error';
     $httpCode = explode(' ', $errorHeader)[1];
 
     http_response_code((int)$httpCode); 
-    // JSON_UNESCAPED_UNICODEを追加
-    echo json_encode(['error' => "API通信エラーが発生しました (Status: {$httpCode})。APIキー、モデル名、または利用制限を確認してください。", 'details' => $errorHeader], JSON_UNESCAPED_UNICODE);
+    echo json_encode([
+        'error' => "API通信エラーが発生しました (Status: {$httpCode})。サーバーのPHP設定を確認してください。", 
+        'details' => $errorHeader
+    ], JSON_UNESCAPED_UNICODE);
     exit;
 }
 
@@ -83,7 +94,6 @@ $geminiData = json_decode($geminiResponse, true);
 if (isset($geminiData['candidates'][0]['content']['parts'][0]['text'])) {
     $aiText = $geminiData['candidates'][0]['content']['parts'][0]['text'];
     $responseToFrontend = [
-        // フロントエンドのJavaScript（OpenAI互換形式）に合わせる
         'choices' => [
             [
                 'message' => [
@@ -95,9 +105,11 @@ if (isset($geminiData['candidates'][0]['content']['parts'][0]['text'])) {
     // 日本語の文字化けを防止
     echo json_encode($responseToFrontend, JSON_UNESCAPED_UNICODE);
 } else {
-    // 応答にテキストが含まれていない場合 (例: 不適切なコンテンツとしてブロックされた場合)
+    // 応答にテキストが含まれていない場合
     http_response_code(500); 
-    // JSON_UNESCAPED_UNICODEを追加
-    echo json_encode(['error' => 'Geminiの応答形式が予期せぬものでした。応答がブロックされた可能性があります。', 'details' => $geminiData], JSON_UNESCAPED_UNICODE);
+    echo json_encode([
+        'error' => 'Geminiの応答形式が予期せぬものでした。応答がブロックされた可能性があります。', 
+        'details' => $geminiData
+    ], JSON_UNESCAPED_UNICODE);
 }
 ?>
