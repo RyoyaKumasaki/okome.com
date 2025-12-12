@@ -11,7 +11,7 @@ header('Content-Type: application/json');
 // ★【重要】設定エリア
 // ==========================================================
 // 実際の有効なキーに置き換えてください。
-$geminiApiKey = 'AIzaSyD_3uLi5BVTAUQ7iNjKcq7Jxalpfc6CCa0'; // ここに有効なキーを設定してください
+$geminiApiKey = 'AIzaSyDlH5gmWRQwH7LvDC5sa3F4AXhxFdbinNw'; // ここに有効なキーを設定してください
 $modelName = 'gemini-2.5-flash'; // 互換性と安定性が高いFlashモデルを使用
 // ==========================================================
 
